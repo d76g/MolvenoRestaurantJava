@@ -1,5 +1,4 @@
 package com.molveno.restaurantReservation.models;
-
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
@@ -91,6 +90,5 @@ public class Menu {
     public void setImage(String image) {
         this.image = image;
     }
-
 
 }
