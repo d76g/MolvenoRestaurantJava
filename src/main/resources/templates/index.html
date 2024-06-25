@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+
+              colors: {
+                mainColor: '#045e9e',
+                secondColor: '#339bcc',
+                thirdColor:'#0484c3',
+                buttonColor:'#16537a',
+                secondButtonColor:'#6bbcdd'
+              },
+                fontFamily: {
+                    sans: ['Playwrite AU NSW', 'sans-serif'],
+                    serif: ['Alex Brush', 'cursive'],
+                    mono: ['Shadows Into Light', 'cursive'],
+                }
+          }
+        }
+    </script>
+    <style>
+        /* Modal stilini ekleyin */
+        .modal {
+            display: none; /* Başlangıçta gizli */
+            position: fixed;
+            z-index: 1000; /* Daha yüksek bir z-index değeri */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Siyah w/ opaklık */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* İsteğe bağlı olarak genişliği ayarlayın */
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+NSW:wght@100..400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Social Media Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<div class="container mx-auto bg-blue-200 h-6 ">
+    <div class="flex flex-row space-x-2 justify-end">
+        <div class="w-6 h-6">
+            <img src="/images/united-kingdom.png"  alt="English">
+        </div>
+        <!--
+        <div class="">
+            <img src="./images/chinese.png" alt="Chinese" class="w-6 h-6">
+        </div>
+        -->
+    </div>
+</div>
+<nav class="bg-mainColor text-white py-4 z-40">
+    <div class="container mx-auto flex w-3/4 justify-between">
+        <img src="/images/company-logo.jpg"  alt="Logo" class="h-28 absolute left-5 top-10 rounded-lg z-50">
+        <div class="flex items-center">
+            <ul class="flex space-x-4 font-sans font-bold">
+                <li><a href="#home" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">Home</a></li>
+                <li><a href="#menu" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">Menu</a></li>
+                <li><a href="#about" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">About Us</a></li>
+                <li><a href="#contact" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="myBtn text-white select-none rounded-lg border border-gray-900 py-3 px-6
+                 text-center align-middle font-sans text-xs font-bold uppercase
+                  transition-all  focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
+                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor ml-10">Reserve Now</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Home Section -->
+<section id="home" class="relative bg-cover bg-center h-screen z-30" >
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/images/homeBackground-2.jpg'); filter: blur(2px);"></div>
+    <div class="container mx-auto h-full flex flex-col justify-center items-center text-center text-white relative z-10">
+        <h1 class="text-7xl font-bold mb-4 font-serif">Molveno Lake Resort</h1>
+        <p class="text-2xl mb-8 font-sans">Experience the best dining with us</p>
+        <button class="text-white select-none rounded-lg border border-gray-900 py-3 px-6
+                 text-center align-middle font-sans text-xs font-bold uppercase
+                  transition-all  focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
+                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor myBtn ">Reserve Now</button>
+    </div>
+</section>
+
+
+<!-- Menu Section -->
+<section id="menu" class="py-12 bg-gray-100 h-[710px]">
+    <div class="container mx-auto flex flex-col justify-center w-5/6">
+        <div>
+            <h2 class="text-4xl font-mono text-center mb-3">Our best dishes</h2>
+        </div>
+        <div class="flex w-full justify-center items-center gap-x-4 mb-3 font-sans">
+            <div class="bg-mainColor w-32 h-10 text-center text-white text-xl
+                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+                <p>Breakfast</p>
+            </div>
+            <div class="bg-mainColor w-32 h-10 text-center text-white text-xl
+                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+                <p>Lunch</p>
+            </div>
+            <div class="bg-mainColor w-32 h-10 text-center text-white text-xl
+                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+                <p>Dinner</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 w-full h-auto content-center justify-items-center">
+            <a href="#menu">
+                <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
+                    <div class="w-full h-full">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(/images/west-lake-fish.jpg)">
+                            <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
+                                <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
+                                <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
+                                    <p class="text-center font-sans">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae debitis tempore exercitationem voluptatem animi nihil.</p>
+                                </div>
+                            </div>
+                            <div class="absolute z-10 bg-black w-full h-full opacity-25 hidden group-hover:block transition ease-in-out rounded-md"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#menu">
+                <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
+                    <div class="w-full h-full">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(/images/west-lake-fish.jpg)">
+                            <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
+                                <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
+                                <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
+                                    <p class="text-center font-sans">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae debitis tempore exercitationem voluptatem animi nihil.</p>
+                                </div>
+                            </div>
+                            <div class="absolute z-10 bg-black w-full h-full opacity-25 hidden group-hover:block transition ease-in-out rounded-md"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#menu">
+                <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
+                    <div class="w-full h-full">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(/images/west-lake-fish.jpg)">
+                            <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
+                                <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
+                                <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
+                                    <p class="text-center font-sans">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae debitis tempore exercitationem voluptatem animi nihil.</p>
+                                </div>
+                            </div>
+                            <div class="absolute z-10 bg-black w-full h-full opacity-25 hidden group-hover:block transition ease-in-out rounded-md"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#menu">
+                <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
+                    <div class="w-full h-full">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(/images/west-lake-fish.jpg)">
+                            <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
+                                <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
+                                <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
+                                    <p class="text-center font-sans">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae debitis tempore exercitationem voluptatem animi nihil.</p>
+                                </div>
+                            </div>
+                            <div class="absolute z-10 bg-black w-full h-full opacity-25 hidden group-hover:block transition ease-in-out rounded-md"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#menu">
+                <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
+                    <div class="w-full h-full">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(/images/west-lake-fish.jpg)">
+                            <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
+                                <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
+                                <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
+                                    <p class="text-center font-sans">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae debitis tempore exercitationem voluptatem animi nihil.</p>
+                                </div>
+                            </div>
+                            <div class="absolute z-10 bg-black w-full h-full opacity-25 hidden group-hover:block transition ease-in-out rounded-md"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#menu">
+                <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
+                    <div class="w-full h-full">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(./images/west-lake-fish.jpg)">
+                            <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
+                                <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
+                                <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
+                                    <p class="text-center font-sans">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae debitis tempore exercitationem voluptatem animi nihil.</p>
+                                </div>
+                            </div>
+                            <div class="absolute z-10 bg-black w-full h-full opacity-25 hidden group-hover:block transition ease-in-out rounded-md"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="flex justify-center items-center pt-3">
+            <button class="bg-secondButtonColor text-white rounded-lg border border-gray-900 py-3 px-6
+                 text-center align-middle font-sans text-sm
+                  transition-all  hover:scale-105 transition ease-in-out
+                   ">View Full Menu</button>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section id="about" class="py-16">
+    <div class="container mx-auto flex justify-center items-center flex-col gap-y-4 ">
+        <h2 class="text-4xl font-bold">About Us</h2>
+        <!-- About us content goes here -->
+        <div class="flex w-4/5 px-8 text-justify">
+            <p>
+                The restaurant in the new hotel is a culinary delight that will be sure to satisfy the most discerning palates. From the moment you step inside, you'll be transported to a world of culinary excellence, where every dish is a masterpiece.
+                The restaurant is situated on the top floor of the hotel, offering panoramic views of the surrounding mountains and waterways. Its spacious and elegant dining room features floor-to-ceiling windows that allow guests to take in the breathtaking scenery while they dine.
+                The menu is a celebration of the best of Chinese and international cuisine, with an emphasis on locally-sourced, sustainable ingredients. Each dish is prepared with the utmost care and attention to detail, using traditional cooking techniques and innovative flavor combinations.
+                The restaurant also boasts an extensive wine list, curated by a team of expert sommeliers. Whether you're looking for a rare vintage or a new discovery, you're sure to find something to suit your taste.
+                For guests seeking a more intimate dining experience, the restaurant also offers private dining rooms, each designed to provide a unique and memorable setting for special occasions and gatherings.
+                With its impeccable service, breathtaking views, and world-class cuisine, the restaurant in the new hotel is sure to be one of the most sought-after dining destinations in the region.
+            </p>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- Reserve Now Section -->
+<section id="reserve" class="py-16 bg-gray-100">
+    <div class="container mx-auto" >
+        <!--<h2 class="text-4xl font-bold mb-8">Reserve Now</h2> -->
+        <div class="container mx-auto h-full flex flex-col justify-center items-center text-center text-mainColor relative z-10 space-y-4">
+            <div> Make a reservation now ! </div>
+            <button class="myBtn bg-secondButtonColor text-white px-4 py-2 rounded hover:bg-yellow-600">Reserve Now</button>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content max-w-lg mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
+                <span class="close">&times;</span>
+                <h2 class="text-2xl font-bold mb-6 text-center">Reservation Form</h2>
+                <form id="myForm">
+                    <div class="mb-4">
+                        <label for="customer_first_name" class="block text-gray-700">First Name</label>
+                        <input type="text" id="customer_first_name" name="customer_first_name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="customer_last_name" class="block text-gray-700">Last Name</label>
+                        <input type="text" id="customer_last_name" name="customer_last_name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="mobile_no" class="block text-gray-700">Mobile Number</label>
+                        <input type="tel" id="mobile_no" name="mobile_no" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="number_of_people" class="block text-gray-700">Number of People</label>
+                        <input type="number" id="number_of_people" name="number_of_people" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="reservation_date" class="block text-gray-700">Reservation Date</label>
+                        <input type="text" id="reservation_date" name="reservation_date" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 flatpickr" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="reservation_time" class="block text-gray-700">Reservation Time</label>
+                        <input type="time" id="reservation_time" name="reservation_time" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="is_guest" class="block text-gray-700">Hotel Guest?</label>
+                        <input type="checkbox" id="is_guest" name="is_guest" class="h-5 w-5 text-blue-600">
+                    </div>
+                    <div class="mb-4">
+                        <label for="hotel_room_number" class="block text-gray-700">Hotel Room Number (if applicable)</label>
+                        <input type="text" id="hotel_room_number" name="hotel_room_number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                    <div class="mb-4">
+                        <label for="status" class="block text-gray-700">Status</label>
+                        <select id="status" name="status" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Submit Reservation" class="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Reservation form or instructions go here -->
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-mainColor text-white  text-sm h-full">
+    <div class="container mx-auto px-4">
+        <div class="row flex justify-center pt-8  ">
+            <div class="col-md-3">
+                <img src="./images/company-logo.jpg" alt="Logo" class="h-28  rounded-lg z-50">
+            </div>
+            <div class="col-md-3 ">
+                <h5 class="text-lg font-semibold mb-2">Contact Us</h5>
+                <p><a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out ">
+                    <i class="fa-solid fa-location-dot pr-2"></i>China, Zhejiang, Huzhou</a>
+                </p>
+                <p>Wuxing District, Tai Wu road 168a</p>
+                <p>
+                    <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out ">
+                        <i class="fa-regular fa-envelope pr-1"></i>  info@example.com</a>
+                </p>
+                <p>
+                    <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out ">
+                        <i class="fa-solid fa-phone  pr-1"></i>  (123) 456-7890</a>
+                </p>
+            </div>
+            <div class="col-md-3 ">
+                <h5 class="text-lg font-semibold mb-2">Follow Us</h5>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fab fa-facebook fa-2x"></i></a>
+                    <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fa-brands fa-weixin fa-2x"></i></a>
+                    <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fab fa-instagram fa-2x"></i></a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4 md:mb-0">
+                <h5 class="text-lg font-semibold mb-2">Opening Time</h5>
+                <p> We open all the days of the week</p>
+                <p>07:00 – Breakfast</p>
+                <p>11:30 – Lunch</p>
+                <p>17:30 – Dinner</p>
+                <p>23:00 – Only Drinks </p>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 border-t border-gray-700  text-center">
+        <p class="text-white">© 2024 Molveno   Lake Resort. All rights reserved.</p>
+    </div>
+</footer>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr(".flatpickr", {
+        enableTime: false,
+        dateFormat: "Y-m-d",
+    });
+</script>
+<script>
+    // Modal ve butonu seçme
+    var modal = document.getElementById("myModal");
+    var btns = document.getElementsByClassName("myBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    // Butona tıklayınca modalı göster
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].onclick = function() {
+            modal.style.display = "block";
+        }
+    }
+
+    // X butonuna tıklayınca modalı kapat
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Modal dışında bir yere tıklayınca modalı kapat
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
