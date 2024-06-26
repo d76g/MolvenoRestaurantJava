@@ -23,6 +23,16 @@ public class Menu {
 
     @OneToOne(mappedBy = "mealTime")
     private Set<MealTime> mealtime;
+    @OneToMany(mappedBy = "menuItem")
+    private Set<OrderItem> orderItems;
+
+    @ManyToMany
+    @JoinTable(
+            name = "menuItemStock",
+            joinColumns = @JoinColumn(name = "menuItem_id"),
+            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
+    )
+    private Set<KitchenStock> kitchenStocks;
 
     public Menu() {
     }
