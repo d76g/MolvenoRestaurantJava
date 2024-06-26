@@ -3,8 +3,8 @@ package com.molveno.restaurantReservation.models;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="MealTime")
@@ -15,7 +15,7 @@ public class MealTime {
     private String menuCategory_name;
 
     @OneToMany(mappedBy = "mealTime", cascade = CascadeType.ALL)
-    private List<Menu> menu= new ArrayList<>();
+    private Set<Menu> menu= new HashSet<>();
 
     public MealTime() {
     }
@@ -35,5 +35,4 @@ public class MealTime {
     public void setMenuCategory_name(String menuCategory_name) {
         this.menuCategory_name = menuCategory_name;
     }
-
 }

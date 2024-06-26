@@ -1,0 +1,18 @@
+2024-06-26 15:32:23.964089+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table kitchen_stock (amount integer not null, article_number integer not null, [*]limit integer not null, price float(53) not null, price_per_unit float(53) not null, stock integer not null, stock_value integer not null, category_id bigint, id bigint not null, brand varchar(255), description varchar(255), supplier varchar(255), tax varchar(255), unit varchar(255), primary key (id))"; expected "identifier"; SQL statement:
+create table kitchen_stock (amount integer not null, article_number integer not null, limit integer not null, price float(53) not null, price_per_unit float(53) not null, stock integer not null, stock_value integer not null, category_id bigint, id bigint not null, brand varchar(255), description varchar(255), supplier varchar(255), tax varchar(255), unit varchar(255), primary key (id)) [42001-224]
+2024-06-26 15:32:24.003762+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "KITCHEN_STOCK" not found; SQL statement:
+alter table if exists menu_item_stock add constraint FKfiwnqli8opdsw4rr40yptu5uw foreign key (stock_id) references kitchen_stock [42102-224]
+2024-06-26 15:32:24.007722+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "KITCHEN_STOCK" not found; SQL statement:
+alter table if exists menu_item_stock add constraint FKggweypgghle6ifjimukre6qtl foreign key (stock_item_id) references kitchen_stock [42102-224]
+2024-06-26 15:33:36.331633+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table kitchen_stock (amount integer not null, article_number integer not null, [*]limit integer not null, price float(53) not null, price_per_unit float(53) not null, stock integer not null, stock_value integer not null, category_id bigint, id bigint not null, brand varchar(255), description varchar(255), supplier varchar(255), tax varchar(255), unit varchar(255), primary key (id))"; expected "identifier"; SQL statement:
+create table kitchen_stock (amount integer not null, article_number integer not null, limit integer not null, price float(53) not null, price_per_unit float(53) not null, stock integer not null, stock_value integer not null, category_id bigint, id bigint not null, brand varchar(255), description varchar(255), supplier varchar(255), tax varchar(255), unit varchar(255), primary key (id)) [42001-224]
+2024-06-26 15:33:36.372633+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "KITCHEN_STOCK" not found; SQL statement:
+alter table if exists menu_item_stock add constraint FKfiwnqli8opdsw4rr40yptu5uw foreign key (stock_id) references kitchen_stock [42102-224]
+2024-06-26 15:33:36.376633+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "KITCHEN_STOCK" not found; SQL statement:
+alter table if exists menu_item_stock add constraint FKggweypgghle6ifjimukre6qtl foreign key (stock_item_id) references kitchen_stock [42102-224]

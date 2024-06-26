@@ -2,7 +2,6 @@ package com.molveno.restaurantReservation.models;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,31 +15,6 @@ public class Menu {
     private double price ;
     private String image ;
 
-<<<<<<< HEAD
-=======
-    @OneToOne(mappedBy = "menuCategory")
-    private Set<MenuCategory> menuCategory;
-
-    @OneToOne(mappedBy = "subCategory")
-    private Set<SubCategory> subCategory;
-
-    @OneToOne(mappedBy = "mealTime")
-    private Set<MealTime> mealtime;
-    @OneToMany(mappedBy = "menuItem")
-    private Set<OrderItem> orderItems;
-
-    @ManyToMany
-    @JoinTable(
-            name = "menuItemStock",
-            joinColumns = @JoinColumn(name = "menuItem_id"),
-            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
-    )
-    private Set<KitchenStock> kitchenStocks;
-
->>>>>>> 989d5852745deb6dbc6c8aaff0bf106029d9f62a
-    public Menu() {
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="menuCategory_id")
     private MenuCategory menuCategory;
@@ -53,11 +27,19 @@ public class Menu {
     @JoinColumn(name="mealTime_id")
     private MealTime mealTime;
 
-    @OneToMany(mappedBy = "menuItemStock")
-    private MenuItemStock menuItemStocks;
+    @OneToMany(mappedBy = "menu")
+    private Set<OrderItem> orderItems;
 
-    @OneToMany(mappedBy = "orderItem")
-    private OrderItem orderItem;
+    @ManyToMany
+    @JoinTable(
+            name = "menuItemStock",
+            joinColumns = @JoinColumn(name = "menuItem_id"),
+            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
+    )
+    private Set<KitchenStock> kitchenStocks;
+
+    public Menu() {
+    }
 
     public MenuCategory getMenuCategory() {
         return menuCategory;
@@ -83,20 +65,20 @@ public class Menu {
         this.mealTime = mealTime;
     }
 
-    public MenuItemStock getMenuItemStocks() {
-        return menuItemStocks;
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setMenuItemStocks(MenuItemStock menuItemStocks) {
-        this.menuItemStocks = menuItemStocks;
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public OrderItem getOrderItem() {
-        return orderItem;
+    public Set<KitchenStock> getKitchenStocks() {
+        return kitchenStocks;
     }
 
-    public void setOrderItem(OrderItem orderItem) {
-        this.orderItem = orderItem;
+    public void setKitchenStocks(Set<KitchenStock> kitchenStocks) {
+        this.kitchenStocks = kitchenStocks;
     }
 
     public long getMenuItem_id() {

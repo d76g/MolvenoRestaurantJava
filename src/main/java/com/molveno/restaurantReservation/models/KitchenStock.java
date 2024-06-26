@@ -1,15 +1,17 @@
 package com.molveno.restaurantReservation.models;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 
-import java.awt.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="KITCHEN_STOCK")
 public class KitchenStock {
     @Id
     @GeneratedValue
-    private Long id ;
+    private long id ;
     private String description;
     private int amount;
     private String unit;
@@ -21,32 +23,26 @@ public class KitchenStock {
     private double pricePerUnit;
     private int stock;
     private int stockValue;
+    @Column(name = "stock_limit", nullable = true)
     private int limit;
 
 @ManyToOne
     @JoinColumn(name = "category_id")
     private KitchenCategory category;
+@OneToMany(mappedBy = "kitchenStock")
+private Set<MenuItemStock> menuItemStocks= new HashSet<>();
 
-    @ManyToMany(mappedBy = "kitchenStocks")
-    private Set<MenuItem> menuItems;
-    public KitchenStock() {
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
     }
 
-    public KitchenStock(Long id, String description, int amount, String unit, String brand, String supplier, int articleNumber, double price, String tax, double pricePerUnit, int stock, int stockValue, int limit, KitchenCategory category) {
-        this.id = id;
-        this.description = description;
-        this.amount = amount;
-        this.unit = unit;
-        this.brand = brand;
-        this.supplier = supplier;
-        this.articleNumber = articleNumber;
-        this.price = price;
-        this.tax = tax;
-        this.pricePerUnit = pricePerUnit;
-        this.stock = stock;
-        this.stockValue = stockValue;
-        this.limit = limit;
-        this.category = category;
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
+    }
+
+    @ManyToMany(mappedBy = "kitchenStocks")
+    private Set<Menu> menuItems;
+    public KitchenStock() {
     }
 
     public Long getId() {
@@ -148,7 +144,6 @@ public class KitchenStock {
     public int getLimit() {
         return limit;
     }
-
     public void setLimit(int limit) {
         this.limit = limit;
     }
