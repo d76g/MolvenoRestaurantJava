@@ -1,4 +1,9 @@
 package com.molveno.restaurantReservation.repos;
 
-public interface TableRepo {
+import com.molveno.restaurantReservation.models.Table;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TableRepo extends JpaRepository<Table, Long>{
 }
