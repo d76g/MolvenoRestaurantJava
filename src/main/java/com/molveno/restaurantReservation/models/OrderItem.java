@@ -14,7 +14,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private CustomerOrder order;
+    private CustomerOrder customerOrder;
 
     @ManyToOne
     @JoinColumn(name = "menuItem_id")
@@ -45,11 +45,11 @@ public class OrderItem {
     }
 
     public CustomerOrder getOrder() {
-        return order;
+        return customerOrder;
     }
 
     public void setOrder(CustomerOrder order) {
-        this.order = order;
+        this.customerOrder = order;
     }
 
     public Menu getMenu() {
@@ -60,11 +60,4 @@ public class OrderItem {
         this.menu = menu;
     }
 
-    public OrderItem(Long orderItem_id, int quantity, double price, CustomerOrder order, Menu menu) {
-        this.orderItem_id = orderItem_id;
-        this.quantity = quantity;
-        this.price = price;
-        this.order = order;
-        this.menu = menu;
-    }
 }

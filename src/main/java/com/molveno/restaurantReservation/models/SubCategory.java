@@ -3,6 +3,9 @@ package com.molveno.restaurantReservation.models;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name="SubCategory")
 public class SubCategory {
@@ -14,10 +17,8 @@ public class SubCategory {
     public SubCategory() {
     }
 
-    public SubCategory(long subCategory_id, String subCategory_name) {
-        this.subCategory_id = subCategory_id;
-        this.subCategory_name = subCategory_name;
-    }
+    @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL)
+    private Set<Menu> menu= new HashSet<>();
 
     public long getSubCategory_id() {
         return subCategory_id;
