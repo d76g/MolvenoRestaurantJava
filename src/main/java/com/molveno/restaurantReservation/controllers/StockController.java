@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+
 public class StockController {
     private final KitchenStockService kitchenStockService;
     @Autowired
     public StockController(KitchenStockService kitchenStockService) {
         this.kitchenStockService = kitchenStockService;
     }
-    @GetMapping("/Stock")
+    @GetMapping("/stock")
     public String home(Model model) {
-        return "Stock";
+        return "chef/stock/index";
     }
 
     @GetMapping("/Stock/add")

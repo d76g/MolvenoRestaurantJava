@@ -23,7 +23,7 @@ public class KitchenStockService {
     }
 
     //FIND
-    public KitchenStock getKitchenStock(Long stock_id) {
+    public KitchenStock addKitchenStockById(Long stock_id) {
         return kitchenStockRepo.findById(stock_id).get();
     }
 //DELETE

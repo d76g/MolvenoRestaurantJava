@@ -23,7 +23,7 @@ public class KitchenCategoryService {
         return kitchenCategoryRepo.save(kitchenCategory);
     }
     //FIND
-    public KitchenCategory getKitchenCategory(Long category_id) {
+    public KitchenCategory getKitchenCategoryById(Long category_id) {
         return kitchenCategoryRepo.findById(category_id).get();
     }
 
