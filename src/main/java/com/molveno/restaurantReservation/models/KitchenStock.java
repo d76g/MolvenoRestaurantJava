@@ -1,7 +1,6 @@
 package com.molveno.restaurantReservation.models;
 
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,6 +36,8 @@ private Set<MenuItemStock> menuItemStocks= new HashSet<>();
         this.menuItemStocks = menuItemStocks;
     }
 
+    @ManyToMany(mappedBy = "kitchenStocks")
+    private Set<MenuItem> menuItems;
     public KitchenStock() {
     }
 
