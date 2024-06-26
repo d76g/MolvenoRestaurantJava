@@ -1,8 +1,6 @@
 package com.molveno.restaurantReservation.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
 @Entity
@@ -10,7 +8,15 @@ import jakarta.persistence.Table;
 public class MenuItemStock {
     @Id
     @GeneratedValue
-    private long menuItem_id;
-    private String stock_id;
+    private long id;
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private KitchenStock kitchenStock;
     private double amount;
+
+    public MenuItemStock() {
+    }
 }

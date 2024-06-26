@@ -1,8 +1,11 @@
 package com.molveno.restaurantReservation.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 @Entity
 public class Reservation {
 
@@ -19,7 +22,17 @@ public class Reservation {
     private boolean is_guest;
     private String roomNumber;
     private String status;
+    /*
+    Reservation Entity:
+    Contains a set of tables.
+    Uses @ManyToMany with mappedBy to indicate that reservations is the inverse side of the relationship.
+     */
+    @ManyToMany(mappedBy = "reservations")
+    private Set<Table> table = new HashSet<>();
 
+    // Order Relationship
+    @OneToMany(mappedBy = "reservation")
+    private Set<CustomerOrder> orders;
     public long getReservation_id() {
         return reservation_id;
     }
@@ -103,8 +116,32 @@ public class Reservation {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    public Set<Table> getTable() {
+        return table;
+    }
+    public void setTable(Set<Table> table) {
+        this.table = table;
+    }
+    public Set<CustomerOrder> getOrders() {
+        return orders;
+    }
+    public void setOrders(Set<CustomerOrder> orders) {
+        this.orders = orders;
+    }
     public Reservation() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return reservation_id == that.reservation_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(reservation_id);
     }
 
     public Reservation(long reservation_id, String customer_first_name, String customer_last_name, String customer_email, String customer_phone, String reservation_date, String reservation_time, int number_of_guests, boolean is_guest, String roomNumber, String status) {
