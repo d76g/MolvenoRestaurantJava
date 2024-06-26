@@ -16,6 +16,28 @@ public class Menu {
     private double price ;
     private String image ;
 
+<<<<<<< HEAD
+=======
+    @OneToOne(mappedBy = "menuCategory")
+    private Set<MenuCategory> menuCategory;
+
+    @OneToOne(mappedBy = "subCategory")
+    private Set<SubCategory> subCategory;
+
+    @OneToOne(mappedBy = "mealTime")
+    private Set<MealTime> mealtime;
+    @OneToMany(mappedBy = "menuItem")
+    private Set<OrderItem> orderItems;
+
+    @ManyToMany
+    @JoinTable(
+            name = "menuItemStock",
+            joinColumns = @JoinColumn(name = "menuItem_id"),
+            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
+    )
+    private Set<KitchenStock> kitchenStocks;
+
+>>>>>>> 989d5852745deb6dbc6c8aaff0bf106029d9f62a
     public Menu() {
     }
 
