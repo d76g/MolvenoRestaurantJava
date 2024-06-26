@@ -8,23 +8,23 @@ import jakarta.persistence.Table;
 public class Users {
     @Id
     @GeneratedValue
-    private String user_id;
-    private String  user_name;
-    private String email ;
-    private String password ;
-    private String  role_id;
+    private long user_id;
+    private String user_name;
+    private String email;
+    private String password;
 
-   // @OneToMany(mappedBy = "Users")
-    //private Set< >
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    UserRole userRole;
 
     public Users() {
     }
 
-    public String getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 
@@ -52,12 +52,12 @@ public class Users {
         this.password = password;
     }
 
-    public String getRole_id() {
-        return role_id;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setRole_id(String role_id) {
-        this.role_id = role_id;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 }
 
