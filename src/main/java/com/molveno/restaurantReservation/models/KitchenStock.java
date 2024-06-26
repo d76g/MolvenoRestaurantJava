@@ -2,6 +2,9 @@ package com.molveno.restaurantReservation.models;
 
 import jakarta.persistence.*;
 
+import java.awt.*;
+import java.util.Set;
+
 @Entity
 public class KitchenStock {
     @Id
@@ -24,6 +27,8 @@ public class KitchenStock {
     @JoinColumn(name = "category_id")
     private KitchenCategory category;
 
+    @ManyToMany(mappedBy = "kitchenStocks")
+    private Set<MenuItem> menuItems;
     public KitchenStock() {
     }
 
