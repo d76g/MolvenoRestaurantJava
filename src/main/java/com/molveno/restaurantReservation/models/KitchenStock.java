@@ -1,8 +1,7 @@
 package com.molveno.restaurantReservation.models;
 
 import jakarta.persistence.*;
-
-import java.awt.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,6 +25,16 @@ public class KitchenStock {
 @ManyToOne
     @JoinColumn(name = "category_id")
     private KitchenCategory category;
+@OneToMany(mappedBy = "kitchenStock")
+private Set<MenuItemStock> menuItemStocks= new HashSet<>();
+
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
+    }
+
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
+    }
 
     @ManyToMany(mappedBy = "kitchenStocks")
     private Set<MenuItem> menuItems;

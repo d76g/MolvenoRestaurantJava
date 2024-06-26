@@ -2,6 +2,7 @@ package com.molveno.restaurantReservation.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,7 @@ public class KitchenCategory {
     private String categoryName;
 
     @OneToMany (mappedBy = "category")
-    private Set<KitchenStock> kitchenStock;
+    private Set<KitchenStock> kitchenStock =new HashSet<>();
 
     public KitchenCategory() {
     }
