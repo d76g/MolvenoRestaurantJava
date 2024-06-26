@@ -29,7 +29,9 @@ public class Table {
     public long getTable_id() {
         return table_id;
     }
-
+    public void setTable_id(long table_id) {
+        this.table_id = table_id;
+    }
     public int getTable_number() {
         return table_number;
     }

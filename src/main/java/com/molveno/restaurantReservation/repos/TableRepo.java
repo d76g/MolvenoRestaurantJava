@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TableRepo extends JpaRepository<Table, Long>{
+    // check if table already exists
+    boolean existsById(long table_number);
 }
