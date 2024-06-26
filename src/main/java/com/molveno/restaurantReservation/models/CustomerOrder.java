@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Order {
+public class CustomerOrder {
     @Id
     private Long order_id;
     private String reservation_id;
@@ -18,12 +18,12 @@ public class Order {
 
 
     @OneToMany(mappedBy = "order")
-    private Set<Order> order;
+    private Set<CustomerOrder> order;
 
-    public Order() {
+    public CustomerOrder() {
     }
 
-    public Order(Long order_id, String reservation_id, double totalPrice, String dateTime, Reservation reservation, Set<Order> order) {
+    public CustomerOrder(Long order_id, String reservation_id, double totalPrice, String dateTime, Reservation reservation, Set<CustomerOrder> order) {
         this.order_id = order_id;
         this.reservation_id = reservation_id;
         this.totalPrice = totalPrice;
@@ -72,11 +72,11 @@ public class Order {
         this.reservation = reservation;
     }
 
-    public Set<Order> getOrder() {
+    public Set<CustomerOrder> getOrder() {
         return order;
     }
 
-    public void setOrder(Set<Order> order) {
+    public void setOrder(Set<CustomerOrder> order) {
         this.order = order;
     }
 }

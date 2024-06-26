@@ -2,6 +2,7 @@ package com.molveno.restaurantReservation.models;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,40 +16,65 @@ public class Menu {
     private double price ;
     private String image ;
 
-    @OneToOne(mappedBy = "menuCategory")
-    private Set<MenuCategory> menuCategory;
-
-    @OneToOne(mappedBy = "subCategory")
-    private Set<SubCategory> subCategory;
-
-    @OneToOne(mappedBy = "mealTime")
-    private Set<MealTime> mealtime;
-
     public Menu() {
     }
 
-    public Set<MenuCategory> getMenuCategory() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="menuCategory_id")
+    private MenuCategory menuCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="subCategory_id")
+    private SubCategory subCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="mealTime_id")
+    private MealTime mealTime;
+
+    @OneToMany(mappedBy = "menuItemStock")
+    private MenuItemStock menuItemStocks;
+
+    @OneToMany(mappedBy = "orderItem")
+    private OrderItem orderItem;
+
+    public MenuCategory getMenuCategory() {
         return menuCategory;
     }
 
-    public void setMenuCategory(Set<MenuCategory> menuCategory) {
+    public void setMenuCategory(MenuCategory menuCategory) {
         this.menuCategory = menuCategory;
     }
 
-    public Set<SubCategory> getSubCategory() {
+    public SubCategory getSubCategory() {
         return subCategory;
     }
 
-    public void setSubCategory(Set<SubCategory> subCategory) {
+    public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
     }
 
-    public Set<MealTime> getMealtime() {
-        return mealtime;
+    public MealTime getMealTime() {
+        return mealTime;
     }
 
-    public void setMealtime(Set<MealTime> mealtime) {
-        this.mealtime = mealtime;
+    public void setMealTime(MealTime mealTime) {
+        this.mealTime = mealTime;
+    }
+
+    public MenuItemStock getMenuItemStocks() {
+        return menuItemStocks;
+    }
+
+    public void setMenuItemStocks(MenuItemStock menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
+    }
+
+    public OrderItem getOrderItem() {
+        return orderItem;
+    }
+
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
     }
 
     public long getMenuItem_id() {
