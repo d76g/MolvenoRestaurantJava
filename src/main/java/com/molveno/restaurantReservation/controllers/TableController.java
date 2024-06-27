@@ -10,8 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-// set route to /reservation
-@RequestMapping("/tables")
+// set route to /TABLES
+// GUYS, PLEASE CHANGE THIS IN EVERY CONTROLLER
+@RequestMapping("/admin/tables")
 public class TableController {
 
     final TableService tableService;
@@ -23,82 +24,64 @@ public class TableController {
     // get all tables
     @GetMapping("")
     public String getTables(Model model) {
+        // the first one it to show the list of tables
         model.addAttribute("tables", tableService.listTables());
-        return "admin/tableManagement/tableList";
-    }
-
-    @GetMapping("/form")
-    public String getTableForm(Model model) {
+        // this is to add a new table using the form
         model.addAttribute("table", new Table());
-        return "admin/tableManagement/addForm";
+        // return the view using the template not the URL
+        return "admin/tableManagement/tableList";
     }
     // Add new table
     @PostMapping("/addTable")
     public String addTable(@ModelAttribute("table") @Valid Table table, BindingResult result, Model model) {
         if (result.hasErrors()) {
             // If there are validation errors, return to the form with error messages
-            return "admin/tableManagement/addForm";
+            return "admin/tableManagement/tableList";
         }
-
         try {
             tableService.createTable(table);
         } catch (TableValidationException e) {
             // Catch any custom validation exceptions from service layer
-            if ("table_number".equals(e.getField())) {
-                result.rejectValue("table_number", "error.table", e.getMessage());
-            } else if ("table_capacity".equals(e.getField())) {
-                result.rejectValue("table_capacity", "error.table", e.getMessage());
-            } else if ("table_number".equals(e.getField()) && "table_capacity".equals(e.getField())) {
-                result.rejectValue("table_number", "error.table", e.getMessage());
-                result.rejectValue("table_capacity", "error.table", e.getMessage());
+            if ("tableNumber".equals(e.getField())) {
+                result.rejectValue("tableNumber", "error.table", e.getMessage());
+            } else if ("tableCapacity".equals(e.getField())) {
+                result.rejectValue("tableCapacity", "error.table", e.getMessage());
+            } else if ("tableNumber".equals(e.getField()) && "tableCapacity".equals(e.getField())) {
+                result.rejectValue("tableNumber", "error.table", e.getMessage());
+                result.rejectValue("tableCapacity", "error.table", e.getMessage());
             }
             else {
-                result.rejectValue("table_number", "error.table", "Error occurred with table validation.");
-                result.rejectValue("table_capacity", "error.table", "Error occurred with table validation.");
+                result.rejectValue("tableNumber", "error.table", "Error occurred with table validation.");
+                result.rejectValue("tableCapacity", "error.table", "Error occurred with table validation.");
             }
-            return "admin/tableManagement/addForm";
+            return "admin/tableManagement/tableList";
         }
 
         // If successful, redirect to list of tables
-        return "redirect:/tables";
+        return "redirect:/admin/tables";
     }
 
     // Update table
-    @GetMapping("/editTable/{id}")
-    public String editTable(@PathVariable long id, Model model) {
-        Table table = tableService.getTable(id);
-        model.addAttribute("table", table);
-        return "admin/tableManagement/updateForm";
-    }
-
     @PostMapping("/updateTable/{id}")
     public String updateTable(@PathVariable long id, @ModelAttribute Table table, BindingResult result, Model model) {
         try {
-            tableService.updateTable(id, table);
+            tableService.updateTableCapacity(id, table.getTableCapacity());
         } catch (TableValidationException e) {
             // show error messages
-//            if(id != table.getTable_number()){
-//                result.rejectValue("table_number", "error.table", "Table number cannot be changed.");
-//                result.rejectValue("table_capacity", "error.table", e.getMessage());
-//            } else {
-//                if ("table_number".equals(e.getField())) {
-//                    result.rejectValue("table_number", "error.table", e.getMessage());
-//                    result.rejectValue("table_capacity", "error.table", "Invalid table capacity.");
-//                } else if ("table_capacity".equals(e.getField())) {
-//                    result.rejectValue("table_capacity", "error.table", e.getMessage());
-//                    result.rejectValue("table_number", "error.table", "Invalid table number.");
-//                }
-//            }
+            if ("tableCapacity".equals(e.getField())) {
+                result.rejectValue("tableCapacity", "error.table", e.getMessage());
+            } else {
+                result.rejectValue("tableId", "error.table", e.getMessage());
+            }
             model.addAttribute("tables", tableService.listTables());
-                return "admin/tableManagement/updateForm";
+                return "admin/tableManagement/tableList";
         }
-        return "redirect:/tables";
+        return "redirect:/admin/tables";
     }
-
     // Delete table
     @GetMapping("/deleteTable/{id}")
     public String deleteTable(@PathVariable long id) {
         tableService.deleteTable(id);
-        return "redirect:/tables";
+        return "redirect:/admin/tables";
     }
 }
