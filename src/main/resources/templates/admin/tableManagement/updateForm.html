@@ -20,7 +20,7 @@
         <form id="updateForm" th:object="${table}" method="post" class="space-y-4">
             <div>
                 <label for="tableCapacity" class="block text-sm font-medium text-gray-700">Table Capacity</label>
-                <input type="number" name="tableCapacity" th:field="*{tableCapacity}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input type="number" id="tableCapacity" name="tableCapacity" th:field="*{tableCapacity}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <p th:if="${#fields.hasErrors('tableCapacity')}" th:errors="*{tableCapacity}" class="text-red-500 text-sm py-2"></p>
             </div>
             <div>
