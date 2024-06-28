@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<!--
+   NOTE : Using the fragment to include the form in the tableList.html
+-->
+<div id="addReservationDiv" class="min-h-screen flex items-center justify-center absolute w-full">
+    <div class="w-full h-screen z-10 bg-black opacity-40 absolute"></div>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-30">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold mb-6">Reservation Form</h1>
+            <span class="closeButtonAdd text-2xl cursor-pointer">&times;</span>
+        </div>
+        <form th:action="@{/stock/update}" th:object="${kitchenStock}" method="post" class="space-y-4">
+            <!-- Hidden field to pass the stock ID -->
+            <input type="hidden" th:field="*{id}" />
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <input type="text" id="description" name="description" th:field="*{description}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                <input type="number" id="amount" name="amount" th:field="*{amount}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="unit" class="block text-sm font-medium text-gray-700">Unit</label>
+                <input type="text" id="unit" name="unit" th:field="*{unit}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="brand" class="block text-sm font-medium text-gray-700">Brand</label>
+                <input type="text" id="brand" name="brand" th:field="*{brand}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="supplier" class="block text-sm font-medium text-gray-700">Supplier</label>
+                <input type="text" id="supplier" name="supplier" th:field="*{supplier}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('supplier')}" th:errors="*{supplier}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="articleNumber" class="block text-sm font-medium text-gray-700">Article Number</label>
+                <input type="number" id="articleNumber" name="articleNumber" th:field="*{articleNumber}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('articleNumber')}" th:errors="*{articleNumber}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" step="0.01" id="price" name="price" th:field="*{price}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="tax" class="block text-sm font-medium text-gray-700">Tax</label>
+                <input type="text" id="tax" name="tax" th:field="*{tax}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('tax')}" th:errors="*{tax}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="pricePerUnit" class="block text-sm font-medium text-gray-700">Price Per Unit</label>
+                <input type="number" step="0.01" id="pricePerUnit" name="pricePerUnit" th:field="*{pricePerUnit}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('pricePerUnit')}" th:errors="*{pricePerUnit}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+                <input type="number" id="stock" name="stock" th:field="*{stock}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="stockValue" class="block text-sm font-medium text-gray-700">Stock Value</label>
+                <input type="number" step="0.01" id="stockValue" name="stockValue" th:field="*{stockValue}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('stockValue')}" th:errors="*{stockValue}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="limit" class="block text-sm font-medium text-gray-700">Stock Limit</label>
+                <input type="number" id="limit" name="limit" th:field="*{limit}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('limit')}" th:errors="*{limit}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

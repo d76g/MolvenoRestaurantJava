@@ -1,107 +1,94 @@
+
+<!--
+ Guys, I have added the table list page with the table form and update form.
+ It's the same as we did with Cor using jQuery but this one is with Thymeleaf and Tailwind CSS.
+
+ Update the form based on your form fields and the controller mappings.
+ Be careful with the form action and the input field names.
+
+ USE THE CODE BELOW:
+ -->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitchen Stock Management</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .action-buttons {
-            display: flex;
-            gap: 5px;
-        }
-    </style>
+    <title>Tables</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.tailwindcss.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatable/2.0.2/js/datatable.js" integrity="sha512-jNM5sph4S0JfKyz27iPhIFj4JG8o/XiIu7WUgCM/EGYCizlQW+RzMi8Y/rnXlqpkUl7ELz5SLfuF44zCvS3NYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-<h1>Kitchen Stock Management</h1>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Type</th>
-        <th>Value</th>
-        <th>Amount</th>
-        <th>Brand</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody id="stock-table">
-    <!-- Sample row -->
-    <tr data-id="1">
-        <td>1</td>
-        <td>Vegetable</td>
-        <td>$2.50</td>
-        <td>20</td>
-        <td>FreshFarm</td>
-        <td class="action-buttons">
-            <button onclick="editStock(this)">Edit</button>
-            <button onclick="deleteStock(this)">Delete</button>
-        </td>
-    </tr>
-    <!-- More rows will go here -->
-    </tbody>
-</table>
-<button onclick="addNewStock()">Add New Stock</button>
+<body >
+<div class="w-full relative min-h-screen bg-gray-100">
+    <div class="w-full flex flex items-center justify-center absolute z-10 h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-5/6">
+            <h1 class="text-2xl font-bold mb-6">add stock</h1>
+            <a id="addButton" href="/stock/form" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Table</a>
+            <table id="tableList" class="w-full mt-10">
+                <thead>
+                <tr>
+                    <th class="text-left">Description</th>
+                    <th class="text-left">Amount</th>
+                    <th class="text-left">Unit</th>
+                    <th class="text-left">Brand</th>
+                    <th class="text-left">Supplier</th>
+                    <th class="text-left">Article Number</th>
+                    <th class="text-left">Price</th>
+                    <th class="text-left">Tax</th>
+                    <th class="text-left">Price Per Unit</th>
+                    <th class="text-left">Stock</th>
+                    <th class="text-left">Stock Value</th>
+                    <th class="text-left">Stock Limit</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stock : ${kitchenStocks}">
+                    <td th:text="${stock.description}"></td>
+                    <td th:text="${stock.amount}"></td>
+                    <td th:text="${stock.unit}"></td>
+                    <td th:text="${stock.brand}"></td>
+                    <td th:text="${stock.supplier}"></td>
+                    <td th:text="${stock.articleNumber}"></td>
+                    <td th:text="${stock.price}"></td>
+                    <td th:text="${stock.tax}"></td>
+                    <td th:text="${stock.pricePerUnit}"></td>
+                    <td th:text="${stock.stock}"></td>
+                    <td th:text="${stock.stockValue}"></td>
+                    <td th:text="${stock.limit}"></td>
+                    <td class="flex gap-x-3">
+                        <!-- Pass the stock id and stock amount to the edit button -->
+                        <a th:href="@{'stock/edit/' + ${stock.id}}"  th:data-id="${stock.id}" th:data-amount="${stock.amount}" class="editButton text-indigo-600 hover:text-indigo-900">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a th:href="@{'stock/delete/' + ${stock.id}}" class="deleteButton text-red-600 hover:text-red-900">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-<script>
-    function addNewStock() {
-        const table = document.getElementById('stock-table');
-        const newRow = document.createElement('tr');
-        const newId = table.rows.length + 1;
-        newRow.setAttribute('data-id', newId);
-        newRow.innerHTML = `
-            <td>${newId}</td>
-            <td><input type="text" value="New Type"></td>
-            <td><input type="text" value="New Value"></td>
-            <td><input type="number" value="0"></td>
-            <td><input type="text" value="New Brand"></td>
-            <td class="action-buttons">
-                <button onclick="saveStock(this)">Save</button>
-                <button onclick="deleteStock(this)">Delete</button>
-            </td>
-        `;
-        table.appendChild(newRow);
-    }
-
-    function editStock(button) {
-        const row = button.parentElement.parentElement;
-        row.cells[1].innerHTML = `<input type="text" value="${row.cells[1].innerText}">`;
-        row.cells[2].innerHTML = `<input type="text" value="${row.cells[2].innerText}">`;
-        row.cells[3].innerHTML = `<input type="number" value="${row.cells[3].innerText}">`;
-        row.cells[4].innerHTML = `<input type="text" value="${row.cells[4].innerText}">`;
-        button.textContent = 'Save';
-        button.setAttribute('onclick', 'saveStock(this)');
-    }
-
-    function saveStock(button) {
-        const row = button.parentElement.parentElement;
-        row.cells[1].innerHTML = row.cells[1].querySelector('input').value;
-        row.cells[2].innerHTML = row.cells[2].querySelector('input').value;
-        row.cells[3].innerHTML = row.cells[3].querySelector('input').value;
-        row.cells[4].innerHTML = row.cells[4].querySelector('input').value;
-        button.textContent = 'Edit';
-        button.setAttribute('onclick', 'editStock(this)');
-    }
-
-    function deleteStock(button) {
-        const row = button.parentElement.parentElement;
-        row.remove();
-    }
+        </div>
+    </div>
+    <!-- Include the add and update form using fragment
+        Check the addForm.html and updateForm.html for the form structure
+    -->
+<!--    <div th:insert="admin/tableManagement/addForm :: addTableFormHTML"></div>-->
+<!--    <div th:insert="admin/tableManagement/updateForm :: updateTableFormHTML"></div>-->
+</div>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
+<!-- Include the tablesForm.js file  from the static folder
+    Create your own js file in the js folder and use it like this
+-->
+<!--<script th:src="@{/js/tablesForm.js}"></script>-->
+<script> new DataTable("#tableList",{
+                sWidth: "40%",
+                bAutoWidth: false,});
 </script>
 </body>
 </html>
