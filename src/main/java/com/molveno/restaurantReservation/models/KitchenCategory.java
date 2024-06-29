@@ -12,6 +12,8 @@ public class KitchenCategory {
     private Long category_id;
     private String categoryName;
 
+
+
     @OneToMany (mappedBy = "category")
     private Set<KitchenStock> kitchenStock =new HashSet<>();
 
@@ -23,6 +25,8 @@ public class KitchenCategory {
         this.categoryName = categoryName;
         this.kitchenStock = kitchenStock;
     }
+
+
 
     public Long getCategory_id() {
         return category_id;

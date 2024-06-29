@@ -28,6 +28,7 @@ public class StockController {
     }
   @PostMapping("/add")
     public String add(@ModelAttribute KitchenStock kitchenStock, Model model) {
+
         kitchenStockService.addKitchenStock(kitchenStock);
       return "redirect:/stock";
    }
