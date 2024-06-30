@@ -1,5 +1,8 @@
     $(document).ready(function() {
-        new DataTable("#tableList");
+        new DataTable("#tableList",{
+            sWidth: "40%",
+            bAutoWidth: false,
+        });
         $(".deleteButton").click(function(event) {
             if (!confirm("Are you sure you want to delete this table?")) {
                 event.preventDefault();

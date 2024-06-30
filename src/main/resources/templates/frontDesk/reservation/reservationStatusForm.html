@@ -10,7 +10,7 @@
 <!--
    NOTE : Using the fragment to include the form in the tableList.html
 -->
-<div th:fragment="reservationStatusForm" id="addReservationDiv" class="min-h-screen flex items-center justify-center absolute w-full hidden">
+<div th:fragment="reservationStatusForm" id="addReservationDiv" class="min-h-screen flex items-center justify-center absolute w-full">
     <div class="w-full h-screen z-10 bg-black opacity-40 absolute"></div>
     <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-30">
         <div class="flex justify-between items-center">
@@ -29,12 +29,12 @@
                 <p>Status: <span th:text="${reservation.reservationStatus}"></span></p>
             </div>
         </div>
-        <form id="updateFormDiv" th:object="${reservation}" method="post" class="space-y-4">
+        <form th:action="@{/reservations/updateStatus}" th:object="${reservation}" method="post" class="space-y-4">
             <input type="hidden" th:field="*{id}" />
 
             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
             <select id="status" name="status" th:field="*{reservationStatus}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value="PENDING">ATTENDED</option>
+                <option value="ATTENDED">ATTENDED</option>
                 <option value="CONFIRMED">CONFIRMED</option>
                 <option value="CANCELLED">CANCELLED</option>
             </select>

@@ -39,82 +39,89 @@ TODO 2: Implement JavaScript to handle the form submission and update
     </style>
 </head>
 <body >
-<div class="w-[100px] relative min-h-screen bg-gray-100">
-    <div class="w-full flex flex items-center justify-center absolute z-10 h-screen">
-        <div class="bg-white p-8 rounded-lg shadow-lg ">
-            <h1 class="text-2xl font-bold mb-6">Reservations</h1>
-            <a href="/reservations"> <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent
+<div class="w-full h-auto flex flex-col justify-center items-center">
+    <div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
+    <div class="w-full relative h-auto min-h-screen bg-gray-100">
+        <div>
+            <div class="w-full flex justify-start items-center p-8">
+                <h1 class="text-xl font-bold">Reservations</h1>
+            </div>
+        </div>
+        <div class="w-full flex flex items-center justify-center h-screen py-10 bg-gray-100">
+            <div class="bg-white p-8 rounded-lg shadow-lg ">
+                <h1 class="text-2xl font-bold mb-6">Reservations</h1>
+                <a href="/reservations/form"> <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent
              rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
               focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create New Reservation</button></a>
-            <table id="tableList" class="mt-10 text-xs">
-                <thead>
-                <tr>
-                    <th class="text-left">Table NO.</th>
-                    <th class="text-left">First Name</th>
-                    <th class="text-left">Last Name</th>
-                    <th class="text-left">Email</th>
-                    <th class="text-left">Reservation Date</th>
-                    <th class="text-left">Reservation Time</th>
-                    <th class="text-left">Number of Guests</th>
-                    <th class="text-left">Room Number</th>
-                    <th class="text-left">Hotel Guest</th>
-                    <th class="text-left">Status</th>
-                    <th class="text-left">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="reservation : ${reservations}">
-                    <td>
-                        <ul>
-                            <li th:each="table : ${reservation.tables}">
-                                Table NO.: <span th:text="${table.tableNumber}"></span>,
-                                Seats: <span th:text="${table.tableCapacity}"></span>
-                            </li>
-                        </ul>
-                    </td>
-                    <td th:text="${reservation.customerFirstName}"></td>
-                    <td th:text="${reservation.customerLastName}"></td>
-                    <td th:text="${reservation.customerEmail}"></td>
-                    <td th:text="${reservation.reservationDate}"></td>
-                    <td th:text="${reservation.reservationTime}"></td>
-                    <td th:text="${reservation.numberOfGuests}"></td>
-                    <td th:text="${reservation.roomNumber}"></td>
-                    <td th:text="${reservation.guest} ? 'Yes' : 'No'"></td>
-                    <td>
-                        <a th:text="${reservation.reservationStatus}"
-                           th:href="@{'/reservations/editStatus/' + ${reservation.id}}"
-                           th:data-id="${reservation.id}"
-                            th:data-reservationStatus="${reservation.reservationStatus}"
-                           class="editStatus"></a>
-                    </td>
-                    <td class="flex gap-x-3">
-                        <!-- Pass the reservation id and other relevant data to the edit button -->
-                        <a
-                                th:href="@{'/reservations/editReservation/' + ${reservation.id}}"
-                                th:data-first-name="${reservation.customerFirstName}"
-                                th:data-last-name="${reservation.customerLastName}"
-                                th:data-email="${reservation.customerEmail}"
-                                th:data-date="${reservation.reservationDate}"
-                                th:data-time="${reservation.reservationTime}"
-                                th:data-guests="${reservation.numberOfGuests}" class="editButton text-indigo-600 hover:text-indigo-900">
-                            <i class="fa-solid fa-pen"></i>
-                        </a>
-                        <a th:href="@{'/reservations/deleteReservation/' + ${reservation.id}}" class="deleteButton text-red-600 hover:text-red-900">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table id="tableList" class="mt-10 text-xs">
+                    <thead>
+                    <tr>
+                        <th class="text-left">Table NO.</th>
+                        <th class="text-left">First Name</th>
+                        <th class="text-left">Last Name</th>
+                        <th class="text-left">Email</th>
+                        <th class="text-left">Reservation Date</th>
+                        <th class="text-left">Reservation Time</th>
+                        <th class="text-left">Number of Guests</th>
+                        <th class="text-left">Hotel Guest</th>
+                        <th class="text-left">Room Number</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-left">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="reservation : ${reservations}"
+                        th:class="${reservation.reservationStatus == 'CANCELLED'} ? 'bg-red-200' : ''"
+                        th:classappend="${reservation.reservationStatus == 'ATTENDED'} ? 'bg-green-400' : ''">
+                        <td>
+                            <ul>
+                                <li th:each="table : ${reservation.tables}">
+                                    Table NO.: <span th:text="${table.tableNumber}"></span>,
+                                    Seats: <span th:text="${table.tableCapacity}"></span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td th:text="${reservation.customerFirstName}"></td>
+                        <td th:text="${reservation.customerLastName}"></td>
+                        <td th:text="${reservation.customerEmail}"></td>
+                        <td th:text="${reservation.reservationDate}"></td>
+                        <td th:text="${reservation.reservationTime}"></td>
+                        <td th:text="${reservation.numberOfGuests}"></td>
+                        <td th:text="${reservation.guest} ? 'Yes' : 'No'"></td>
+                        <td th:text="${reservation.roomNumber}"></td>
+                        <td>
+                            <a th:text="${reservation.reservationStatus}"
+                               th:href="@{'/reservations/editStatus/' + ${reservation.id}}"
+                               class="editStatus"></a>
+                        </td>
+                        <td class="flex gap-x-3">
+                            <!-- Pass the reservation id and other relevant data to the edit button -->
+                            <a
+                                    th:href="@{'/reservations/editReservation/' + ${reservation.id}}"
+                                    th:data-first-name="${reservation.customerFirstName}"
+                                    th:data-last-name="${reservation.customerLastName}"
+                                    th:data-email="${reservation.customerEmail}"
+                                    th:data-date="${reservation.reservationDate}"
+                                    th:data-time="${reservation.reservationTime}"
+                                    th:data-guests="${reservation.numberOfGuests}" class="editButton text-indigo-600 hover:text-indigo-900">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a th:href="@{'/reservations/deleteReservation/' + ${reservation.id}}" class="deleteButton text-red-600 hover:text-red-900">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="mt-5 w-full h-10 text-black">
         </div>
     </div>
-    <!-- Include the add and update form using fragment
-        Check the addForm.html and updateForm.html for the form structure
-    -->
-<!--    <div th:insert="admin/tableManagement/addForm :: addTableFormHTML"></div>-->
-<!--    <div th:insert="admin/tableManagement/updateForm :: updateTableFormHTML"></div>-->
-<!--    <div th:insert="frontDesk/reservation/reservationStatusForm :: reservationStatusForm"></div>-->
+
 </div>
+
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
 <!-- Include the tablesForm.js file  from the static folder

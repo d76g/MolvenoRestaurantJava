@@ -37,6 +37,7 @@ public class ReservationService {
     public void deleteReservation(Long id) {
         reservationRepo.deleteById(id);
     }
+    //TODO: CHECK FOR EMPTY FIELDS AND RETURN ERROR MESSAGE
     // create a new reservation
     public void createReservation(Reservation reservation) {
        // check if there are available tables for the reservation at the time and date

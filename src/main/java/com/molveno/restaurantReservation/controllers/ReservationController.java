@@ -17,10 +17,10 @@ public class ReservationController {
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
-    @GetMapping("")
+    @GetMapping("form")
     public String showReservationForm(Model model) {
         model.addAttribute("reservation", new Reservation());
-        return "common/reservation/reservationForm";
+        return "frontDesk/reservation/reservationForm";
     }
 
     @PostMapping("/createReservation")
