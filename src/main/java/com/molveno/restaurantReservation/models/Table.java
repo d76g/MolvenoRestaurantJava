@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@jakarta.persistence.Table(name = "restaurant_tables")
+@jakarta.pers istence.Table(name = "restaurant_tables")
 public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
