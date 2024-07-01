@@ -3,13 +3,13 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.services.ReservationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
-
-@Controller
-@RequestMapping("/reservations")
+@RestController
+@RequestMapping("/api")
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -17,46 +17,29 @@ public class ReservationController {
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
-    @GetMapping("form")
-    public String showReservationForm(Model model) {
-        model.addAttribute("reservation", new Reservation());
-        return "frontDesk/reservation/reservationForm";
-    }
-
-    @PostMapping("/createReservation")
+    @PostMapping("/reservation/create")
     public String createReservation(Reservation reservation) {
         reservationService.createReservation(reservation);
         return "redirect:/reservations/list";
     }
-
-    @GetMapping("/list")
-    public String listReservations(Model model) {
-        model.addAttribute("reservations", reservationService.listReservations());
-        return "frontDesk/reservation/reservationList";
+    @GetMapping("/reservation/list")
+    public ResponseEntity<Iterable<Reservation>> listReservations(Model model) {
+        Iterable<Reservation> reservations = reservationService.listReservations();
+        return ResponseEntity.ok(reservations);
     }
-    @GetMapping("/deleteReservation/{id}")
+    @GetMapping("/reservation/delete/{id}")
     public String deleteReservation(@PathVariable Long id) {
         reservationService.deleteReservation(id);
         return "redirect:/reservations/list";
     }
 
-    @GetMapping("/editReservation/{id}")
-    public String editReservation(@PathVariable Long id, Model model) {
-        model.addAttribute("reservation", reservationService.getReservation(id));
-        return "frontDesk/reservation/reservationUpdateForm";
-    }
-
-    @PostMapping("/updateReservation")
+    @PostMapping("/reservation/update")
     public String updateReservation(Reservation reservation) {
         reservationService.updateReservation(reservation);
         return "redirect:/reservations/list";
     }
-    @GetMapping("/editStatus/{id}")
-    public String editReservationStatus(@PathVariable Long id, Model model) {
-        model.addAttribute("reservation", reservationService.getReservation(id));
-        return "frontDesk/reservation/reservationStatusForm";
-    }
-    @PostMapping("/updateStatus")
+
+    @PostMapping("/reservation/updateStatus")
     public String updateReservationStatus(@RequestParam("id") long id, @RequestParam("reservationStatus") String reservationStatus) {
         reservationService.updateReservationStatus(id, reservationStatus);
         return "redirect:/reservations/list";

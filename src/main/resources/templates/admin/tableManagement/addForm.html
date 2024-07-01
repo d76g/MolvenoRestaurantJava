@@ -17,7 +17,7 @@
             <h1 class="text-2xl font-bold mb-6">Table Form</h1>
             <span class="closeButtonAdd text-2xl cursor-pointer">&times;</span>
         </div>
-        <form th:action="@{tables/addTable}" th:object="${table}" method="post" class="space-y-4">
+        <form th:action="@{/api/table/add}" th:object="${table}" method="post" class="space-y-4">
             <div>
                 <label for="tableNumber" class="block text-sm font-medium text-gray-700">Table Number</label>
                 <input type="number" id="tableNumber" name="tableNumber" th:field="*{tableNumber}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
