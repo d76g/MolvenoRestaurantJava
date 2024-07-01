@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Menu Item</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- The update form is similar to the add form, but the form action is different,
+   NOTE : Using the fragment to include the form in the tableList.html
+ -->
+<div th:fragment="updateMenuItemHTML" id="updateMenuItemDiv" class="min-h-screen flex items-center justify-center absolute w-full hidden">
+    <div class="w-full h-screen z-10 bg-black opacity-40 absolute"></div>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-30">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold mb-6">Update Menu Item</h1>
+            <span class="closeButtonUpdate text-2xl cursor-pointer">&times;</span>
+        </div>
+        <form id="updateMenuItem" th:object="${menu}" method="post" class="space-y-4">
+            <div>
+                <label for="item_name" class="block text-sm font-medium text-gray-700">Item Name :</label>
+                <input type="text" id="item_name" name="item_name" th:field="*{item_name}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('item_name')}" th:errors="*{item_name}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description :</label>
+                <input type="text" id="description" name="description" th:field="*{description}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Price: </label>
+                <input type="number" id="price" name="price" th:field="*{price}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                <input type="text" id="image" name="price" th:field="*{image}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('price')}" th:errors="*{image}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="menuCategory" class="block text-sm font-medium text-gray-700">Menu Category :</label>
+                <input type="text" id="menuCategory" name="menuCategory" th:field="*{menuCategory}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('menuCategory')}" th:errors="*{menuCategory}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="subCategory" class="block text-sm font-medium text-gray-700">Sub Category :</label>
+                <input type="text" id="subCategory" name="subCategory" th:field="*{subCategory}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('subCategory')}" th:errors="*{subCategory}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <label for="mealTime" class="block text-sm font-medium text-gray-700">Meal Time :</label>
+                <input type="text" id="mealTime" name="mealTime" th:field="*{mealTime}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <p th:if="${#fields.hasErrors('mealTime')}" th:errors="*{mealTime}" class="text-red-500 text-sm py-2"></p>
+            </div>
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
