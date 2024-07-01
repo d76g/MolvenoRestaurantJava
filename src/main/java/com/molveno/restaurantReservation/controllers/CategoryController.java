@@ -3,12 +3,13 @@ package com.molveno.restaurantReservation.controllers;
 import com.molveno.restaurantReservation.models.KitchenCategory;
 import com.molveno.restaurantReservation.services.KitchenCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/category")
+@RestController
+@RequestMapping("/api/category")
 public class CategoryController {
     private final KitchenCategoryService kitchenCategoryService;
     @Autowired
@@ -16,10 +17,10 @@ public class CategoryController {
         this.kitchenCategoryService = kitchenCategoryService;
     }
 
-    @GetMapping("")
-    public String home(Model model) {
-        model.addAttribute("kitchenCategories", kitchenCategoryService.getKitchenCategories());
-        return "category/index";
+    @GetMapping("/list")
+    public ResponseEntity<Iterable<KitchenCategory>> categoryList(Model model) {
+         Iterable<KitchenCategory> categories = kitchenCategoryService.getKitchenCategories();
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/form")
@@ -33,8 +34,6 @@ public class CategoryController {
         kitchenCategoryService.addKitchenCategory(kitchenCategory);
         return "redirect:/category";
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {

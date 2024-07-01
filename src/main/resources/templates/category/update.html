@@ -19,7 +19,7 @@
         </div>
         <form th:action="@{/category/update}" th:object="${kitchenCategory}" method="post" class="space-y-4">
             <!-- Hidden field to pass the category ID -->
-            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{category_id}" />
 
             <div>
                 <label for="categoryName" class="block text-sm font-medium text-gray-700">Category Name:</label>
