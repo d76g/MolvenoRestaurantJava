@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -11,38 +12,46 @@ import java.util.Set;
 public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long table_id;
-    private int table_number;
-    private int table_capacity;
+    @Column(name = "table_id")
+    private long Id;
+    @Column(name = "table_number")
+    private int tableNumber;
+    @Column(name = "table_capacity")
+    private int tableCapacity;
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+    public int getTableCapacity() {
+        return tableCapacity;
+    }
+
+    public void setTableCapacity(int tableCapacity) {
+        this.tableCapacity = tableCapacity;
+    }
+
     /*
-    Table Entity Contains a set of reservations.
-    Uses @ManyToMany to establish the relationship.
-    Uses @JoinTable to define the join table (table_reservation) with join columns (table_id and reservation_id).
-     */
-    @ManyToMany
-    @JoinTable(
-            name = "reserved_table",
-            joinColumns = @JoinColumn(name = "table_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id")
-    )
+        Table Entity Contains a set of reservations.
+        Uses @ManyToMany to establish the relationship.
+        Uses @JoinTable to define the join table (table_reservation) with join columns (table_id and reservation_id).
+         */
+
+    @JsonIgnore 
+    @ManyToMany(mappedBy = "tables")
     private Set<Reservation> reservations = new HashSet<>();
-    public long getTable_id() {
-        return table_id;
-    }
-
-    public int getTable_number() {
-        return table_number;
-    }
-
-    public void setTable_number(int table_number) {
-        this.table_number = table_number;
-    }
-    public int getTable_capacity() {
-        return table_capacity;
-    }
-    public void setTable_capacity(int table_capacity) {
-        this.table_capacity = table_capacity;
-    }
     public Set<Reservation> getReservations() {
         return reservations;
     }
@@ -53,22 +62,18 @@ public class Table {
     }
 
     // equals() and hashCode() methods for Table Entity to compare table_id with other tables.
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Table table = (Table) o;
-        return table_id == table.table_id;
+        return Id == table.Id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(table_id);
-    }
-
-    public Table(long table_id, int table_number, int table_capacity) {
-        this.table_id = table_id;
-        this.table_number = table_number;
-        this.table_capacity = table_capacity;
+        return Objects.hash(Id);
     }
 }

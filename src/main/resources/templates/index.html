@@ -8,58 +8,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <script>
         tailwind.config = {
           theme: {
 
               colors: {
-                mainColor: '#045e9e',
-                secondColor: '#339bcc',
-                thirdColor:'#0484c3',
-                buttonColor:'#16537a',
-                secondButtonColor:'#6bbcdd'
+                mainColor: '#D93A2B',
+                secondColor: '#F26E50',
+                thirdColor:'#D96248',
+                buttonColor:'#0D0D0D',
+                secondButtonColor:'#BF7449'
               },
                 fontFamily: {
-                    sans: ['Playwrite AU NSW', 'sans-serif'],
+                    sans: ['Playfair Display', 'serif'],
                     serif: ['Alex Brush', 'cursive'],
-                    mono: ['Shadows Into Light', 'cursive'],
+                    mono: ['Quattrocento', 'serif'],
                 }
           }
         }
     </script>
-    <style>
-        /* Modal stilini ekleyin */
-        .modal {
-            display: none; /* Başlangıçta gizli */
-            position: fixed;
-            z-index: 1000; /* Daha yüksek bir z-index değeri */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Siyah w/ opaklık */
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* İsteğe bağlı olarak genişliği ayarlayın */
-        }
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+NSW:wght@100..400&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quintessential&family=Sedan+SC&display=swap" rel="stylesheet">    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for Social Media Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
@@ -70,8 +48,8 @@
 </head>
 <body>
 <!-- Navbar -->
-<div class="container mx-auto bg-blue-200 h-6 ">
-    <div class="flex flex-row space-x-2 justify-end">
+<div class="relative">
+    <div class="flex justify-end w-full bg-gray-200 px-6">
         <div class="w-6 h-6">
             <img src="/images/united-kingdom.png"  alt="English">
         </div>
@@ -82,36 +60,37 @@
         -->
     </div>
 </div>
+<div th:insert="common/reservation/reservationForm :: reservationForm"></div>
 <nav class="bg-mainColor text-white py-4 z-40">
     <div class="container mx-auto flex w-3/4 justify-between">
         <img src="/images/company-logo.jpg"  alt="Logo" class="h-28 absolute left-5 top-10 rounded-lg z-50">
         <div class="flex items-center">
-            <ul class="flex space-x-4 font-sans font-bold">
-                <li><a href="#home" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">Home</a></li>
-                <li><a href="#menu" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">Menu</a></li>
-                <li><a href="#about" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">About Us</a></li>
-                <li><a href="#contact" class="hover:text-gray-200 hover:scale-110 transition ease-in-out">Contact Us</a></li>
+            <ul class="flex space-x-4 font-sans">
+                <li><a href="#home" class="hover:scale-110 transition ease-in-out">Home</a></li>
+                <li><a href="#menu" class="hover:scale-110 transition ease-in-out">Menu</a></li>
+                <li><a href="#about" class="hover:scale-110 transition ease-in-out">About Us</a></li>
+                <li><a href="#contact" class="hover:scale-110 transition ease-in-out">Contact Us</a></li>
             </ul>
         </div>
         <div class="flex items-center space-x-4">
             <button class="myBtn text-white select-none rounded-lg border border-gray-900 py-3 px-6
-                 text-center align-middle font-sans text-xs font-bold uppercase
+                 text-center align-middle font-sans text-sm uppercase
                   transition-all  focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
-                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor ml-10">Reserve Now</button>
+                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor ml-10">Table Waiting for You</button>
         </div>
     </div>
 </nav>
-
 <!-- Home Section -->
-<section id="home" class="relative bg-cover bg-center h-screen z-30" >
+<section id="home" class="relative bg-cover bg-center h-screen z-20" >
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/images/homeBackground-2.jpg'); filter: blur(2px);"></div>
     <div class="container mx-auto h-full flex flex-col justify-center items-center text-center text-white relative z-10">
         <h1 class="text-7xl font-bold mb-4 font-serif">Molveno Lake Resort</h1>
         <p class="text-2xl mb-8 font-sans">Experience the best dining with us</p>
-        <button class="text-white select-none rounded-lg border border-gray-900 py-3 px-6
-                 text-center align-middle font-sans text-xs font-bold uppercase
+        <button
+                class="myBtn text-white select-none rounded-lg border border-gray-900 py-3 px-6
+                 text-center align-middle font-sans text-sm uppercase
                   transition-all  focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
-                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor myBtn ">Reserve Now</button>
+                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor myBtn ">Table Waiting for You</button>
     </div>
 </section>
 
@@ -215,7 +194,7 @@
             <a href="#menu">
                 <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
                     <div class="w-full h-full">
-                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(./images/west-lake-fish.jpg)">
+                        <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(/images/west-lake-fish.jpg)">
                             <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
                                 <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">West Lake Vinegar Fish</p>
                                 <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">
@@ -230,7 +209,7 @@
         </div>
         <div class="flex justify-center items-center pt-3">
             <button class="bg-secondButtonColor text-white rounded-lg border border-gray-900 py-3 px-6
-                 text-center align-middle font-sans text-sm
+                 text-center align-middle font-sans text-md uppercase
                   transition-all  hover:scale-105 transition ease-in-out
                    ">View Full Menu</button>
         </div>
@@ -239,7 +218,7 @@
 
 <!-- About Us Section -->
 <section id="about" class="py-16">
-    <div class="container mx-auto flex justify-center items-center flex-col gap-y-4 ">
+    <div class="container mx-auto flex justify-center items-center flex-col gap-y-4 font-sans">
         <h2 class="text-4xl font-bold">About Us</h2>
         <!-- About us content goes here -->
         <div class="flex w-4/5 px-8 text-justify">
@@ -256,75 +235,10 @@
     </div>
 </section>
 
-<!-- Reserve Now Section -->
-<section id="reserve" class="py-16 bg-gray-100">
-    <div class="container mx-auto" >
-        <!--<h2 class="text-4xl font-bold mb-8">Reserve Now</h2> -->
-        <div class="container mx-auto h-full flex flex-col justify-center items-center text-center text-mainColor relative z-10 space-y-4">
-            <div> Make a reservation now ! </div>
-            <button class="myBtn bg-secondButtonColor text-white px-4 py-2 rounded hover:bg-yellow-600">Reserve Now</button>
-        </div>
-        <div id="myModal" class="modal">
-            <div class="modal-content max-w-lg mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-                <span class="close">&times;</span>
-                <h2 class="text-2xl font-bold mb-6 text-center">Reservation Form</h2>
-                <form id="myForm">
-                    <div class="mb-4">
-                        <label for="customer_first_name" class="block text-gray-700">First Name</label>
-                        <input type="text" id="customer_first_name" name="customer_first_name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="customer_last_name" class="block text-gray-700">Last Name</label>
-                        <input type="text" id="customer_last_name" name="customer_last_name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="mobile_no" class="block text-gray-700">Mobile Number</label>
-                        <input type="tel" id="mobile_no" name="mobile_no" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="number_of_people" class="block text-gray-700">Number of People</label>
-                        <input type="number" id="number_of_people" name="number_of_people" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="reservation_date" class="block text-gray-700">Reservation Date</label>
-                        <input type="text" id="reservation_date" name="reservation_date" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 flatpickr" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="reservation_time" class="block text-gray-700">Reservation Time</label>
-                        <input type="time" id="reservation_time" name="reservation_time" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="is_guest" class="block text-gray-700">Hotel Guest?</label>
-                        <input type="checkbox" id="is_guest" name="is_guest" class="h-5 w-5 text-blue-600">
-                    </div>
-                    <div class="mb-4">
-                        <label for="hotel_room_number" class="block text-gray-700">Hotel Room Number (if applicable)</label>
-                        <input type="text" id="hotel_room_number" name="hotel_room_number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div class="mb-4">
-                        <label for="status" class="block text-gray-700">Status</label>
-                        <select id="status" name="status" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" required>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="pending">Pending</option>
-                            <option value="cancelled">Cancelled</option>
-                        </select>
-                    </div>
-                    <div class="text-center">
-                        <input type="submit" value="Submit Reservation" class="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- Reservation form or instructions go here -->
-    </div>
-</section>
+
 
 <!-- Footer -->
-<footer class="bg-mainColor text-white  text-sm h-full">
+<footer class="bg-mainColor text-white  text-sm h-full font-sans">
     <div class="container mx-auto px-4">
         <div class="row flex justify-center pt-8  ">
             <div class="col-md-3">
@@ -374,36 +288,6 @@
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    flatpickr(".flatpickr", {
-        enableTime: false,
-        dateFormat: "Y-m-d",
-    });
-</script>
-<script>
-    // Modal ve butonu seçme
-    var modal = document.getElementById("myModal");
-    var btns = document.getElementsByClassName("myBtn");
-    var span = document.getElementsByClassName("close")[0];
-
-    // Butona tıklayınca modalı göster
-    for (var i = 0; i < btns.length; i++) {
-        btns[i].onclick = function() {
-            modal.style.display = "block";
-        }
-    }
-
-    // X butonuna tıklayınca modalı kapat
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // Modal dışında bir yere tıklayınca modalı kapat
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
+<script th:src="@{/js/home.js}"></script>
 </body>
 </html>
