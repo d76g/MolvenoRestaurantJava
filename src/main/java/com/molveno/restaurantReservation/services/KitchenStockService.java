@@ -26,7 +26,7 @@ public class KitchenStockService {
     public KitchenStock addKitchenStockById(Long stock_id) {
         return kitchenStockRepo.findById(stock_id).get();
     }
-//DELETE
+    //DELETE
     public void deleteKitchenStock(Long stock_id) {
         kitchenStockRepo.deleteById(stock_id);
     }
