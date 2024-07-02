@@ -2,6 +2,7 @@ package com.molveno.restaurantReservation.services;
 
 import com.molveno.restaurantReservation.models.Users;
 import com.molveno.restaurantReservation.repos.UserRepo;
+import org.hibernate.mapping.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +20,9 @@ public class UserService {
     public List<Users> getAllUsers() {
         return userRepo.findAll();
     }
-}
+
+    public Users createUser(Users user) {
+       // validateUser(user);
+        return userRepo.save(user);
+    }
+    }
