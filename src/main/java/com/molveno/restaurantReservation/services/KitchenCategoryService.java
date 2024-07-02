@@ -1,39 +1,23 @@
 package com.molveno.restaurantReservation.services;
 
 import com.molveno.restaurantReservation.models.KitchenCategory;
-import com.molveno.restaurantReservation.repos.KitchenCategoryRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class KitchenCategoryService {
-    final KitchenCategoryRepo kitchenCategoryRepo;
-    @Autowired
-    public KitchenCategoryService(KitchenCategoryRepo kitchenCategoryRepo) {
-        this.kitchenCategoryRepo = kitchenCategoryRepo;
-    }
-//read
-    public List<KitchenCategory> getKitchenCategories() {
-        return kitchenCategoryRepo.findAll();
-    }
-//create
-    public KitchenCategory addKitchenCategory(KitchenCategory kitchenCategory) {
-        return kitchenCategoryRepo.save(kitchenCategory);
-    }
+public interface KitchenCategoryService {
+
+    //read
+    Iterable<KitchenCategory> getKitchenCategories();
+
+    //create
+    KitchenCategory addKitchenCategory(KitchenCategory kitchenCategory);
+
     //FIND
-    public KitchenCategory getKitchenCategoryById(Long category_id) {
-        return kitchenCategoryRepo.findById(category_id).get();
-    }
+    KitchenCategory getKitchenCategoryById(Long category_id);
 
     //DELETE
-    public void deleteKitchenCategory(Long category_id) {
-        kitchenCategoryRepo.deleteById(category_id);
-    }
-    //UPDATE
-    public KitchenCategory updateKitchenCategory(KitchenCategory kitchenCategory) {
-        return kitchenCategoryRepo.save(kitchenCategory);
-    }
+    void deleteKitchenCategory(Long category_id);
 
+    //UPDATE
+    KitchenCategory updateKitchenCategory(KitchenCategory kitchenCategory);
 }

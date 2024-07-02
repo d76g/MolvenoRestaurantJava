@@ -3,22 +3,21 @@ package com.molveno.restaurantReservation.controllers;
 import com.molveno.restaurantReservation.models.KitchenStock;
 import com.molveno.restaurantReservation.services.KitchenStockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/stock")
+@RestController
+@RequestMapping("/api")
 public class StockController {
-    private final KitchenStockService kitchenStockService;
     @Autowired
-    public StockController(KitchenStockService kitchenStockService) {
-        this.kitchenStockService = kitchenStockService;
-    }
-    @GetMapping("")
-    public String home(Model model) {
-        model.addAttribute("kitchenStocks", kitchenStockService.getKitchenStocks());
-        return "chef/stock/index";
+    KitchenStockService kitchenStockService;
+    
+    @GetMapping( value = "/stock", produces = "application/json")
+    public ResponseEntity<Iterable<KitchenStock>> getKitchenStock() {
+        Iterable<KitchenStock> kitchenStocks = kitchenStockService.getKitchenStocks();
+        return ResponseEntity.ok(kitchenStocks);
     }
 
     @GetMapping("/form")
