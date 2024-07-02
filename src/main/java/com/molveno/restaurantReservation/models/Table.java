@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -47,15 +48,10 @@ public class Table {
         Uses @ManyToMany to establish the relationship.
         Uses @JoinTable to define the join table (table_reservation) with join columns (table_id and reservation_id).
          */
-    @ManyToMany
-    @JoinTable(
-            name = "reserved_table",
-            joinColumns = @JoinColumn(name = "table_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id")
-    )
 
+    @JsonIgnore 
+    @ManyToMany(mappedBy = "tables")
     private Set<Reservation> reservations = new HashSet<>();
-
     public Set<Reservation> getReservations() {
         return reservations;
     }

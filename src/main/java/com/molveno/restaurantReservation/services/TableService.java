@@ -8,16 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TableService {
 
+    @Autowired
     // define repository
     private TableRepo tableRepo;
-    @Autowired
-    public TableService(TableRepo tableRepo) {
-        this.tableRepo = tableRepo;
-    }
     private static final int MAX_SEATS = 8;
 
     // add new table
@@ -34,16 +32,21 @@ public class TableService {
         return tableRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Table not found"));
     }
     // update table
-        // NOT USED IN THE CONTROLLER BECAUSE IT IS NOT NEEDED
-        //    public Table updateTable(long id, Table table) throws TableValidationException {
-        //        table.setId(id);
-        //        return tableRepo.save(table);
-        //    }
-    public void updateTableCapacity(long id, int tableCapacity) throws TableValidationException {
-        validateTableCapacity(tableCapacity);
-        Table table = tableRepo.findById(id).orElseThrow(() -> new TableValidationException("Table not found", "tableId"));
-        table.setTableCapacity(tableCapacity);
-        tableRepo.save(table);
+    // NOT USED IN THE CONTROLLER BECAUSE IT IS NOT NEEDED
+    //    public Table updateTable(long id, Table table) throws TableValidationException {
+    //        table.setId(id);
+    //        return tableRepo.save(table);
+    //    }
+    public Table updateTableCapacity(long id, int newCapacity) {
+        Optional<Table> optionalTable = tableRepo.findById(id);
+        if (optionalTable.isPresent()) {
+            Table table = optionalTable.get();
+            validateTableCapacity(newCapacity);
+            table.setTableCapacity(newCapacity);
+            return tableRepo.save(table);
+        } else {
+            return null; // or throw an exception
+        }
     }
     // delete table
     public void deleteTable(long id) {
