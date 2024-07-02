@@ -1,8 +1,62 @@
 const url = '/api/reservation/';
-function init(){
-    // call the get all table method
+function initReservation(){
+    console.log("Reservation page loaded");
     getAllReservations();
-    // Event listener for the delete button
+    $(".myBtn").click(function(){
+        $("#addReservationDiv").removeClass("hidden");
+    });
+    $(".closeButtonAdd").click(function(){
+        $("#addReservationDiv").addClass("hidden");
+    });
+    $('#guest').change(function() {
+        if ($(this).is(':checked')) {
+            $('#roomNumberDiv').removeClass('hidden');
+        } else {
+            $('#roomNumberDiv').addClass('hidden');
+        }
+    });
+    // Time slots for reservation
+    const startTime = new Date();
+    startTime.setHours(7);
+    startTime.setMinutes(30);
+    const endTime = new Date();
+    endTime.setHours(23);
+    endTime.setMinutes(30);
+
+    const timeSlotsGrid = $('#timeSlotsGrid');
+
+    while (startTime <= endTime) {
+        const hours = startTime.getHours().toString().padStart(2, '0');
+        const minutes = startTime.getMinutes().toString().padStart(2, '0');
+        const timeString = `${hours}:${minutes}`;
+
+        const timeSlot = $('<div></div>')
+            .addClass("time-slot bg-gray-50 p-2 rounded text-center cursor-pointer hover:bg-gray-100")
+            .attr('data-time', timeString)
+            .text(timeString)
+            .click(function() {
+                $('.time-slot').removeClass('bg-gray-50').addClass('bg-green-100');
+                $(this).removeClass('bg-gray-50').addClass('bg-green-100 text-white');
+                $('#reservationTime').val($(this).data('time'));
+            });
+
+        timeSlotsGrid.append(timeSlot);  // Append the time slot to the grid
+
+        startTime.setMinutes(startTime.getMinutes() + 60); // Increment by 60 minutes
+    }
+    // for date picker
+    flatpickr(".flatpickr", {
+        enableTime: false,
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        altFormat: "F j, Y",
+        maxDate: new Date().fp_incr(30),
+    });
+    // Event listener for the update table form submission
+    $('#createReservation').on('submit', function(event) {
+        event.preventDefault();
+        addReservation()
+    });
     $(document).on('click', '.deleteButton', function (){
         const reservationId = $(this).data('id');
         if (confirm("Are you sure you want to delete this reservation?")){
@@ -11,44 +65,63 @@ function init(){
             return false;
         }
     });
-    // Event listener for the add button
-    $("#addButton").click(function() {
-        $("#addFormDiv").toggleClass("hidden");
-    });
-    // Event listener for the add table form submission
-    $('#addTableForm').on('submit', function (e){
-        e.preventDefault();
-        addTable();
-    })
-    // Event listener for the close button
-    $(".closeButtonAdd").click(function() {
-        $("#addFormDiv").toggleClass("hidden");
-    });
-    // Event listener for the close button
-    $(document).on('click', '.editButton', function(){
-        // get the table id and capacity
-        const tableId = $(this).data('id');
-        const tableCapacity = $(this).data('capacity');
-        // show the update form
-        $("#updateFormDiv").toggleClass("hidden");
-        // set the new table capacity and id in the form
-        $('#updateTableCapacity').val(tableCapacity);
-        $('#updateTableId').val(tableId);
-
-    });
-    // Event listener for the update table form submission
-    $('#updateTableForm').on('submit', function(event) {
-        event.preventDefault();
-        // confirm if the user wants to update the table
-        if(confirm("Are you sure you want to update this table?")){
-            updateTable();
-        } else {
-            return false;
+}
+// add reservation
+function addReservation() {
+    const customerFirstName = $('#customerFirstName').val();
+    const customerLastName = $('#customerLastName').val();
+    const customerEmail = $('#customerEmail').val();
+    const customerPhone = $('#customerPhone').val();
+    const reservationDate = $('#reservationDate').val();
+    const reservationTime = $('#reservationTime').val();
+    const numberOfGuests = $('#numberOfGuests').val();
+    const isGuest = $('#guest').is(':checked');
+    const roomNumber = $('#roomNumber').val();
+    // create a table object
+    const reservation = {
+        customerFirstName: customerFirstName,
+        customerLastName: customerLastName,
+        customerEmail: customerEmail,
+        customerPhone: customerPhone,
+        reservationDate: reservationDate,
+        reservationTime: reservationTime,
+        numberOfGuests: numberOfGuests,
+        isGuest: isGuest,
+        roomNumber: roomNumber
+    };
+    $.ajax(
+        {
+            url: url + 'add',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(reservation),
+            success: function(data) {
+                $("#addReservationDiv").addClass("hidden");
+                $('#createReservation')[0].reset();
+                getAllReservations();
+            },
+            error: function (error) {
+                console.log(error);
+                alert('An error occurred while creating the reservation');
+            }
+        }
+    )
+}
+// delete reservation
+function deleteReservation(tableId){
+    $.ajax({
+        url: url + 'delete/' + tableId,
+        type: 'DELETE',
+        success: function (data) {
+            getAllReservations();
+        },
+        error: function (error) {
+            console.error("There was an error deleting the table:", error);
         }
     });
 }
 
-// get all table method
+// get all reservations method
 function getAllReservations(){
     $.ajax({
         url: url + 'all',
@@ -122,74 +195,6 @@ function getAllReservations(){
         },
         error: function(error) {
             console.error("There was an error fetching the table data:", error);
-        }
-    });
-}
-
-// add table method
-function addTable(){
-    const tableNumber = $('#tableNumber').val();
-    const tableCapacity = $('#tableCapacity').val();
-    // create a table object
-    const table = {
-        tableNumber: tableNumber,
-        tableCapacity: tableCapacity
-    };
-    $.ajax({
-        url: url + 'add',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(table),
-        success: function(data) {
-            $("#addFormDiv").toggleClass("hidden");
-            $('#addTableForm')[0].reset();
-            getAllTable();
-        },
-        error: function(error) {
-            console.error("There was an error adding the table:", error);
-        }
-    });
-
-}
-// update table method
-function updateTable(){
-    const tableId =  $('#updateTableId').val() ;
-    const tableCapacity = $('#updateTableCapacity').val();
-    console.log(tableCapacity);
-    const table = {
-        id: tableId,
-        tableCapacity: tableCapacity
-    };
-    $.ajax({
-        url: url + 'update/' + tableId,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(table),
-        success: function(data) {
-            // hide the update form use the form ID to hide the form
-            $("#updateFormDiv").toggleClass("hidden");
-            // reset the form
-            $('#updateTableForm')[0].reset();
-            // call the get all table function to refresh the table
-            getAllTable();
-        },
-        error: function(error) {
-            console.error("There was an error updating the table:", error);
-        }
-    });
-
-
-}
-// delete table
-function deleteReservation(tableId){
-    $.ajax({
-        url: url + 'delete/' + tableId,
-        type: 'DELETE',
-        success: function (data) {
-            getAllReservations();
-        },
-        error: function (error) {
-            console.error("There was an error deleting the table:", error);
         }
     });
 }

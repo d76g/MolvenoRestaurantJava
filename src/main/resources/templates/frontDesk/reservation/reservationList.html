@@ -18,11 +18,14 @@ TODO 2: Implement JavaScript to handle the form submission and update
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservations</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.tailwindcss.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatable/2.0.2/js/datatable.js" integrity="sha512-jNM5sph4S0JfKyz27iPhIFj4JG8o/XiIu7WUgCM/EGYCizlQW+RzMi8Y/rnXlqpkUl7ELz5SLfuF44zCvS3NYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         #tableList {
             width: 80vw !important;
@@ -39,20 +42,20 @@ TODO 2: Implement JavaScript to handle the form submission and update
     </style>
 </head>
 <body >
-<div class="w-full h-auto flex flex-col justify-center items-center">
+<div class="relative w-full h-auto flex flex-col justify-center items-center">
     <div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
-    <div class="w-full relative h-auto min-h-screen bg-gray-100">
+    <div class="w-full relative h-auto min-h-screen bg-gray-100 ">
         <div>
             <div class="w-full flex justify-start items-center p-8">
                 <h1 class="text-xl font-bold">Reservations</h1>
             </div>
         </div>
-        <div class="w-full flex flex items-center justify-center h-screen py-10 bg-gray-100">
-            <div class="bg-white p-8 rounded-lg shadow-lg ">
+        <div class="w-full flex items-center justify-center h-screen py-10 bg-gray-100">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
                 <h1 class="text-2xl font-bold mb-6">Reservations</h1>
-                <a href="/reservations/form"> <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent
+                <button id="createReservationBtn" class="myBtn w-full flex justify-center mb-3 py-2 px-4 border border-transparent
              rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
-              focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create New Reservation</button></a>
+              focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create New Reservation</button>
                 <table id="reservationList" class="mt-10 text-xs">
                     <thead>
                     <tr>
@@ -74,14 +77,18 @@ TODO 2: Implement JavaScript to handle the form submission and update
                     </tbody>
                 </table>
             </div>
-
         </div>
         <div class="mt-5 w-full h-10 text-black">
         </div>
     </div>
-
+    <div class="">
+        <div th:insert="frontDesk/reservation/reservationForm :: reservationForm">
+        </div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
 <!-- Include the table.js file  from the static folder
@@ -90,7 +97,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
 <script th:src="@{/js/reservation.js}"></script>
 <script>
     $(document).ready(function() {
-          init();
+        initReservation();
     });
 </script>
 </body>
