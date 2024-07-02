@@ -87,13 +87,10 @@ TODO 2: Implement JavaScript to handle the form submission and update
 <!-- Include the table.js file  from the static folder
     Create your own js file in the js folder and use it like this
 -->
-<!--<script th:src="@{/js/table.js}"></script>-->
+<script th:src="@{/js/reservation.js}"></script>
 <script>
     $(document).ready(function() {
-          new DataTable("#tableList",{
-                sWidth: "40%",
-                bAutoWidth: false,
-          });
+          init();
     });
 </script>
 </body>

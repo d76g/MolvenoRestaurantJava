@@ -23,12 +23,12 @@ public class ReservationController {
         Reservation newReservation = reservationService.createReservation(reservation);
         return new ResponseEntity<>(newReservation, HttpStatus.CREATED);
     }
-    @GetMapping(value = "/reservations/all", produces = "application/json")
+    @GetMapping(value = "/reservation/all", produces = "application/json")
     public ResponseEntity<Iterable<Reservation>> listReservations(Model model) {
         Iterable<Reservation> reservations = reservationService.listReservations();
         return ResponseEntity.ok(reservations);
     }
-    @GetMapping("/reservation/delete/{id}")
+    @DeleteMapping("/reservation/delete/{id}")
     public ResponseEntity<Reservation> deleteReservation(@PathVariable long id) {
         reservationService.deleteReservation(id);
         return new ResponseEntity<>(HttpStatus.OK);

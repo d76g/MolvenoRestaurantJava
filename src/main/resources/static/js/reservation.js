@@ -1,13 +1,12 @@
 const url = '/api/reservation/';
 function init(){
     // call the get all table method
-    getAllTable();
+    getAllReservations();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
-        const tableId = $(this).data('id');
-        console.log(tableId);
-        if (confirm("Are you sure you want to delete this table?")){
-            deleteTable(tableId);
+        const reservationId = $(this).data('id');
+        if (confirm("Are you sure you want to delete this reservation?")){
+            deleteReservation(reservationId);
         } else {
             return false;
         }
@@ -107,8 +106,8 @@ function getAllReservations(){
                                 'data-time="' + row.reservationTime + '" ' +
                                 'data-guests="' + row.numberOfGuests + '" class="editButton text-indigo-600 hover:text-indigo-900">' +
                                 '<i class="fa-solid fa-pen"></i></a> ' +
-                                '<a href="/reservations/deleteReservation/' + row.id + '" class="deleteButton text-red-600 hover:text-red-900">' +
-                                '<i class="fa-solid fa-trash"></i></a>';
+                                '<button data-id="'+ row.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
+                                '<i class="fa-solid fa-trash"></i></button>';
                         }
                     }
                 ],
@@ -182,12 +181,12 @@ function updateTable(){
 
 }
 // delete table
-function deleteTable(tableId){
+function deleteReservation(tableId){
     $.ajax({
         url: url + 'delete/' + tableId,
         type: 'DELETE',
         success: function (data) {
-            getAllTable();
+            getAllReservations();
         },
         error: function (error) {
             console.error("There was an error deleting the table:", error);
