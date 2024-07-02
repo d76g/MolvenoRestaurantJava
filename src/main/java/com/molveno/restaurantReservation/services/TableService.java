@@ -41,6 +41,7 @@ public class TableService {
         Optional<Table> optionalTable = tableRepo.findById(id);
         if (optionalTable.isPresent()) {
             Table table = optionalTable.get();
+            validateTableCapacity(newCapacity);
             table.setTableCapacity(newCapacity);
             return tableRepo.save(table);
         } else {

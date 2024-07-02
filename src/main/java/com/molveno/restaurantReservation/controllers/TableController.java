@@ -26,13 +26,14 @@ public class TableController {
     }
     // Add new table
     @PostMapping("/table/add")
-    public ResponseEntity<Table> addTable(@ModelAttribute("table") @Valid Table table) {
+    public ResponseEntity<Table> addTable(@Valid @RequestBody Table table) {
+        System.out.println(table.getTableCapacity());
         Table newTable = tableService.createTable(table);
         return new ResponseEntity<>(newTable, HttpStatus.CREATED);
     }
     // Update table
-    @PostMapping("/updateTable/{id}")
-    public ResponseEntity<Table> updateTable(@PathVariable long id, @ModelAttribute Table table) {
+    @PostMapping("/table/update/{id}")
+    public ResponseEntity<Table> updateTable(@PathVariable long id, @RequestBody Table table) {
         Table updatedTable = tableService.updateTableCapacity(id, table.getTableCapacity());
         if (updatedTable != null) {
             return new ResponseEntity<>(updatedTable, HttpStatus.OK);
@@ -41,7 +42,7 @@ public class TableController {
         }
     }
     // Delete table
-    @GetMapping("/table/delete/{id}")
+    @DeleteMapping("/table/delete/{id}")
     public ResponseEntity<Table> deleteTable(@PathVariable long id) {
         tableService.deleteTable(id);
         return new ResponseEntity<>(HttpStatus.OK);
