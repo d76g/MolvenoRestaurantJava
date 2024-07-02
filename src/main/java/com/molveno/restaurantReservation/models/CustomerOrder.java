@@ -20,21 +20,8 @@ public class CustomerOrder {
     @OneToMany(mappedBy = "customerOrder")
     private Set<OrderItem> orderItem = new HashSet<>();
 
-
-    @OneToMany(mappedBy = "order")
-    private Set<CustomerOrder> order;
-
     public CustomerOrder() {
     }
-
-    public CustomerOrder(Long order_id, double totalPrice, String dateTime, Reservation reservation, Set<CustomerOrder> order) {
-        this.order_id = order_id;
-        this.totalPrice = totalPrice;
-        this.dateTime = dateTime;
-        this.reservation = reservation;
-        this.order = order;
-}
-
 
     public Long getOrder_id() {
         return order_id;
@@ -43,7 +30,7 @@ public class CustomerOrder {
     public void setOrder_id(Long order_id) {
         this.order_id = order_id;
     }
-  
+
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -67,14 +54,4 @@ public class CustomerOrder {
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
-
-
-    public Set<CustomerOrder> getOrder() {
-        return order;
-    }
-
-    public void setOrder(Set<CustomerOrder> order) {
-        this.order = order;
-    }
-
 }
