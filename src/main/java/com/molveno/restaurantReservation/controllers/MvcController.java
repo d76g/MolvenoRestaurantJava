@@ -2,37 +2,36 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
-import com.molveno.restaurantReservation.services.ReservationService;
-import com.molveno.restaurantReservation.services.TableService;
-import com.molveno.restaurantReservation.utils.TableValidationException;
-import jakarta.validation.Valid;
+import com.molveno.restaurantReservation.services.ReservationServiceImp;
+import com.molveno.restaurantReservation.services.TableServiceImp;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MvcController {
 
-    ReservationService reservationService;
-    TableService tableService;
+    ReservationServiceImp reservationServiceImp;
+    TableServiceImp tableServiceImp;
 
     @GetMapping("/reservation/form")
     public String showReservationForm(Model model) {
         model.addAttribute("reservation", new Reservation());
         return "frontDesk/reservation/reservationForm";
     }
+    @GetMapping("/reservation/list")
+    public String showReservationList() {
+        return "frontDesk/reservation/reservationList";
+    }
     @GetMapping("/reservation/edit/{id}")
     public String editReservation(@PathVariable Long id, Model model) {
-        model.addAttribute("reservation", reservationService.getReservation(id));
+        model.addAttribute("reservation", reservationServiceImp.getReservation(id));
         return "frontDesk/reservation/reservationUpdateForm";
     }
     @GetMapping("/reservation/editStatus/{id}")
     public String editReservationStatus(@PathVariable Long id, Model model) {
-        model.addAttribute("reservation", reservationService.getReservation(id));
+        model.addAttribute("reservation", reservationServiceImp.getReservation(id));
         return "frontDesk/reservation/reservationStatusForm";
     }
 

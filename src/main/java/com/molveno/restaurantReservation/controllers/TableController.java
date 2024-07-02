@@ -2,13 +2,11 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.Table;
 import com.molveno.restaurantReservation.services.TableService;
-import com.molveno.restaurantReservation.utils.TableValidationException;
+import com.molveno.restaurantReservation.services.TableServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -53,7 +53,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
                 <a href="/reservations/form"> <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent
              rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
               focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create New Reservation</button></a>
-                <table id="tableList" class="mt-10 text-xs">
+                <table id="reservationList" class="mt-10 text-xs">
                     <thead>
                     <tr>
                         <th class="text-left">Table NO.</th>
@@ -70,47 +70,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="reservation : ${reservations}"
-                        th:class="${reservation.reservationStatus == 'CANCELLED'} ? 'bg-red-200' : ''"
-                        th:classappend="${reservation.reservationStatus == 'ATTENDED'} ? 'bg-green-400' : ''">
-                        <td>
-                            <ul>
-                                <li th:each="table : ${reservation.tables}">
-                                    Table NO.: <span th:text="${table.tableNumber}"></span>,
-                                    Seats: <span th:text="${table.tableCapacity}"></span>
-                                </li>
-                            </ul>
-                        </td>
-                        <td th:text="${reservation.customerFirstName}"></td>
-                        <td th:text="${reservation.customerLastName}"></td>
-                        <td th:text="${reservation.customerEmail}"></td>
-                        <td th:text="${reservation.reservationDate}"></td>
-                        <td th:text="${reservation.reservationTime}"></td>
-                        <td th:text="${reservation.numberOfGuests}"></td>
-                        <td th:text="${reservation.guest} ? 'Yes' : 'No'"></td>
-                        <td th:text="${reservation.roomNumber}"></td>
-                        <td>
-                            <a th:text="${reservation.reservationStatus}"
-                               th:href="@{'/reservations/editStatus/' + ${reservation.id}}"
-                               class="editStatus"></a>
-                        </td>
-                        <td class="flex gap-x-3">
-                            <!-- Pass the reservation id and other relevant data to the edit button -->
-                            <a
-                                    th:href="@{'/reservations/editReservation/' + ${reservation.id}}"
-                                    th:data-first-name="${reservation.customerFirstName}"
-                                    th:data-last-name="${reservation.customerLastName}"
-                                    th:data-email="${reservation.customerEmail}"
-                                    th:data-date="${reservation.reservationDate}"
-                                    th:data-time="${reservation.reservationTime}"
-                                    th:data-guests="${reservation.numberOfGuests}" class="editButton text-indigo-600 hover:text-indigo-900">
-                                <i class="fa-solid fa-pen"></i>
-                            </a>
-                            <a th:href="@{'/reservations/deleteReservation/' + ${reservation.id}}" class="deleteButton text-red-600 hover:text-red-900">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <!-- Table rows will be added here -->
                     </tbody>
                 </table>
             </div>
@@ -124,10 +84,10 @@ TODO 2: Implement JavaScript to handle the form submission and update
 
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
-<!-- Include the tablesForm.js file  from the static folder
+<!-- Include the table.js file  from the static folder
     Create your own js file in the js folder and use it like this
 -->
-<!--<script th:src="@{/js/tablesForm.js}"></script>-->
+<!--<script th:src="@{/js/table.js}"></script>-->
 <script>
     $(document).ready(function() {
           new DataTable("#tableList",{

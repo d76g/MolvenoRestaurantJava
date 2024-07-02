@@ -1,4 +1,5 @@
-$(document).ready(function(){
+const url = 'api/reservation/';
+function init(){
     $(".myBtn").click(function(){
         $("#addReservationDiv").removeClass("hidden");
     });
@@ -49,4 +50,53 @@ $(document).ready(function(){
         altFormat: "F j, Y",
         maxDate: new Date().fp_incr(30),
     });
-});
+    // Event listener for the update table form submission
+    $('#createReservation').on('submit', function(event) {
+        event.preventDefault();
+        addReservation()
+    });
+}
+// add reservation
+function addReservation() {
+    const customerFirstName = $('#customerFirstName').val();
+    const customerLastName = $('#customerLastName').val();
+    const customerEmail = $('#customerEmail').val();
+    const customerPhone = $('#customerPhone').val();
+    const reservationDate = $('#reservationDate').val();
+    const reservationTime = $('#reservationTime').val();
+    const numberOfGuests = $('#numberOfGuests').val();
+    const isGuest = $('#guest').is(':checked');
+    const roomNumber = $('#roomNumber').val();
+    // create a table object
+    const reservation = {
+        customerFirstName: customerFirstName,
+        customerLastName: customerLastName,
+        customerEmail: customerEmail,
+        customerPhone: customerPhone,
+        reservationDate: reservationDate,
+        reservationTime: reservationTime,
+        numberOfGuests: numberOfGuests,
+        isGuest: isGuest,
+        roomNumber: roomNumber
+    };
+    console.log(reservation);
+
+    $.ajax(
+        {
+            url: url + 'add',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(reservation),
+            success: function(data) {
+                $("#addReservationDiv").addClass("hidden");
+                $('#createReservation')[0].reset();
+                alert('Reservation created successfully');
+            },
+            error: function (error) {
+                console.log(error);
+                alert('An error occurred while creating the reservation');
+            }
+        }
+    )
+
+}
