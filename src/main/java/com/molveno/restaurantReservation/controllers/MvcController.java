@@ -53,7 +53,7 @@ public class MvcController {
     public String getStocks() {
         return "chef/stock/list";
     }
-    @GetMapping("/chaf/stock/edit/{id}")
+    @GetMapping("/chef/stock/edit/{id}")
     public String edit(@PathVariable Long id) {
         return "chef/stock/update";
     }

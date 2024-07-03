@@ -15,7 +15,7 @@ public class StockController {
     @Autowired
     KitchenStockService kitchenStockService;
 
-    @GetMapping( value = "/stocks", produces = "application/json")
+    @GetMapping( value = "/stock", produces = "application/json")
     public ResponseEntity<Iterable<KitchenStock>> getKitchenStock() {
         Iterable<KitchenStock> kitchenStocks = kitchenStockService.getKitchenStocks();
         return ResponseEntity.ok(kitchenStocks);

@@ -23,14 +23,28 @@ function init(){
     });
     // Event listener for the close button
     $(document).on('click', '.editButton', function(){
-        // get the table id and capacity
-        const tableId = $(this).data('id');
-        const tableCapacity = $(this).data('capacity');
+        // get the stocks
+        const stockId = $(this).data('id');
+        const stockDescription = $(this).data('description');
+        const stockAmount = $(this).data('amount');
+        const stockUnit = $(this).data('unit');
+        const stockBrand = $(this).data('brand');
+        const stockSupplier = $(this).data('supplier');
+        const stockArticleNumber = $(this).data('articleNumber');
+        const stockPrice = $(this).data('price');
+        const stockTax = $(this).data('tax');
+        const stockPricePerUnit= $(this).data('pricePerUnit');
+        const stockStock= $(this).data('stock');
+        const stockStockValue= $(this).data('stockValue');
+        const stockLimit= $(this).data('limit');
+       const stockCategory= $(this).data('category');
         // show the update form
         $("#updateFormDiv").toggleClass("hidden");
         // set the new table capacity and id in the form
-        $('#updateTableCapacity').val(tableCapacity);
-        $('#updateTableId').val(tableId);
+        $('#stockId').val(stockId);
+        $('#des').val(stockDescription);
+        $('#stockAmount').val(stockAmount);
+
 
     });
     // Event listener for the update table form submission
@@ -43,14 +57,14 @@ function init(){
 // get all table method
 function getAllStock(){
     $.ajax({
-        url: '/api/stocks',
+        url: url,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
             // create the table using the data from the server
             $('#stockList').DataTable({
                 ajax:{
-                    url:'/api/stocks',
+                    url:url,
                     dataSrc: ''
                 },
                 // destroy the table before creating a new one
@@ -74,7 +88,7 @@ function getAllStock(){
                     {
                         data: 'action',
                         render: function(data, type, row) {
-                            return '<button class="editButton text-indigo-600 hover:text-indigo-900" data-id="' + row.id + '"><i class="fa-solid fa-pen"></i></button> ' +
+                            return '<a href="/chef/stock/form?id=' + row.id + '&description=' + encodeURIComponent(row.description) + '&amount=' + row.amount + '&unit=' + row.unit + '&brand=' + row.brand + '&supplier=' + row.supplier + '&articleNumber=' + row.articleNumber + '&price=' + row.price + '&tax=' + row.tax + '&pricePerUnit=' + row.pricePerUnit + '&stock=' + row.stock + '&stockValue=' + row.stockValue + '&limit=' + row.limit + '" class="editButton text-indigo-600 hover:text-indigo-900" data-id="' + row.id + '"><i class="fa-solid fa-pen"></i></a> ' +
                                 '<button class="deleteButton text-red-600 hover:text-red-900" data-id="' + row.id + '" ><i class="fa-solid fa-trash"></i></button>';
                         }
                     }
@@ -137,10 +151,10 @@ function saveStock(){
 // delete table
 function deleteTable(tableId){
     $.ajax({
-        url: url + 'delete/' + tableId,
+        url: url  +'/'+ tableId,
         type: 'DELETE',
         success: function (data) {
-            getAllTable();
+            getAllStock ();
         },
         error: function (error) {
             console.error("There was an error deleting the table:", error);
