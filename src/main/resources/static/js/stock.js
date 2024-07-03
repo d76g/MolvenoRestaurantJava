@@ -1,7 +1,8 @@
 const url = '/api/stock';
 function init(){
     // call the get all table method
-    getAllTable();
+    getAllStock();
+    getAllKitchenCategory();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const tableId = $(this).data('id');
@@ -16,11 +17,6 @@ function init(){
     $("#addButton").click(function() {
         $("#addFormDiv").toggleClass("hidden");
     });
-    // Event listener for the add table form submission
-    $('#addTableForm').on('submit', function (e){
-        e.preventDefault();
-        addTable();
-    })
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addFormDiv").toggleClass("hidden");
@@ -41,20 +37,20 @@ function init(){
     $('#stockAddForm').on('submit', function(event) {
         event.preventDefault();
         saveStock();
-      }
+      });
 }
 
 // get all table method
-function getAllTable(){
+function getAllStock(){
     $.ajax({
-        url: url + 'all',
+        url: '/api/stocks',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
             // create the table using the data from the server
-            $('#tableList').DataTable({
+            $('#stockList').DataTable({
                 ajax:{
-                    url: url + 'all',
+                    url:'/api/stocks',
                     dataSrc: ''
                 },
                 // destroy the table before creating a new one
@@ -62,13 +58,23 @@ function getAllTable(){
                 // define the columns (use the data key to map the data to the columns) and the data to be displayed
                 columns: [
                     // number of columns depends on the data of your model and the name of the id field in the form
-                    { data: 'tableNumber' },
-                    { data: 'tableCapacity' },
+                    { data: 'description' },
+                    { data: 'amount' },
+                    { data: 'unit' },
+                    { data: 'brand' },
+                    { data: 'supplier' },
+                    { data: 'articleNumber' },
+                    { data: 'price' },
+                    { data: 'tax' },
+                    { data: 'pricePerUnit' },
+                    { data: 'stock' },
+                    { data: 'stockValue' },
+                    { data: 'limit' },
                     // action column for delete and update
                     {
                         data: 'action',
                         render: function(data, type, row) {
-                            return '<button class="editButton text-indigo-600 hover:text-indigo-900" data-id="' + row.id + '" data-capacity="' + row.tableCapacity + '"><i class="fa-solid fa-pen"></i></button> ' +
+                            return '<button class="editButton text-indigo-600 hover:text-indigo-900" data-id="' + row.id + '"><i class="fa-solid fa-pen"></i></button> ' +
                                 '<button class="deleteButton text-red-600 hover:text-red-900" data-id="' + row.id + '" ><i class="fa-solid fa-trash"></i></button>';
                         }
                     }
@@ -95,8 +101,9 @@ function saveStock(){
    const stock = $('#stock').val();
    const stockValue = $('#stockValue').val();
    const limit = $('#limit').val();
+   const categoryId = $('#category').val();
     // create a Stock object
-    const stock = {
+    const stockData = {
     description: description,
     amount: amount,
     unit: unit,
@@ -110,49 +117,21 @@ function saveStock(){
     stockValue: stockValue,
     limit: limit
     };
+    console.log(stockData);
     $.ajax({
         url: url ,
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(stock),
+        data: JSON.stringify(stockData),
         success: function(data) {
-            $('#addTableForm')[0].reset();
-            alert("Table added successfully");
+            $('#stockAddForm')[0].reset();
+            alert("Stock Item added successfully");
 //            getAllStock();
         },
         error: function(error) {
             console.error("There was an error adding the table:", error);
         }
     });
-
-}
-// update table method
-function updateTable(){
-    const tableId =  $('#updateTableId').val() ;
-    const tableCapacity = $('#updateTableCapacity').val();
-    console.log(tableCapacity);
-    const table = {
-        id: tableId,
-        tableCapacity: tableCapacity
-    };
-    $.ajax({
-        url: url + 'update/' + tableId,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(table),
-        success: function(data) {
-            // hide the update form use the form ID to hide the form
-            $("#updateFormDiv").toggleClass("hidden");
-            // reset the form
-            $('#updateTableForm')[0].reset();
-            // call the get all table function to refresh the table
-            getAllTable();
-        },
-        error: function(error) {
-            console.error("There was an error updating the table:", error);
-        }
-    });
-
 
 }
 // delete table
@@ -165,6 +144,24 @@ function deleteTable(tableId){
         },
         error: function (error) {
             console.error("There was an error deleting the table:", error);
+        }
+    });
+}
+function getAllKitchenCategory(){
+    $.ajax({
+        url: '/api/category/list',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // list all the data in a select option
+            $('#category').empty();
+            $('#category').append('<option value="">Select Category</option>');
+            $.each(data, function(index, category) {
+                $('#category').append('<option value="' + category.category_id + '">' + category.categoryName + '</option>');
+            });
+        },
+        error: function(error) {
+            console.error("There was an error fetching the table data:", error);
         }
     });
 }

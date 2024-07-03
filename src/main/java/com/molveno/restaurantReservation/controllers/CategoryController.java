@@ -1,59 +1,34 @@
 package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.KitchenCategory;
-import com.molveno.restaurantReservation.services.KitchenCategoryServiceImp;
+import com.molveno.restaurantReservation.services.KitchenCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api")
 public class CategoryController {
-    private final KitchenCategoryServiceImp kitchenCategoryServiceImp;
-    @Autowired
-    public CategoryController(KitchenCategoryServiceImp kitchenCategoryServiceImp) {
-        this.kitchenCategoryServiceImp = kitchenCategoryServiceImp;
-    }
 
-    @GetMapping("/list")
-    public ResponseEntity<Iterable<KitchenCategory>> categoryList(Model model) {
-         Iterable<KitchenCategory> categories = kitchenCategoryServiceImp.getKitchenCategories();
+    @Autowired
+    KitchenCategoryService kitchenCategoryService;
+
+    @GetMapping(value = "/category/list", produces = "application/json")
+    public ResponseEntity<Iterable<KitchenCategory>> categoryList() {
+         Iterable<KitchenCategory> categories = kitchenCategoryService.getKitchenCategories();
         return ResponseEntity.ok(categories);
     }
-
-    @GetMapping("/form")
-    public String add(Model model) {
-        model.addAttribute("kitchenCategory", new KitchenCategory());
-        return "category/form";
+    
+    @PostMapping(value = "/category/save", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<KitchenCategory> add(@RequestBody KitchenCategory kitchenCategory) {
+        KitchenCategory newKitchenCategory = kitchenCategoryService.addKitchenCategory(kitchenCategory);
+        return  new ResponseEntity<>(newKitchenCategory, HttpStatus.CREATED);
     }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute KitchenCategory kitchenCategory, Model model) {
-        kitchenCategoryServiceImp.addKitchenCategory(kitchenCategory);
-        return "redirect:/category";
+    @DeleteMapping("/category/delete/{id}")
+    public ResponseEntity<KitchenCategory> delete(@PathVariable Long id) {
+        kitchenCategoryService.deleteKitchenCategory(id);
+        return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute("kitchenCategory", kitchenCategoryServiceImp.getKitchenCategoryById(id));
-        return "category/update";
-    }
-    @PostMapping("/update")
-    public String update(@ModelAttribute KitchenCategory kitchenCategory, Model model) {
-        kitchenCategoryServiceImp.updateKitchenCategory(kitchenCategory);
-        return "redirect:/category";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, Model model) {
-        kitchenCategoryServiceImp.deleteKitchenCategory(id);
-        return "redirect:/category";
-    }
-
-
-
-
-
-
 }

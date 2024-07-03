@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -9,30 +10,22 @@ import java.util.Set;
 public class KitchenCategory {
     @Id
     @GeneratedValue
-    private Long category_id;
+    private long category_id;
     private String categoryName;
 
 
-
+    @JsonIgnore
     @OneToMany (mappedBy = "category")
     private Set<KitchenStock> kitchenStock =new HashSet<>();
 
     public KitchenCategory() {
     }
 
-    public KitchenCategory(Long category_id, String categoryName, Set<KitchenStock> kitchenStock) {
-        this.category_id = category_id;
-        this.categoryName = categoryName;
-        this.kitchenStock = kitchenStock;
-    }
-
-
-
     public Long getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(Long category_id) {
+    public void setCategory_id(long category_id) {
         this.category_id = category_id;
     }
 

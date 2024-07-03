@@ -48,9 +48,24 @@ public class MvcController {
     public String add() {
         return "chef/stock/form";
     }
+
+    @GetMapping("/chef/stocks")
+    public String getStocks() {
+        return "chef/stock/list";
+    }
     @GetMapping("/chaf/stock/edit/{id}")
     public String edit(@PathVariable Long id) {
         return "chef/stock/update";
+    }
+
+    // kitchen categories URL
+    @GetMapping("/chef/categories")
+    public String getCategories() {
+        return "chef/category/list";
+    }
+    @GetMapping("/chef/category/form")
+    public String addCategory() {
+        return "chef/category/form";
     }
 
 }
