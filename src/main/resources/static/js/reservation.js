@@ -8,6 +8,9 @@ function initReservation(){
     $(".closeButtonAdd").click(function(){
         $("#addReservationDiv").addClass("hidden");
     });
+    $(".closeButtonUpdate").click(function(){
+        $("#updateReservationDiv").addClass("hidden");
+    });
     $('#guest').change(function() {
         if ($(this).is(':checked')) {
             $('#roomNumberDiv').removeClass('hidden');
@@ -65,6 +68,45 @@ function initReservation(){
             return false;
         }
     });
+    // Event listener for the close button
+    $(document).on('click', '.editButton', function(){
+        // get the table id and capacity
+        const reservationId = $(this).data('id');
+        const customerFirstName = $(this).data('first-name');
+        const customerLastName = $(this).data('last-name');
+        const customerEmail = $(this).data('email');
+        const reservationDate = $(this).data('date');
+        const reservationTime = $(this).data('time');
+        const numberOfGuests = $(this).data('guests');
+        const roomNumber = $(this).data('room-number');
+        const isGuest = $(this).data('guest');
+        const reservationStatus = $(this).data('status');
+        const customerPhone = $(this).data('phone');
+        // show the update form
+        console.log(reservationDate);
+        $("#updateReservationDiv").toggleClass("hidden");
+        // set the new table capacity and id in the form
+        $('#updateCustomerFirstName').val(customerFirstName);
+        $('#updateCustomerLastName').val(customerLastName);
+        $('#updateCustomerEmail').val(customerEmail);
+        $('#updateReservationDate').val(reservationDate);
+        $('#reservationTime').val(reservationTime);
+        $('#updateNumberOfGuests').val(numberOfGuests);
+        $('#updateRoomNumber').val(roomNumber);
+        $('#updateGuest').prop('checked', isGuest);
+        $('#updateCustomerPhone').val(customerPhone);
+        $('#updateReservationStatus').val(reservationStatus);
+        if(isGuest){
+            $('#roomNumberDiv').removeClass('hidden');
+        } else {
+            $('#roomNumberDiv').addClass('hidden');
+        }
+        $('#updateReservationId').val(reservationId);
+    });
+    $('#updateReservation').on('submit', function(event) {
+        event.preventDefault();
+        updateReservation()
+    });
 }
 // add reservation
 function addReservation() {
@@ -86,7 +128,7 @@ function addReservation() {
         reservationDate: reservationDate,
         reservationTime: reservationTime,
         numberOfGuests: numberOfGuests,
-        isGuest: isGuest,
+        guest: isGuest,
         roomNumber: roomNumber
     };
     $.ajax(
@@ -106,6 +148,54 @@ function addReservation() {
             }
         }
     )
+}
+// update reservation
+function updateReservation(){
+    const reservationId = $('#updateReservationId').val();
+    const customerFirstName = $('#updateCustomerFirstName').val();
+    const customerLastName = $('#updateCustomerLastName').val();
+    const customerEmail = $('#updateCustomerEmail').val();
+    const customerPhone = $('#updateCustomerPhone').val();
+    const reservationDate = $('#updateReservationDate').val();
+    const reservationTime = $('#reservationTime').val();
+    const numberOfGuests = $('#updateNumberOfGuests').val();
+    const isGuest = $('#updateGuest').is(':checked');
+    const roomNumber = $('#updateRoomNumber').val();
+    const reservationStatus = $('#updateReservationStatus').val();
+    console.log(reservationId);
+    // create a table object
+    const reservation = {
+        id: reservationId,
+        customerFirstName: customerFirstName,
+        customerLastName: customerLastName,
+        customerEmail: customerEmail,
+        customerPhone: customerPhone,
+        reservationDate: reservationDate,
+        reservationTime: reservationTime,
+        numberOfGuests: numberOfGuests,
+        guest: isGuest,
+        roomNumber: roomNumber,
+        reservationStatus: reservationStatus
+    };
+    console.log(reservation);
+    $.ajax(
+        {
+            url: url + 'update/' + reservationId,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(reservation),
+            success: function(data) {
+                $("#updateReservationDiv").addClass("hidden");
+                $('#updateReservation')[0].reset();
+                getAllReservations();
+            },
+            error: function (error) {
+                console.log(error);
+                alert('An error occurred while updating the reservation');
+            }
+        }
+    )
+
 }
 // delete reservation
 function deleteReservation(tableId){
@@ -171,14 +261,17 @@ function getAllReservations(){
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<a href="/reservations/editReservation/' + row.id + '" ' +
+                            return '<button data-id ="' + row.id + '" ' +
                                 'data-first-name="' + row.customerFirstName + '" ' +
                                 'data-last-name="' + row.customerLastName + '" ' +
+                                'data-phone="' + row.customerPhone + '" ' +
                                 'data-email="' + row.customerEmail + '" ' +
                                 'data-date="' + row.reservationDate + '" ' +
                                 'data-time="' + row.reservationTime + '" ' +
+                                'data-room-number="' + row.roomNumber + '" '+
+                                'data-guest="' + row.guest + '" ' +
                                 'data-guests="' + row.numberOfGuests + '" class="editButton text-indigo-600 hover:text-indigo-900">' +
-                                '<i class="fa-solid fa-pen"></i></a> ' +
+                                '<i class="fa-solid fa-pen"></i></button> ' +
                                 '<button data-id="'+ row.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
                                 '<i class="fa-solid fa-trash"></i></button>';
                         }

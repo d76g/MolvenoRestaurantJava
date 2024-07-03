@@ -10,45 +10,47 @@
 <!--
    NOTE : Using the fragment to include the form in the tableList.html
 -->
-<div th:fragment="updateReservationForm" id="updateReservationDiv" class="min-h-screen flex items-center justify-center absolute w-full font-sans hidden">
-    <div class="w-full h-screen z-10 bg-black opacity-40 absolute"></div>
+<div th:fragment="reservationUpdateForm" id="updateReservationDiv" class="min-h-screen flex items-center justify-center w-full font-sans absolute z-20 w-full inset-0 hidden">
+    <div class="w-full h-screen z-10 bg-black opacity-20 absolute"></div>
     <div class="bg-white p-6 rounded-lg shadow-lg w-5/12 z-30">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold mb-6">Update reservation </h1>
-            <span class="closeButtonAdd text-2xl cursor-pointer">&times;</span>
+            <h1 class="text-2xl font-bold mb-6">Update Reservation Form</h1>
+            <span class="closeButtonUpdate text-2xl cursor-pointer">&times;</span>
         </div>
-        <form id="createReservation" class="grid grid-cols-1 space-y-4">
+        <form id="updateReservation" class="grid grid-cols-1 space-y-4">
+            <input type="hidden" id="updateReservationId" name="updateReservationId" />
+            <input type="hidden" id="updateReservationStatus"   >
             <div class="grid grid-cols-2 gap-x-2">
                 <div>
-                    <label for="customerFirstName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                    <input type="text" id="customerFirstName" name="customerFirstName" placeholder="First Name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="updateCustomerFirstName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                    <input type="text" id="updateCustomerFirstName" name="updateCustomerFirstName" placeholder="First Name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                 </div>
 
                 <div>
-                    <label for="customerLastName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                    <input type="text" id="customerLastName" placeholder="Last Name" name="customerLastName"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="updateCustomerLastName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                    <input type="text" id="updateCustomerLastName" placeholder="Last Name" name="updateCustomerLastName"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-x-2 ">
                 <div>
-                    <label for="customerEmail" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                    <input type="email" id="customerEmail" placeholder="Email Address" name="customerEmail" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="updateCustomerEmail" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input type="email" id="updateCustomerEmail" placeholder="Email Address" name="updateCustomerEmail" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
 
                 </div>
 
                 <div>
-                    <label for="customerPhone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                    <input type="tel" id="customerPhone" placeholder="Phone Number" name="customerPhone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="updateCustomerPhone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                    <input type="tel" id="updateCustomerPhone" placeholder="Phone Number" name="updateCustomerPhone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-x-2 ">
                 <div>
-                    <label for="reservationDate" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reservation Date</label>
-                    <input type="date" id="reservationDate" placeholder="Reservation Date" name="reservationDate" class="flatpickr bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="updateReservationDate" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reservation Date</label>
+                    <input type="date" id="updateReservationDate" placeholder="Reservation Date" name="updateReservationDate" class="flatpickr bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                 </div>
                 <div>
-                    <label for="numberOfGuests" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Number of Guests</label>
-                    <input type="number" id="numberOfGuests" name="numberOfGuests" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="updateNumberOfGuests" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Number of Guests</label>
+                    <input type="number" id="updateNumberOfGuests" name="updateNumberOfGuests" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                 </div>
             </div>
             <div>
@@ -61,17 +63,17 @@
 
             <div class="grid grid-cols-2">
                 <div class="flex items-center space-x-3">
-                    <input type="checkbox" placeholder="Number of Guest attending" id="guest" name="guest" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                    <label for="guest"  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hotel guest?</label>
+                    <input type="checkbox" placeholder="Number of Guest attending" id="updateGuest" name="updateGuest" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
+                    <label for="updateGuest"  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hotel guest?</label>
                 </div>
 
                 <div id="roomNumberDiv" class="hidden">
-                    <label for="roomNumber" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Room Number</label>
-                    <input type="text" id="roomNumber" placeholder="Hotel Room Number" name="roomNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                    <label for="updateRoomNumber" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Room Number</label>
+                    <input type="text" id="updateRoomNumber" placeholder="Hotel Room Number" name="updateRoomNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                 </div>
             </div>
             <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mainColor">Reserve Your Seat</button>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-400">Save Reservation</button>
             </div>
         </form>
 
