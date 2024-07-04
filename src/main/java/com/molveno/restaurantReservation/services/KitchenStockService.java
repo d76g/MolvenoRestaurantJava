@@ -15,7 +15,7 @@ public interface KitchenStockService {
     KitchenStock addKitchenStockById(Long stock_id);
 
     //DELETE
-    void deleteKitchenStock(Long stock_id);
+    void deleteKitchenStock(long stock_id);
 
     //UPDATE
     KitchenStock updateKitchenStock(KitchenStock kitchenStock);

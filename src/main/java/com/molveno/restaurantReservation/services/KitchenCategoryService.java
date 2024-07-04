@@ -20,4 +20,7 @@ public interface KitchenCategoryService {
 
     //UPDATE
     KitchenCategory updateKitchenCategory(KitchenCategory kitchenCategory);
+
+    //FIND by ID
+    KitchenCategory findById(Long id);
 }

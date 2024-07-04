@@ -1,21 +1,20 @@
 package com.molveno.restaurantReservation.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "category_id")
 public class KitchenCategory {
     @Id
     @GeneratedValue
     private long category_id;
     private String categoryName;
 
-
-    @JsonIgnore
-    @OneToMany (mappedBy = "category")
+    @OneToMany (mappedBy = "category", cascade = CascadeType.ALL)
     private Set<KitchenStock> kitchenStock =new HashSet<>();
 
     public KitchenCategory() {

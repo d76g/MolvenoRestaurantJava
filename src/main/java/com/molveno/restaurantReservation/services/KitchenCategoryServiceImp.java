@@ -40,4 +40,9 @@ public class KitchenCategoryServiceImp implements KitchenCategoryService {
         return kitchenCategoryRepo.save(kitchenCategory);
     }
 
+    @Override
+    public KitchenCategory findById(Long id) {
+        return null;
+    }
+
 }
