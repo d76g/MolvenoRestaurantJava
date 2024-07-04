@@ -41,6 +41,12 @@ public class ReservationServiceImp implements ReservationService{
         reservationRepo.deleteById(id);
     }
     //TODO: CHECK FOR EMPTY FIELDS AND RETURN ERROR MESSAGE
+
+    // get reservation by id
+    @Override
+    public Reservation getReservationById(long id) {
+        return reservationRepo.findById(id).orElse(null);
+    }
     // create a new reservation
     @Override
     public Reservation createReservation(Reservation reservation) {

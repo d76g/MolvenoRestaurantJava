@@ -44,6 +44,16 @@ public class ReservationController {
         }
     }
 
+    @GetMapping("/reservation/{id}")
+    public ResponseEntity<Reservation> getReservation(@PathVariable long id) {
+        Reservation reservation = reservationService.getReservationById(id);
+        if (reservation != null) {
+            return new ResponseEntity<>(reservation, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/reservation/{id}/updateStatus")
     public ResponseEntity<Table> updateReservationStatus(@PathVariable long id, @RequestBody String reservationStatus) {
         Reservation updatedReservation = reservationService.updateReservationStatus(id, reservationStatus);

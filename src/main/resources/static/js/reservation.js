@@ -2,6 +2,7 @@ const url = '/api/reservation/';
 function initReservation(){
     console.log("Reservation page loaded");
     getAllReservations();
+    displayTimeSlots();
     $(".myBtn").click(function(){
         $("#addReservationDiv").removeClass("hidden");
     });
@@ -11,6 +12,9 @@ function initReservation(){
     $(".closeButtonUpdate").click(function(){
         $("#updateReservationDiv").addClass("hidden");
     });
+    $(".closeButtonPopup").click(function(){
+        $("#reservationPopup").addClass("hidden");
+    });
     $('#guest').change(function() {
         if ($(this).is(':checked')) {
             $('#roomNumberDiv').removeClass('hidden');
@@ -18,35 +22,7 @@ function initReservation(){
             $('#roomNumberDiv').addClass('hidden');
         }
     });
-    // Time slots for reservation
-    const startTime = new Date();
-    startTime.setHours(7);
-    startTime.setMinutes(30);
-    const endTime = new Date();
-    endTime.setHours(23);
-    endTime.setMinutes(30);
 
-    const timeSlotsGrid = $('#timeSlotsGrid');
-
-    while (startTime <= endTime) {
-        const hours = startTime.getHours().toString().padStart(2, '0');
-        const minutes = startTime.getMinutes().toString().padStart(2, '0');
-        const timeString = `${hours}:${minutes}`;
-
-        const timeSlot = $('<div></div>')
-            .addClass("time-slot bg-gray-50 p-2 rounded text-center cursor-pointer hover:bg-gray-100")
-            .attr('data-time', timeString)
-            .text(timeString)
-            .click(function() {
-                $('.time-slot').removeClass('bg-gray-50').addClass('bg-green-100');
-                $(this).removeClass('bg-gray-50').addClass('bg-green-100 text-white');
-                $('#reservationTime').val($(this).data('time'));
-            });
-
-        timeSlotsGrid.append(timeSlot);  // Append the time slot to the grid
-
-        startTime.setMinutes(startTime.getMinutes() + 60); // Increment by 60 minutes
-    }
     // for date picker
     flatpickr(".flatpickr", {
         enableTime: false,
@@ -58,7 +34,10 @@ function initReservation(){
     // Event listener for the update table form submission
     $('#createReservation').on('submit', function(event) {
         event.preventDefault();
+        $('.time-slot').removeClass('bg-green-300').addClass('bg-gray-50');
         addReservation()
+        $('#reservationTime').val('');
+
     });
     $(document).on('click', '.deleteButton', function (){
         const reservationId = $(this).data('id');
@@ -108,6 +87,38 @@ function initReservation(){
         updateReservation()
     });
 }
+function displayTimeSlots(){
+    // Time slots for reservation
+    const startTime = new Date();
+    startTime.setHours(7);
+    startTime.setMinutes(30);
+    const endTime = new Date();
+    endTime.setHours(23);
+    endTime.setMinutes(30);
+
+    const timeSlotsGrid = $('#timeSlotsGrid');
+
+    while (startTime <= endTime) {
+        const hours = startTime.getHours().toString().padStart(2, '0');
+        const minutes = startTime.getMinutes().toString().padStart(2, '0');
+        const timeString = `${hours}:${minutes}`;
+
+        const timeSlot = $('<div></div>')
+            .addClass("time-slot bg-gray-50 p-2 rounded text-center cursor-pointer hover:bg-gray-100")
+            .attr('data-time', timeString)
+            .text(timeString)
+            .click(function() {
+                $(this).toggleClass('bg-gray-50').toggleClass('bg-green-300');
+                // toggle the bg color of the other time slots
+                $(this).siblings().removeClass('bg-green-300').addClass('bg-gray-50');
+                $('#reservationTime').val($(this).data('time'));
+            });
+
+        timeSlotsGrid.append(timeSlot);  // Append the time slot to the grid
+
+        startTime.setMinutes(startTime.getMinutes() + 60); // Increment by 60 minutes
+    }
+}
 // add reservation
 function addReservation() {
     const customerFirstName = $('#customerFirstName').val();
@@ -138,9 +149,11 @@ function addReservation() {
             contentType: 'application/json',
             data: JSON.stringify(reservation),
             success: function(data) {
+                const id = data.id;
                 $("#addReservationDiv").addClass("hidden");
                 $('#createReservation')[0].reset();
                 getAllReservations();
+                showReservationPopup(id);
             },
             error: function (error) {
                 console.log(error);
@@ -149,6 +162,46 @@ function addReservation() {
         }
     )
 }
+
+function hideCheckAnimation() {
+    setTimeout(function() {
+        $('#checkAnimation').fadeOut(1000); // 1000 milliseconds = 1 second
+    }, 100); // Wait for 1.5 seconds before starting the fadeOut
+}
+
+function showReservationPopup(reservationId) {
+    $.ajax({
+        url: url + reservationId,
+        type: 'GET',
+        success: function(data) {
+            // create the table using the data from the server
+            console.log(data);
+            const reservation = data;
+            const popUpId = '#reservationPopup';
+            // show the popup
+            $(popUpId).removeClass('hidden');
+            $(popUpId).find('#customerFirstName').text(reservation.customerFirstName);
+            $(popUpId).find('#customerLastName').text(reservation.customerLastName);
+            $(popUpId).find('#customerEmail').text(reservation.customerEmail);
+            $(popUpId).find('#customerPhone').text(reservation.customerPhone);
+            $(popUpId).find('#reservationDate').text(reservation.reservationDate);
+            $(popUpId).find('#reservationTime').text(reservation.reservationTime);
+            $(popUpId).find('#numberOfGuests').text(reservation.numberOfGuests);
+            // loop through the tables and display number only
+            const tables = reservation.tables;
+            let tablesHtml = '';
+            tables.forEach(function (table) {
+                tablesHtml += table.tableNumber + ', ';
+            });
+            $(popUpId).find('#tables').text(tablesHtml);
+        },
+        error: function(error) {
+            console.error("There was an error fetching the reservation data:", error);
+        }
+    });
+    hideCheckAnimation();
+}
+
 // update reservation
 function updateReservation(){
     const reservationId = $('#updateReservationId').val();

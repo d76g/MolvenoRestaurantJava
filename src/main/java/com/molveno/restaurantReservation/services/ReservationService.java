@@ -22,4 +22,6 @@ public interface ReservationService {
     Reservation updateReservation(long id, Reservation reservation);
 
     Reservation updateReservationStatus(long id, String reservationStatus);
+
+    Reservation getReservationById(long id);
 }

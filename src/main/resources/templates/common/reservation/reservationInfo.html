@@ -5,9 +5,6 @@
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for Social Media Icons -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
     <script>
         tailwind.config = {
             theme: {
@@ -21,7 +18,6 @@
                 },
                 fontFamily: {
                     sans: ['Playfair Display', 'serif'],
-                    serif: ['Neuton', 'serif'],
                 }
             }
         }
@@ -33,10 +29,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+NSW:wght@100..400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
 </head>
-<body class="flex justify-center items-center h-screen bg-gray-200 p-8 font-sans">
-<div class="bg-white p-4 rounded-lg shadow-lg w-2/4">
+<body>
+<div th:fragment="reservationDetails" id="reservationPopup" class="flex justify-center items-center p-8 font-sans absolute z-30 w-full bg-black-10 inset-0 hidden">
+<div  class="bg-white p-4 rounded-lg shadow-lg w-2/5">
+    <div id="checkAnimation" class="flex w-full justify-center">
+        <!--        Show GIF from static folder -->
+        <img th:src="@{/images/confirmAnimation.gif}" alt="Reservation Confirmed" class="w-24 h-24 rounded-md">
+    </div>
     <div class="text-3xl w-full flex justify-center items-center my-4 font-bold bg-green-200 h-32 rounded-md">
         <h1 class="text-gray-700">Reservation Confirmed </h1>
     </div>
@@ -48,25 +48,23 @@
         </div>
         <div class="text-2xl font-bold my-3">
             <p class="text-gray-600">Table NO.
-                <span th:each="table : ${reservation.tables}">
-                    <span th:text="${table.tableNumber}"></span>
-                </span>
+                <span id="tables"></span>
             </p>
         </div>
         <hr>
         <p class="py-3 uppercase font-bold text-gray-600">Reservation Details</p>
-        <div class="grid grid-cols-1 py-3 bg-gray-50 rounded-md my-2 font-serif text-lg">
+        <div class="grid grid-cols-1 py-3 bg-gray-50 rounded-md my-2 font-sans text-md">
             <div class="grid grid-cols-2 gap-4 py-1">
-                <p><i class='bx bxs-user p-2 text-blue-500'></i><span th:text="${reservation.customerFirstName} + ' ' + ${reservation.customerLastName}"></span> </p>
+                <p><i class='bx bxs-user p-2 text-blue-500'></i><span id="customerFirstName"></span> <span id="customerLastName"></span> </p>
             </div>
             <div class="grid grid-cols-2 gap-4 py-1">
-                <p><i class='bx bxs-envelope p-2 text-blue-500' ></i><span th:text="${reservation.customerEmail}"></span> </p>
-                <p><i class='bx bxs-phone p-2 text-blue-500'></i><span th:text="${reservation.customerPhone}"></span> </p>
+                <p><i class='bx bxs-envelope p-2 text-blue-500' ></i><span id="customerEmail"></span> </p>
+                <p><i class='bx bxs-phone p-2 text-blue-500'></i><span id="customerPhone"></span> </p>
             </div>
             <div class="grid grid-cols-3 gap-4 py-1">
-                <p><i class='bx bxs-calendar p-2 text-green-500'></i><span th:text="${reservation.reservationDate}"></span> </p>
-                <p><i class='bx bxs-time p-2 text-green-500'></i><span th:text="${reservation.reservationTime}"></span> </p>
-                <p><i class='bx bxs-group p-2 text-green-500'></i><span th:text="${reservation.numberOfGuests}"></span></p>
+                <p><i class='bx bxs-calendar p-2 text-green-500'></i><span id="reservationDate"></span> </p>
+                <p><i class='bx bxs-time p-2 text-green-500'></i><span id="reservationTime"></span> </p>
+                <p><i class='bx bxs-group p-2 text-green-500'></i><span id="numberOfGuests"></span></p>
             </div>
 
         </div>
@@ -79,12 +77,11 @@
 
     </div>
     <div class="my-4">
-        <a
-                href="/"
+        <button id="closeButtonPopup"
             class="bg-green-400 py-4 px-2 text-white rounded-md w-full font-sans uppercase font-bold text-sm hover:bg-green-500 transition duration-300 hover:-translate-y-1 hover:scale-110 ease-in-out delay-150 cursor-pointer">
-            <i class='bx bx-arrow-back'></i> Back to main page</a>
+            <i class='bx bx-arrow-back'></i> Close</button>
     </div>
 </div>
-
+</div>
 </body>
 </html>
