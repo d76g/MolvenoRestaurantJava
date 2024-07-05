@@ -1,33 +1,61 @@
 package com.molveno.restaurantReservation.controllers;
 
+import com.molveno.restaurantReservation.models.DTO.StockConverter;
+import com.molveno.restaurantReservation.models.DTO.StockDTO;
+import com.molveno.restaurantReservation.models.KitchenCategory;
 import com.molveno.restaurantReservation.models.KitchenStock;
+import com.molveno.restaurantReservation.models.Table;
+import com.molveno.restaurantReservation.services.KitchenCategoryService;
 import com.molveno.restaurantReservation.services.KitchenStockService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-@Controller
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+@RestController
+@RequestMapping("/api")
 public class StockController {
-    private final KitchenStockService kitchenStockService;
     @Autowired
-    public StockController(KitchenStockService kitchenStockService) {
-        this.kitchenStockService = kitchenStockService;
-    }
-    @GetMapping("/stock")
-    public String home(Model model) {
-        return "chef/stock/index";
+    KitchenStockService kitchenStockService;
+
+    @Autowired
+    KitchenCategoryService kitchenCategoryService;
+
+    @GetMapping(value = "/stock", produces = "application/json")
+    public ResponseEntity<Iterable<StockDTO>> getKitchenStock() {
+        Iterable<KitchenStock> kitchenStocks = kitchenStockService.getKitchenStocks();
+        Iterable<StockDTO> kitchenStockDTOs = StreamSupport.stream(kitchenStocks.spliterator(), false)
+                .map(StockConverter::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(kitchenStockDTOs);
     }
 
-    @GetMapping("/Stock/add")
-    public String add(Model model) {
-        return "Stock/add";
+
+    @PostMapping(value = "/stock", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<StockDTO> add(@RequestBody StockDTO stockDTO) {
+        System.out.println(stockDTO);
+        KitchenCategory kitchenCategory = kitchenCategoryService.getKitchenCategoryById(stockDTO.getCategory().getId());
+        KitchenStock kitchenStock = StockConverter.toEntity(stockDTO, kitchenCategory);
+        Optional<KitchenCategory> optionalKitchenCategory = Optional.ofNullable(kitchenCategoryService.getKitchenCategoryById(stockDTO.getCategory().getId()));
+        if (optionalKitchenCategory.isPresent()) {
+            kitchenStock.setCategory(optionalKitchenCategory.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        kitchenStockService.addKitchenStock(kitchenStock);
+        return ResponseEntity.ok(stockDTO);
     }
-//    @PostMapping("/Stock/add")
-//    public String add(@ModelAttribute KitchenStock kitchenStock, Model model) {
-//        return "redirect:/Stock";
-//    }
+
+    @DeleteMapping(value = "/stock/{id}", produces = "application/json")
+    public ResponseEntity<KitchenStock> delete(@PathVariable Long id) {
+        kitchenStockService.deleteKitchenStock(id);
+       return  ResponseEntity.noContent().build();
+    }
+
+
 }

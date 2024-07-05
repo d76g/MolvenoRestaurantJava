@@ -1,20 +1,7 @@
-package com.molveno.restaurantReservation.models;
+package com.molveno.restaurantReservation.models.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.*;
-import jakarta.persistence.Table;
-
-import java.util.HashSet;
-import java.util.Set;
-
-@Entity
-@Table(name="KITCHEN_STOCK")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class KitchenStock {
-    @Id
-    @GeneratedValue
-    private long id ;
+public class StockDTO {
+    private long id;
     private String description;
     private int amount;
     private String unit;
@@ -26,33 +13,17 @@ public class KitchenStock {
     private double pricePerUnit;
     private int stock;
     private int stockValue;
-    @Column(name = "stock_limit", nullable = true)
     private int limit;
+    private StockCategoryDTO category;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private KitchenCategory category;
-
-    @OneToMany(mappedBy = "kitchenStock")
-    private Set<MenuItemStock> menuItemStocks= new HashSet<>();
-    public Set<MenuItemStock> getMenuItemStocks() {
-        return menuItemStocks;
+    public StockDTO() {
     }
 
-    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
-        this.menuItemStocks = menuItemStocks;
-    }
-
-    @ManyToMany(mappedBy = "kitchenStocks")
-    private Set<Menu> menuItems;
-    public KitchenStock() {
-    }
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -147,15 +118,16 @@ public class KitchenStock {
     public int getLimit() {
         return limit;
     }
+
     public void setLimit(int limit) {
         this.limit = limit;
     }
 
-    public KitchenCategory getCategory() {
+    public StockCategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(KitchenCategory category) {
+    public void setCategory(StockCategoryDTO category) {
         this.category = category;
     }
 }

@@ -1,22 +1,34 @@
 package com.molveno.restaurantReservation.controllers;
 
-import ch.qos.logback.core.model.Model;
+import com.molveno.restaurantReservation.models.KitchenCategory;
 import com.molveno.restaurantReservation.services.KitchenCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class CategoryController {
-    private final KitchenCategoryService kitchenCategoryService;
+
     @Autowired
-    public CategoryController(KitchenCategoryService kitchenCategoryService) {
-        this.kitchenCategoryService = kitchenCategoryService;
+    KitchenCategoryService kitchenCategoryService;
+
+    @GetMapping(value = "/category/list", produces = "application/json")
+    public ResponseEntity<Iterable<KitchenCategory>> categoryList() {
+         Iterable<KitchenCategory> categories = kitchenCategoryService.getKitchenCategories();
+        return ResponseEntity.ok(categories);
+    }
+    
+    @PostMapping(value = "/category/save", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<KitchenCategory> add(@RequestBody KitchenCategory kitchenCategory) {
+        KitchenCategory newKitchenCategory = kitchenCategoryService.addKitchenCategory(kitchenCategory);
+        return  new ResponseEntity<>(newKitchenCategory, HttpStatus.CREATED);
     }
 
-    @GetMapping("/Category")
-    public String home(Model model) {
-        return "Category";
+    @DeleteMapping("/category/delete/{id}")
+    public ResponseEntity<KitchenCategory> delete(@PathVariable Long id) {
+        kitchenCategoryService.deleteKitchenCategory(id);
+        return ResponseEntity.noContent().build();
     }
-
 }

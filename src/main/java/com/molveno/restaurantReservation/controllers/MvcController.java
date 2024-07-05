@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.controllers;
 
+import com.molveno.restaurantReservation.models.KitchenStock;
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
 import com.molveno.restaurantReservation.services.ReservationServiceImp;
@@ -40,6 +41,30 @@ public class MvcController {
     public String getTables(Model model) {
         model.addAttribute("table", new Table());
         return "admin/tableManagement/tableList";
+    }
+    //stock
+    @GetMapping("/chef/stock/form")
+    public String add() {
+        return "chef/stock/form";
+    }
+
+    @GetMapping("/chef/stocks")
+    public String getStocks() {
+        return "chef/stock/list";
+    }
+    @GetMapping("/chef/stock/edit/{id}")
+    public String edit(@PathVariable Long id) {
+        return "chef/stock/update";
+    }
+
+    // kitchen categories URL
+    @GetMapping("/chef/categories")
+    public String getCategories() {
+        return "chef/category/list";
+    }
+    @GetMapping("/chef/category/form")
+    public String addCategory() {
+        return "chef/category/form";
     }
 
 }
