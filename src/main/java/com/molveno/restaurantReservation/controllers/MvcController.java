@@ -2,7 +2,6 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
-import com.molveno.restaurantReservation.models.User;
 import com.molveno.restaurantReservation.services.ReservationService;
 import com.molveno.restaurantReservation.services.TableService;
 import com.molveno.restaurantReservation.utils.TableValidationException;
