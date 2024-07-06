@@ -12,7 +12,10 @@ function initReservation(){
     $(".closeButtonUpdate").click(function(){
         $("#updateReservationDiv").addClass("hidden");
     });
-    $(".closeButtonPopup").click(function(){
+    $(".closeButtonStatus").click(function(){
+        $("#updateReservationStatusForm").addClass("hidden");
+    });
+    $("#closeButtonPopup").click(function(){
         $("#reservationPopup").addClass("hidden");
     });
     $('#guest').change(function() {
@@ -38,6 +41,21 @@ function initReservation(){
         addReservation()
         $('#reservationTime').val('');
 
+    });
+    $('#saveReservationStatus').on('submit', function(event) {
+        event.preventDefault();
+        const reservationId = $('#reservationId4Status').val();
+        const status = $('#status').val();
+        console.log(reservationId, status)
+        updateReservationStatus(reservationId, status);
+        $("#updateReservationStatusForm").addClass("hidden");
+    });
+    $(document).on('click', '.editStatus', function(){
+        $("#updateReservationStatusForm").toggleClass("hidden");
+        const reservationId = $(this).data('id');
+        const status = $(this).data('status');
+        $('#status').val(status);
+        $('#reservationId4Status').val(reservationId);
     });
     $(document).on('click', '.deleteButton', function (){
         const reservationId = $(this).data('id');
@@ -308,7 +326,7 @@ function getAllReservations(){
                     {
                         "data": "reservationStatus",
                         "render": function(data, type, row) {
-                            return '<a href="/reservations/editStatus/' + row.id + '" class="editStatus">' + data + '</a>';
+                            return '<button class="editStatus cursor-pointer" data-id="' + row.id + '" data-status="' + row.reservationStatus + '">' + data + '</button>';
                         }
                     },
                     {
@@ -330,7 +348,7 @@ function getAllReservations(){
                         }
                     }
                 ],
-                "createdRow": function(row, data, dataIndex) {
+                createdRow: function(row, data, dataIndex) {
                     if(data.reservationStatus === 'CANCELLED') {
                         $(row).addClass('bg-red-200');
                     } else if(data.reservationStatus === 'ATTENDED') {
@@ -341,6 +359,21 @@ function getAllReservations(){
         },
         error: function(error) {
             console.error("There was an error fetching the table data:", error);
+        }
+    });
+}
+
+// update reservation status
+function updateReservationStatus(reservationId, status){
+    $.ajax({
+        url: url + reservationId + '/status/' + status,
+        type: 'POST',
+        success: function(data) {
+            alert('Reservation status updated successfully');
+            getAllReservations();
+        },
+        error: function(error) {
+            console.error("There was an error updating the reservation status:", error);
         }
     });
 }
