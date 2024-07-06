@@ -2,6 +2,7 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
+import com.molveno.restaurantReservation.models.User;
 import com.molveno.restaurantReservation.services.ReservationService;
 import com.molveno.restaurantReservation.services.TableService;
 import com.molveno.restaurantReservation.utils.TableValidationException;
@@ -41,6 +42,10 @@ public class MvcController {
     public String getTables(Model model) {
         model.addAttribute("table", new Table());
         return "admin/tableManagement/tableList";
+    }
+    @GetMapping("/admin/users")
+    public String getUsers() {
+        return "admin/userManager/usersList";
     }
 
 }

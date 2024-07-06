@@ -1,28 +1,16 @@
 package com.molveno.restaurantReservation.services;
 
-import com.molveno.restaurantReservation.models.Users;
-import com.molveno.restaurantReservation.repos.UserRepo;
-import org.hibernate.mapping.Table;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.molveno.restaurantReservation.models.User;
 
 import java.util.List;
 
-@Service
-public class UserService {
-    private UserRepo userRepo;
-    @Autowired
+public interface UserService {
+    User createUser(User user);
 
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
+    List<User> listUser();
 
-    public List<Users> getAllUsers() {
-        return userRepo.findAll();
-    }
+    User getUserById(long id);
 
-    public Users createUser(Users user) {
-       // validateUser(user);
-        return userRepo.save(user);
-    }
-    }
+    void deleteUser(long id);
+
+}
