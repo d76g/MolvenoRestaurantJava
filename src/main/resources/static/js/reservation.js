@@ -21,8 +21,22 @@ function initReservation(){
     $('#guest').change(function() {
         if ($(this).is(':checked')) {
             $('#roomNumberDiv').removeClass('hidden');
+            // set the input to required
+            $('#roomNumber').prop('required', true);
         } else {
             $('#roomNumberDiv').addClass('hidden');
+            $('#updateRoomNumber').val('').prop('required', false);
+        }
+    });
+    $('#updateGuest').change(function() {
+        if ($(this).is(':checked')) {
+            $('#updateRoomNumberDiv').removeClass('hidden');
+            // set the input to required
+            $('#updateRoomNumber').prop('required', true);
+        } else {
+            $('#updateRoomNumberDiv').addClass('hidden');
+            $('#updateRoomNumber').val('').prop('required', false);
+
         }
     });
 
@@ -38,6 +52,14 @@ function initReservation(){
     $('#createReservation').on('submit', function(event) {
         event.preventDefault();
         $('.time-slot').removeClass('bg-green-300').addClass('bg-gray-50');
+        if (!this.checkValidity()) {
+            const roomNumber = $('#roomNumber');
+            if (roomNumber.prop('required') && !roomNumber.val()) {
+                // Ensure the roomNumberDiv is visible so the browser can focus the invalid input
+                $('#roomNumberDiv').removeClass('hidden');
+            }
+            event.preventDefault(); // Prevent form submission to show the validation errors
+        }
         addReservation()
         $('#reservationTime').val('');
 
@@ -80,7 +102,7 @@ function initReservation(){
         const reservationStatus = $(this).data('status');
         const customerPhone = $(this).data('phone');
         // show the update form
-        console.log(reservationDate);
+        console.log(reservationStatus);
         $("#updateReservationDiv").toggleClass("hidden");
         // set the new table capacity and id in the form
         $('#updateCustomerFirstName').val(customerFirstName);
@@ -114,7 +136,7 @@ function displayTimeSlots(){
     endTime.setHours(23);
     endTime.setMinutes(30);
 
-    const timeSlotsGrid = $('#timeSlotsGrid');
+    const timeSlotsGrid = $('.timeSlotsGrid');
 
     while (startTime <= endTime) {
         const hours = startTime.getHours().toString().padStart(2, '0');
@@ -174,8 +196,7 @@ function addReservation() {
                 showReservationPopup(id);
             },
             error: function (error) {
-                console.log(error);
-                alert('An error occurred while creating the reservation');
+                alert(error.responseJSON.message)
             }
         }
     )
@@ -233,7 +254,7 @@ function updateReservation(){
     const isGuest = $('#updateGuest').is(':checked');
     const roomNumber = $('#updateRoomNumber').val();
     const reservationStatus = $('#updateReservationStatus').val();
-    console.log(reservationId);
+    console.log(reservationStatus);
     // create a table object
     const reservation = {
         id: reservationId,
@@ -261,8 +282,7 @@ function updateReservation(){
                 getAllReservations();
             },
             error: function (error) {
-                console.log(error);
-                alert('An error occurred while updating the reservation');
+                alert(error.responseJSON.message)
             }
         }
     )
@@ -341,6 +361,7 @@ function getAllReservations(){
                                 'data-time="' + row.reservationTime + '" ' +
                                 'data-room-number="' + row.roomNumber + '" '+
                                 'data-guest="' + row.guest + '" ' +
+                                'data-status="' + row.reservationStatus + '" ' +
                                 'data-guests="' + row.numberOfGuests + '" class="editButton text-indigo-600 hover:text-indigo-900">' +
                                 '<i class="fa-solid fa-pen"></i></button> ' +
                                 '<button data-id="'+ row.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
@@ -348,13 +369,14 @@ function getAllReservations(){
                         }
                     }
                 ],
-                createdRow: function(row, data, dataIndex) {
-                    if(data.reservationStatus === 'CANCELLED') {
-                        $(row).addClass('bg-red-200');
-                    } else if(data.reservationStatus === 'ATTENDED') {
-                        $(row).addClass('bg-green-400');
+                rowCallback: function(row, data) {
+                    if (data.reservationStatus === 'CANCELLED') {
+                        $(row).addClass('cancelled');
                     }
-                },
+                    if (data.reservationStatus === 'ATTENDED') {
+                        $(row).addClass('attended');
+                    }
+                }
             });
         },
         error: function(error) {
@@ -373,7 +395,7 @@ function updateReservationStatus(reservationId, status){
             getAllReservations();
         },
         error: function(error) {
-            console.error("There was an error updating the reservation status:", error);
+            alert(error.responseJSON.message)
         }
     });
 }

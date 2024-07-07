@@ -82,8 +82,8 @@ public class ReservationServiceImp implements ReservationService{
     // update a reservation
     @Override
     public Reservation updateReservation(long id, Reservation reservation) {
-        if ("CANCELLED".equals(reservation.getReservationStatus())) {
-            throw new IllegalStateException("Cannot modify a cancelled reservation.");
+        if ("CANCELLED".equals(reservation.getReservationStatus()) || "ATTENDED".equals(reservation.getReservationStatus())){
+            throw new IllegalStateException("Cannot modify this reservation, it has already been cancelled or already attended.");
         }
 
         // Fetch the existing reservation from the database
@@ -139,6 +139,9 @@ public class ReservationServiceImp implements ReservationService{
         }
         if ("CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
             throw new IllegalStateException("Cannot modify a cancelled reservation.");
+        }
+        if ("ATTENDED".equals(existingReservation.getReservationStatus()) && !"ATTENDED".equals(reservationStatus)) {
+            throw new IllegalStateException("Cannot modify an ATTENDED reservation.");
         }
         if (reservationStatus.equals("CANCELLED")) {
             existingReservation.setTables(new HashSet<>());
