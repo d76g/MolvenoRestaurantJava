@@ -59,4 +59,10 @@ public class ReservationController {
         Reservation updatedReservation = reservationService.updateReservationStatus(id, reservationStatus);
         return new ResponseEntity<>(updatedReservation, HttpStatus.OK);
     }
+
+    @GetMapping("/reservation/today")
+    public ResponseEntity<Iterable<Reservation>> getReservationsForToday() {
+        Iterable<Reservation> reservations = reservationService.getReservationsForToday();
+        return ResponseEntity.ok(reservations);
+    }
 }

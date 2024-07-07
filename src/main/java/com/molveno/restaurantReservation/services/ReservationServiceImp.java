@@ -47,6 +47,16 @@ public class ReservationServiceImp implements ReservationService{
     public Reservation getReservationById(long id) {
         return reservationRepo.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Reservation> getReservationsForToday() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String today = LocalDateTime.now().format(formatter);
+        return reservationRepo.findAll().stream()
+                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED"))
+                .collect(Collectors.toList());
+    }
+
     // create a new reservation
     @Override
     public Reservation createReservation(Reservation reservation) {
