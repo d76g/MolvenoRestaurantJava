@@ -1,10 +1,9 @@
 package com.molveno.restaurantReservation.repos;
 
-import com.molveno.restaurantReservation.models.Menu;
+import com.molveno.restaurantReservation.models.SubCategory;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MenuRepo extends CrudRepository<Menu, Long > {
-
+public interface SubCategoryRepo extends CrudRepository<SubCategory, Long> {
 }

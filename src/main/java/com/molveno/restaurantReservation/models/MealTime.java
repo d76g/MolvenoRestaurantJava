@@ -11,8 +11,8 @@ import java.util.Set;
 public class MealTime {
     @Id
     @GeneratedValue
-    private long menuCategory_id;
-    private String menuCategory_name;
+    private long mealTime_id;
+    private String mealTime_name;
 
     @OneToMany(mappedBy = "mealTime", cascade = CascadeType.ALL)
     private Set<Menu> menu= new HashSet<>();
@@ -20,19 +20,19 @@ public class MealTime {
     public MealTime() {
     }
 
-    public long getMenuCategory_id() {
-        return menuCategory_id;
+    public long getMealTime_id() {
+        return mealTime_id;
     }
 
-    public void setMenuCategory_id(long menuCategory_id) {
-        this.menuCategory_id = menuCategory_id;
+    public void setMealTime_id(long mealTime_id) {
+        this.mealTime_id = mealTime_id;
     }
 
-    public String getMenuCategory_name() {
-        return menuCategory_name;
+    public String getMealTime_name() {
+        return mealTime_name;
     }
 
-    public void setMenuCategory_name(String menuCategory_name) {
-        this.menuCategory_name = menuCategory_name;
+    public void setMealTime_name(String mealTime_name) {
+        this.mealTime_name = mealTime_name;
     }
 }
