@@ -25,6 +25,10 @@ public class MvcController {
         model.addAttribute("reservation", new Reservation());
         return "frontDesk/reservation/reservationForm";
     }
+    @GetMapping("/reservation/list")
+    public String showReservationList() {
+        return "frontDesk/reservation/reservationList";
+    }
     @GetMapping("/reservation/edit/{id}")
     public String editReservation(@PathVariable Long id, Model model) {
         model.addAttribute("reservation", reservationService.getReservation(id));
@@ -50,6 +54,31 @@ public class MvcController {
     @GetMapping("/admin/users")
     public String getUsers() {
         return "admin/userManagement/usersList";
+    }
+
+    //stock
+    @GetMapping("/chef/stock/form")
+    public String add() {
+        return "chef/stock/form";
+    }
+
+    @GetMapping("/chef/stocks")
+    public String getStocks() {
+        return "chef/stock/list";
+    }
+    @GetMapping("/chef/stock/edit/{id}")
+    public String edit(@PathVariable Long id) {
+        return "chef/stock/update";
+    }
+
+    // kitchen categories URL
+    @GetMapping("/chef/categories")
+    public String getCategories() {
+        return "chef/category/list";
+    }
+    @GetMapping("/chef/category/form")
+    public String addCategory() {
+        return "chef/category/form";
     }
 
 }
