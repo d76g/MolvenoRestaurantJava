@@ -63,7 +63,7 @@ function getAllMealTime(){
                 // define the columns (use the data key to map the data to the columns) and the data to be displayed
                 columns: [
                     // number of columns depends on the data of your model and the name of the id field in the form
-                    { data: 'mealTime_id' },
+
                     { data: 'mealTime_name' },
 
                     // action column for delete and update

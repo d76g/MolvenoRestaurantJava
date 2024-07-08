@@ -14,17 +14,10 @@
 
 </head>
 <body >
-
-<div class="w-full h-auto flex flex-col justify-center items-center">
-    <div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
+    <div th:insert="/chef/navbar/nav :: Navbar"></div>
 
     <div class="w-full relative h-auto min-h-screen bg-gray-100">
 
-        <div>
-            <div class="w-full flex justify-start items-center p-8 ">
-                <h1 class="text-xl font-bold">SubCategories</h1>
-            </div>
-        </div>
         <div class="w-full flex flex items-center justify-center absolute z-10 h-screen py-10 bg-gray-100">
             <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
                 <h1 class="text-2xl font-bold mb-6">SubCategories</h1>
@@ -32,7 +25,6 @@
                 <table id="subCategoryList" class="w-full mt-10">
                     <thead>
                     <tr>
-                        <th class="text-left">SubCategory ID</th>
                         <th class="text-left">SubCategory Name</th>
                         <th class="text-left">Actions</th>
                     </tr>
@@ -51,7 +43,7 @@
         <div th:insert="chef/menuManagement/subCategory/addForm :: addSubCategoryFormHTML"></div>
     </div>
 
-</div>
+
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
 <!-- Include the tablesForm.js file  from the static folder
