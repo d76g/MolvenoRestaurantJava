@@ -36,7 +36,6 @@ function initReservation(){
         } else {
             $('#updateRoomNumberDiv').addClass('hidden');
             $('#updateRoomNumber').val('').prop('required', false);
-
         }
     });
 
@@ -102,7 +101,6 @@ function initReservation(){
         const reservationStatus = $(this).data('status');
         const customerPhone = $(this).data('phone');
         // show the update form
-        console.log(reservationStatus);
         $("#updateReservationDiv").toggleClass("hidden");
         // set the new table capacity and id in the form
         $('#updateCustomerFirstName').val(customerFirstName);
@@ -116,11 +114,14 @@ function initReservation(){
         $('#updateCustomerPhone').val(customerPhone);
         $('#updateReservationStatus').val(reservationStatus);
         if(isGuest){
-            $('#roomNumberDiv').removeClass('hidden');
+            $('#updateRoomNumberDiv').removeClass('hidden');
+            console.log(roomNumber)
         } else {
-            $('#roomNumberDiv').addClass('hidden');
+            $('#updateRoomNumberDiv').addClass('hidden');
         }
         $('#updateReservationId').val(reservationId);
+        $('#currentReservationTime').empty();
+        $('#currentReservationTime').append(reservationTime);
     });
     $('#updateReservation').on('submit', function(event) {
         event.preventDefault();
