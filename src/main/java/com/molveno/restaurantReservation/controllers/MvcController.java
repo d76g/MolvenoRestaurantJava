@@ -35,6 +35,11 @@ public class MvcController {
         model.addAttribute("reservation", reservationService.getReservation(id));
         return "frontDesk/reservation/reservationStatusForm";
     }
+    // front desk home page
+    @GetMapping("/frontDesk")
+    public String getFrontDesk() {
+        return "frontDesk/home";
+    }
 
     // tables
     @GetMapping("/admin/tables")

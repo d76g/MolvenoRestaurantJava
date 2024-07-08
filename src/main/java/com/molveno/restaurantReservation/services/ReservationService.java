@@ -24,4 +24,7 @@ public interface ReservationService {
     Reservation updateReservationStatus(long id, String reservationStatus);
 
     Reservation getReservationById(long id);
+
+    // get all reservation for today
+    List<Reservation> getReservationsForToday();
 }
