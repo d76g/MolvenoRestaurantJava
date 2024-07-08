@@ -19,7 +19,7 @@
         </div>
         <form id="updateReservation" class="grid grid-cols-1 space-y-4">
             <input type="hidden" id="updateReservationId" name="updateReservationId" />
-            <input type="hidden" id="updateReservationStatus"   >
+            <input type="hidden" id="updateReservationStatus" >
             <div class="grid grid-cols-2 gap-x-2">
                 <div>
                     <label for="updateCustomerFirstName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
@@ -54,10 +54,10 @@
                 </div>
             </div>
             <div>
-                <label for="reservationTime" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reservation Time</label>
-                <input  type="time" id="reservationTime" name="reservationTime" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "  />
+                <label for="updateReservationTime" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reservation Time</label>
+                <input  type="time" id="updateReservationTime" name="updateReservationTime" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "  />
             </div>
-            <div class="grid grid-cols-6 gap-2 my-4" id="timeSlotsGrid">
+            <div class="grid grid-cols-6 gap-2 my-4 timeSlotsGrid">
                 <!-- Time slots will be dynamically added here by jQuery -->
             </div>
 
@@ -67,7 +67,7 @@
                     <label for="updateGuest"  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hotel guest?</label>
                 </div>
 
-                <div id="roomNumberDiv" class="hidden">
+                <div id="updateRoomNumberDiv" class="hidden">
                     <label for="updateRoomNumber" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Room Number</label>
                     <input type="text" id="updateRoomNumber" placeholder="Hotel Room Number" name="updateRoomNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                 </div>
