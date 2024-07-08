@@ -1,6 +1,9 @@
 package com.molveno.restaurantReservation.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,16 +16,31 @@ public class Reservation {
     @GeneratedValue
     @Column(name = "reservation_id")
     private long id;
+    @NotNull(message = "First name is required")
+    @Length(min = 2, max = 50)
     private String customerFirstName;
+    @NotNull(message = "Last name is required")
+    @Length(min = 2, max = 50)
     private String customerLastName;
+    @NotNull(message = "Email is required")
+    @Length(min = 2, max = 50)
+    @Email(message = "Email should be valid")
     private String customerEmail;
+    @NotNull(message = "Phone number is required")
+    @Length(min = 9, max = 20)
     private String customerPhone;
+    @NotNull(message = "Reservation date is required")
     private String reservationDate;
+    @NotNull(message = "Reservation time is required")
     private String reservationTime;
+    @NotNull(message = "Number of guests is required")
     private int numberOfGuests;
+    @NotNull(message = "Guest status is required")
     private boolean guest;
     @Column(nullable = true)
+    @Length(min = 0, max = 6)
     private String roomNumber;
+    @NotNull(message = "Reservation status is required")
     private String reservationStatus;
     /*
     Reservation Entity:

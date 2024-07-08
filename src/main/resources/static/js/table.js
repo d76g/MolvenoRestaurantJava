@@ -81,7 +81,7 @@ function getAllTable(){
             });
         },
         error: function(error) {
-            console.error("There was an error fetching the table data:", error);
+            alert(error.responseJSON.message)
         }
     });
 }
@@ -106,7 +106,7 @@ function addTable(){
             getAllTable();
         },
         error: function(error) {
-            console.error("There was an error adding the table:", error);
+            alert(error.responseJSON.message)
         }
     });
 
@@ -134,7 +134,7 @@ function updateTable(){
             getAllTable();
         },
         error: function(error) {
-            console.error("There was an error updating the table:", error);
+            alert(error.responseJSON.message)
         }
     });
 
@@ -149,7 +149,7 @@ function deleteTable(tableId){
             getAllTable();
         },
         error: function (error) {
-            console.error("There was an error deleting the table:", error);
+            alert(error.responseJSON.message)
         }
     });
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Users")
-public class Users {
+public class User {
     @Id
     @GeneratedValue
     private long user_id;
@@ -17,7 +17,7 @@ public class Users {
     @JoinColumn(name = "role_id")
     UserRole userRole;
 
-    public Users() {
+    public User() {
     }
 
     public long getUser_id() {
