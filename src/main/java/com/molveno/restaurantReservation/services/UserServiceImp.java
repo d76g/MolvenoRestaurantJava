@@ -1,29 +1,60 @@
 package com.molveno.restaurantReservation.services;
 
+import com.molveno.restaurantReservation.models.DTO.UserDTO;
 import com.molveno.restaurantReservation.models.User;
+import com.molveno.restaurantReservation.models.UserRole;
 import com.molveno.restaurantReservation.repos.UserRepo;
+import com.molveno.restaurantReservation.repos.UserRoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
 
     @Autowired
-
     private UserRepo userRepo;
+
+    @Autowired
+    UserRoleRepo userRoleRepo;
 
     // save
     @Override
-    public User createUser(User user) {
-        // validateUser(user);
-        return userRepo.save(user);
+    public UserDTO saveUser(UserDTO userDto) {
+        User user;
+        if (userDto.getUserId() != 0) {
+            user = userRepo.findById(userDto.getUserId()).orElse(new User());
+        } else {
+            user = new User();
+        }
+        user.setUser_name(userDto.getUserName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+
+        UserRole userRole = userRoleRepo.findByRole(userDto.getRoleName());
+
+        user.setUserRole(userRole);
+
+        userRepo.save(user);
+        return convertToDTO(user);
     }
 
     @Override
-    public List<User> listUser() {
-        return userRepo.findAll();
+    public List<UserDTO> listUser() {
+        List<User> users = userRepo.findAll();
+        return users.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+    private UserDTO convertToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(user.getUser_id());
+        userDTO.setUserName(user.getUser_name());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setRoleName(user.getUserRole().getRole());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setRoleId(user.getUserRole().getRole_id());
+        return userDTO;
     }
 
     @Override

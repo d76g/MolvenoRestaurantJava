@@ -32,13 +32,15 @@ function init(){
         const userName = $(this).data('name');
         const userEmail = $(this).data('email');
         const userPassword = $(this).data('password');
+         const roleId = $(this).data('role');
         // show the update form
         $("#addFormDiv").toggleClass("hidden");
         // set the new user id,name,email and paasword in the form
         $('#userId').val(userId);
         $('#username').val(userName);
-         $('#email').val(userEmail);
-          $('#password').val(userPassword);
+        $('#email').val(userEmail);
+        $('#password').val(userPassword);
+        $('#role').val(roleId);
 
     });
 
@@ -62,23 +64,26 @@ function getAllUser(){
                 // define the columns (use the data key to map the data to the columns) and the data to be displayed
                 columns: [
                     // number of columns depends on the data of your model and the name of the id field in the form
-                    { data: 'user_name' },
+                    { data: 'userName' },
                     { data: 'email' },
+                    {data: 'roleName'},
 
                     // action column for delete and update
                     {
                         data: 'action',
                         render: function(data, type, row) {
                             return '<button ' +
-                                   'data-id="' + row.user_id + '" ' +
-                                   'data-name="' + row.user_name + '" ' +
+                                   'data-id="' + row.userId + '" ' +
+                                   'data-name="' + row.userName + '" ' +
                                    'data-email="' + row.email + '" ' +
                                    'data-password="' + row.password + '" ' +
+                                   'data-role="' + row.roleId + '" ' +
+                                   'data-role-name="' + row.roleName + '" ' +
                                    'class="editButton text-indigo-600 hover:text-indigo-900">' +
                                    '<i class="fa-solid fa-pen"></i>' +
                                    '</button> ' +
                                    '<button class="deleteButton text-red-600 hover:text-red-900" ' +
-                                   'data-id="' + row.user_id + '">' +
+                                   'data-id="' + row.userId + '">' +
                                    '<i class="fa-solid fa-trash"></i>' +
                                    '</button>';
                         }
@@ -98,13 +103,17 @@ function saveUser(){
     const userName = $('#username').val();
     const userEmail = $('#email').val();
     const userPassword = $('#password').val();
+    const userRoleId = $('#role').val();
+    const userRole =  $('#role option:selected').text();
+
        // create a user object
     const user = {
-        user_id: id,
-        user_name: userName,
+        userId: id,
+        userName: userName,
         email: userEmail,
         password: userPassword,
-        role_id: 1,
+        roleId: userRoleId,
+        roleName:userRole
     };
     console.log(user);
     $.ajax({

@@ -44,7 +44,7 @@ public class MvcController {
     }
     @GetMapping("/admin/users")
     public String getUsers() {
-        return "admin/userManager/usersList";
+        return "admin/userManagement/usersList";
     }
 
 }

@@ -21,9 +21,9 @@
 
 </head>
 <body >
+<div th:insert="/admin/navbar/navbar :: adminNavbar"></div>
 
 <div class="w-full h-auto flex flex-col justify-center items-center">
-    <div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
 
     <div class="w-full relative h-auto min-h-screen bg-gray-100">
 
@@ -41,6 +41,7 @@
                     <tr>
                         <th class="text-left">Username</th>
                         <th class="text-left">Email</th>
+                        <th class="text-left">Role</th>
                         <th class="text-left">Actions</th>
                     </tr>
                     </thead>
@@ -55,8 +56,8 @@
         <!-- Include the add and update form using fragment
             Check the addForm.html and updateForm.html for the form structure
         -->
-        <div th:insert="admin/userManager/addForm :: addUserFormHTML"></div>
-        <div th:insert="admin/userManager/updateForm :: updateUserFormHTML"></div>
+        <div th:insert="admin/userManagement/addForm :: addUserFormHTML"></div>
+        <div th:insert="admin/userManagement/updateForm :: updateUserFormHTML"></div>
     </div>
 
 </div>
