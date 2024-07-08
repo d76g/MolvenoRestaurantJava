@@ -2,6 +2,7 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
+import com.molveno.restaurantReservation.services.MealTimeService;
 import com.molveno.restaurantReservation.services.ReservationService;
 import com.molveno.restaurantReservation.services.TableService;
 import com.molveno.restaurantReservation.utils.TableValidationException;
@@ -42,5 +43,30 @@ public class MvcController {
         model.addAttribute("table", new Table());
         return "admin/tableManagement/tableList";
     }
+
+
+    //menu
+    @GetMapping("/chef/menu/form")
+    public String showMenuForm() {
+        return "chef/menuManagement/menu/menuList";
+    }
+    //mealtime
+    @GetMapping("/chef/menu/mealtime/form")
+    public String showMealTimeForm() {
+        return "chef/menuManagement/mealTime/mealTimeList";
+    }
+
+    //subCategory
+    @GetMapping("/chef/menu/subCategory/form")
+    public String showSubCategoryForm() {
+        return "chef/menuManagement/subCategory/subCategoryList";
+    }
+
+    //menuCategory
+    @GetMapping("/chef/menu/menuCategory/form")
+    public String showMenuCategoryForm() {
+        return "chef/menuManagement/menuCategory/menuCategoryList";
+    }
+
 
 }

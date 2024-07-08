@@ -2,13 +2,14 @@ package com.molveno.restaurantReservation.services;
 
 import com.molveno.restaurantReservation.models.MealTime;
 import com.molveno.restaurantReservation.repos.MealTimeRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class MealTimeServiceImpl implements MealTimeService{
-
+    @Autowired
     private MealTimeRepo mealTimeRepo;
 
     @Override
