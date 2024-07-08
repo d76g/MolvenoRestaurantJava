@@ -81,4 +81,29 @@ public class MvcController {
         return "chef/category/form";
     }
 
+
+    //menu
+    @GetMapping("/chef/menu/form")
+    public String showMenuForm() {
+        return "chef/menuManagement/menu/menuList";
+    }
+    //mealtime
+    @GetMapping("/chef/menu/mealtime/form")
+    public String showMealTimeForm() {
+        return "chef/menuManagement/mealTime/mealTimeList";
+    }
+
+    //subCategory
+    @GetMapping("/chef/menu/subCategory/form")
+    public String showSubCategoryForm() {
+        return "chef/menuManagement/subCategory/subCategoryList";
+    }
+
+    //menuCategory
+    @GetMapping("/chef/menu/menuCategory/form")
+    public String showMenuCategoryForm() {
+        return "chef/menuManagement/menuCategory/menuCategoryList";
+    }
+
+
 }
