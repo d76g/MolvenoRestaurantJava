@@ -72,8 +72,9 @@ function displayReservationPopupDetails(reservation) {
 
 function createPopUp(reservation) {
     const tableNumbers = reservation.tables.map(table => table.tableNumber).join(", ");
+    const reservationTimePlus3hours = reservation.reservationTime.add(3, 'hours').format('HH:mm');
     const card = $(`
-        <div class="bg-gray-100 shadow-sm rounded-lg font-sans">
+        <div class="bg-gray-100 shadow-sm rounded-lg font-sans my-3">
             <div class="p-4 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-blue-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
@@ -84,12 +85,12 @@ function createPopUp(reservation) {
                 </div>
                 <div>
                     <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
-                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
+                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime} to ${reservationTimePlus3hours}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-phone px-2 text-green-500'></i>${reservation.customerPhone}</p>
                     <p><i class='bx bxs-envelope px-2 text-green-500'></i>${reservation.customerEmail}</p>
-                    <p>Is guest? ${reservation.guest} : room number ${reservation.roomNumber}</p>
+                    <p class=""><i class='bx bxs-hotel px-2 text-green-500'></i>Hotel Guest: ${reservation.guest ? 'Yes' : 'No'} , Room NO. ${reservation.roomNumber}</p>
                 </div>
             </div>
         </div>
@@ -118,11 +119,11 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                     <div class="flex justify-evenly">
-                        <button id="attendedButton" date-id="${reservation.id}" class="bg-blue-400 text-white rounded-md p-2">Check In</button>
-                        <button id="cancelledButton" date-id="${reservation.id}" class="bg-red-400 text-white rounded-md p-2">Cancelled</button>
+                        <button id="attendedButton" date-id="${reservation.id}" class="bg-blue-400 text-white rounded-md p-2 hover:bg-blue-500">Check In</button>
+                        <button id="cancelledButton" date-id="${reservation.id}" class="bg-red-400 text-white rounded-md p-2 hover:bg-red-500">Cancelled</button>
                     </div>
                     <div class="px-2">
-                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full">View Details</button>
+                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400     ">View Details</button>
                     </div>
                 </div>
             </div>
@@ -145,10 +146,10 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                     <div class="px-2">
-                        <button class="bg-blue-300 text-black rounded-md p-2 w-full">Take Order</button>
+                        <button class="bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Take Order</button>
                     </div>
                     <div class="px-2">
-                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full">View Details</button>
+                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>
                     </div>
                 </div>
             </div>
