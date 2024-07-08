@@ -72,7 +72,13 @@ function displayReservationPopupDetails(reservation) {
 
 function createPopUp(reservation) {
     const tableNumbers = reservation.tables.map(table => table.tableNumber).join(", ");
-    const reservationTimePlus3hours = reservation.reservationTime.add(3, 'hours').format('HH:mm');
+    const reservationTime = reservation.reservationTime;
+    // convert text to date object
+    const time = new Date("1970-01-01T" + reservationTime + "Z");
+    // add 3 hours to the time
+    time.setHours(time.getHours() + 3);
+    // convert time back to text
+    const reservationTimePlus3hours = time.toTimeString().slice(0, 5);
     const card = $(`
         <div class="bg-gray-100 shadow-sm rounded-lg font-sans my-3">
             <div class="p-4 flex flex-col gap-2">
