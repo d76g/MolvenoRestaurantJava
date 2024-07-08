@@ -39,11 +39,19 @@ TODO 2: Implement JavaScript to handle the form submission and update
         th{
             font-size: 12px;
         }
+        table.dataTable tr.cancelled {
+            background-color: rgb(248 113 113);
+        }
+
+        table.dataTable tr.attended {
+            background-color: rgb(134 239 172);
+        }
+
     </style>
 </head>
 <body >
+<div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
 <div class="relative w-full h-auto flex flex-col justify-center items-center">
-    <div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
     <div class="w-full relative h-auto min-h-screen bg-gray-100 ">
         <div>
             <div class="w-full flex justify-start items-center p-8">
@@ -83,6 +91,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
     </div>
     <div th:insert="frontDesk/reservation/reservationForm :: reservationForm"></div>
     <div th:insert="frontDesk/reservation/reservationUpdateForm :: reservationUpdateForm"></div>
+    <div th:insert="frontDesk/reservation/reservationStatusForm :: reservationStatusForm"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
