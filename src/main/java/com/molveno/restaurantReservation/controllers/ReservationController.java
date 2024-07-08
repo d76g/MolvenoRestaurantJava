@@ -54,9 +54,15 @@ public class ReservationController {
         }
     }
 
-    @PostMapping("/reservation/{id}/updateStatus")
-    public ResponseEntity<Table> updateReservationStatus(@PathVariable long id, @RequestBody String reservationStatus) {
+    @PostMapping("/reservation/{id}/status/{reservationStatus}")
+    public ResponseEntity<Reservation> updateReservationStatus(@PathVariable long id, @PathVariable String reservationStatus) {
         Reservation updatedReservation = reservationService.updateReservationStatus(id, reservationStatus);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(updatedReservation, HttpStatus.OK);
+    }
+
+    @GetMapping("/reservation/today")
+    public ResponseEntity<Iterable<Reservation>> getReservationsForToday() {
+        Iterable<Reservation> reservations = reservationService.getReservationsForToday();
+        return ResponseEntity.ok(reservations);
     }
 }
