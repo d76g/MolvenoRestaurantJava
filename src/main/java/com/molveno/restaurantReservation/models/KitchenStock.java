@@ -34,17 +34,20 @@ public class KitchenStock {
     @JoinColumn(name = "category_id", nullable = false)
     private KitchenCategory category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="menuItemStock_id")
-    private MenuItemStock menuItemStock;
+    @OneToMany(mappedBy = "kitchenStock", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MenuItemStock> menuItemStocks;
 
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
+    }
+
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
+    }
 
     public void setId(long id) {
         this.id = id;
     }
-
-    @ManyToMany(mappedBy = "kitchenStocks")
-    private Set<Menu> menuItems;
 
     public KitchenStock() {
     }

@@ -105,5 +105,11 @@ public class MvcController {
         return "chef/menuManagement/menuCategory/menuCategoryList";
     }
 
+    //menuItemStock
+    @GetMapping("/chef/menuItemStock")
+    public String showMenuItemStockForm() {
+        return "chef/menuItemStock/menuItemStockList";
+    }
+
 
 }

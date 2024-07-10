@@ -15,12 +15,12 @@ public class MenuItemStock {
     private long id;
     private double amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="menuItem_id")
-    private Menu menuItem;
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id")
+    @ManyToOne
+    @JoinColumn(name = "kitchenStock_id")
     private KitchenStock kitchenStock;
 
     public long getId() {
@@ -40,11 +40,11 @@ public class MenuItemStock {
     }
 
     public Menu getMenuItem() {
-        return menuItem;
+        return menu;
     }
 
-    public void setMenuItem(Menu menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItem(Menu menu) {
+        this.menu = menu;
     }
 
     public KitchenStock getKitchenStock() {
@@ -53,6 +53,14 @@ public class MenuItemStock {
 
     public void setKitchenStock(KitchenStock kitchenStock) {
         this.kitchenStock = kitchenStock;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     public MenuItemStock() {
