@@ -76,7 +76,7 @@ function createPopUp(reservation) {
     // convert text to date object
     const time = new Date("1970-01-01T" + reservationTime + "Z");
     // add 3 hours to the time
-    time.setHours(time.getHours() + 3);
+    time.setHours(time.getHours() + 2);
     // convert time back to text
     const reservationTimePlus3hours = time.toTimeString().slice(0, 5);
     const card = $(`

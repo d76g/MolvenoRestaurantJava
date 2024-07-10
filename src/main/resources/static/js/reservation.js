@@ -25,7 +25,7 @@ function initReservation(){
             $('#roomNumber').prop('required', true);
         } else {
             $('#roomNumberDiv').addClass('hidden');
-            $('#updateRoomNumber').val('').prop('required', false);
+            $('#roomNumber').val('').prop('required', false);
         }
     });
     $('#updateGuest').change(function() {
