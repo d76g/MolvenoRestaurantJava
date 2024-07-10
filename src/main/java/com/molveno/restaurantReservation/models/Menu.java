@@ -36,6 +36,8 @@ public class Menu {
             joinColumns = @JoinColumn(name = "menuItem_id"),
             inverseJoinColumns = @JoinColumn(name = "stockItem_id")
     )
+
+
     private Set<KitchenStock> kitchenStocks;
 
     public Menu() {
