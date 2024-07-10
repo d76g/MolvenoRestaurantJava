@@ -30,12 +30,9 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private Set<OrderItem> orderItems;
 
-    @ManyToMany
-    @JoinTable(
-            name = "menuItemStock",
-            joinColumns = @JoinColumn(name = "menuItem_id"),
-            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="menuItemStock_id")
+    private MenuItemStock menuItemStock;
 
 
     private Set<KitchenStock> kitchenStocks;
