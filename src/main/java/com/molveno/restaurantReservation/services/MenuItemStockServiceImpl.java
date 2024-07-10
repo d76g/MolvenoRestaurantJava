@@ -14,8 +14,9 @@ public class MenuItemStockServiceImpl implements MenuItemStockService {
     }
     //create
     @Override
-    public void addMenuItemStock(MenuItemStock menuItemStock) {
+    public MenuItemStock addMenuItemStock(MenuItemStock menuItemStock) {
         menuItemStockRepo.save(menuItemStock);
+        return menuItemStock;
     }
     //read
     @Override

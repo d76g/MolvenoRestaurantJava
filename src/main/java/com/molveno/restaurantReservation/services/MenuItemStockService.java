@@ -4,7 +4,7 @@ import com.molveno.restaurantReservation.models.MenuItemStock;
 
 public interface MenuItemStockService {
     //create
-    void addMenuItemStock(MenuItemStock menuItemStock);
+    MenuItemStock addMenuItemStock(MenuItemStock menuItemStock);
 
     //read
     Iterable<MenuItemStock> getMenuItemStocks();
