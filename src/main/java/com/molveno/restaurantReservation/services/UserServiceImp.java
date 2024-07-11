@@ -29,7 +29,9 @@ public class UserServiceImp implements UserService {
         } else {
             user = new User();
         }
-        user.setUser_name(userDto.getUserName());
+        user.setUsername(userDto.getUserName());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
 
@@ -46,10 +48,13 @@ public class UserServiceImp implements UserService {
         List<User> users = userRepo.findAll();
         return users.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
+
     private UserDTO convertToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(user.getUser_id());
-        userDTO.setUserName(user.getUser_name());
+        userDTO.setUserName(user.getUsername());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setRoleName(user.getUserRole().getRole());
         userDTO.setPassword(user.getPassword());

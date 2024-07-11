@@ -39,7 +39,9 @@
                 <table id="userList" class="w-full mt-10">
                     <thead>
                     <tr>
-                        <th class="text-left">Username</th>
+                        <th class="text-left">User name</th>
+                        <th class="text-left">First name</th>
+                        <th class="text-left">Last name</th>
                         <th class="text-left">Email</th>
                         <th class="text-left">Role</th>
                         <th class="text-left">Actions</th>
@@ -57,7 +59,6 @@
             Check the addForm.html and updateForm.html for the form structure
         -->
         <div th:insert="admin/userManagement/addForm :: addUserFormHTML"></div>
-        <div th:insert="admin/userManagement/updateForm :: updateUserFormHTML"></div>
     </div>
 
 </div>
