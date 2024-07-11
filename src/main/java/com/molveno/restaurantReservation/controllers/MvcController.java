@@ -45,6 +45,11 @@ public class MvcController {
         return "frontDesk/home";
     }
 
+    @GetMapping("/frontDesk/orders")
+    public String getOrders() {
+        return "common/ordering/menuList";
+    }
+
     // tables
     @GetMapping("/admin/tables")
     public String getTables(Model model) {

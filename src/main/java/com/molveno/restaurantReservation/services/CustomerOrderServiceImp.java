@@ -52,30 +52,35 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
             newOrderItem.setMenu(menuRepo.findById(orderItemDTO.getMenuId())
                     .orElseThrow(() -> new IllegalArgumentException("Menu item not found")));
             newOrderItem.setQuantity(orderItemDTO.getQuantity());
+            newOrderItem.setPrice(orderItemDTO.getPrice());
             return newOrderItem;
         }).collect(Collectors.toSet());
         newOrder.setOrderItem(orderItems);
 
-        double totalPrice = orderItems.stream().mapToDouble(orderItem -> orderItem.getMenu().getPrice() * orderItem.getQuantity()).sum();
+        // Calculate total price correctly
+        double totalPrice = orderItems.stream()
+                .mapToDouble(orderItem -> orderItem.getPrice() * orderItem.getQuantity())
+                .sum();
         newOrder.setTotal_price(totalPrice);
+
         return orderRepo.save(newOrder);
     }
+
 
     @Override
     public void deleteById(long id) {
 
     }
 
-    public OrderResponseDTO mapToResponseDTO(CustomerOrder customerOrder){
+    public OrderResponseDTO mapToResponseDTO(CustomerOrder customerOrder) {
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setOrderId(customerOrder.getOrder_id());
         orderResponseDTO.setTotalPrice(customerOrder.getTotal_price());
         orderResponseDTO.setReservationId(customerOrder.getReservation().getId());
 
-        // get menu id and search for menu item
-        Menu menuItem = menuRepo.findById(customerOrder.getOrderItem().stream().findFirst().get().getMenu().getMenuItem_id()).get();
         Set<OrderItemResponseDTO> orderItemResponseDTOS = customerOrder.getOrderItem().stream().map(orderItem -> {
             OrderItemResponseDTO orderItemResponseDTO = new OrderItemResponseDTO();
+            Menu menuItem = menuRepo.findById(orderItem.getMenu().getMenuItem_id()).orElseThrow(() -> new RuntimeException("Menu item not found"));
             orderItemResponseDTO.setMenuId(orderItem.getMenu().getMenuItem_id());
             orderItemResponseDTO.setQuantity(orderItem.getQuantity());
             orderItemResponseDTO.setMenuName(menuItem.getItem_name());
@@ -85,6 +90,6 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
 
         orderResponseDTO.setOrderItems(orderItemResponseDTOS);
         return orderResponseDTO;
-
     }
+
 }

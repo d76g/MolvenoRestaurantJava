@@ -8,6 +8,7 @@ public class OrderItem {
     @GeneratedValue
     private long orderItem_id;
     private int quantity;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
@@ -47,6 +48,13 @@ public class OrderItem {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
     }
 
 }
