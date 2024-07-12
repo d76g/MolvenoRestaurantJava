@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/api")
 public class OrderController {
@@ -33,5 +31,12 @@ public class OrderController {
     public ResponseEntity<OrderResponseDTO> saveOrder(@RequestBody OrderDTO order) {
          CustomerOrder newOrder = customerOrderService.save(order);
         return ResponseEntity.ok(customerOrderService.mapToResponseDTO(newOrder));
+    }
+
+    // delete all orders
+    @DeleteMapping(value = "/orders", produces = "application/json")
+    public ResponseEntity<String> deleteAllOrders() {
+        customerOrderService.deleteAll();
+        return ResponseEntity.ok("All orders deleted");
     }
 }

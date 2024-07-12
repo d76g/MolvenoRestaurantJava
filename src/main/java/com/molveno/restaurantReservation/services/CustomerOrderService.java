@@ -8,4 +8,5 @@ public interface CustomerOrderService {
     CustomerOrder findById(long id);
     CustomerOrder save(OrderDTO customerOrder);
     void deleteById(long id);
+    void deleteAll();
 }

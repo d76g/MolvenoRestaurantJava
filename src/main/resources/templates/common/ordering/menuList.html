@@ -30,25 +30,23 @@ TODO 2: Implement JavaScript to handle the form submission and update
   </style>
 </head>
 <body >
-<div class="relative w-full h-auto flex flex-col justify-center items-center">
-  <div class="w-full relative h-auto min-h-screen bg-gray-100 ">
-    <div>
-      <div class="w-full flex justify-start items-center p-8">
-        <h1 class="text-xl font-bold">Ordering </h1>
-      </div>
-    </div>
-    <!--    Menu List-->
-    <div class="w-full flex items-center justify-center h-screen py-10 bg-zinc-50 ">
-      <div class="w-11/12 h-5/6 bg-zinc-100 rounded-lg overflow-y-scroll flex flex-cols justify-evenly shadow-md">
-          <div id="menuListContainer" class="w-4/6 h-full grid grid-cols-4 justify-items-center gap-3 my-3 px-6 py-3">
+<div th:fragment="menuList" id="menuList" class="w-full h-auto flex flex-col justify-center items-center absolute z-40 w-full inset-0 hidden">
+  <div class="w-full h-screen z-40 bg-black opacity-20 absolute"></div>
+
+  <div class="w-full relative z-50 h-full flex justify-center items-center mt-6">
+    <!--Menu List-->
+    <div class="w-full flex items-center justify-center h-4/5 py-10">
+      <div class="w-11/12 h-full bg-white rounded-lg overflow-y-scroll flex flex-cols justify-evenly shadow-md">
+          <div id="menuListContainer" class="w-4/6 h-full grid grid-cols-4 py-6">
 
           </div>
-        <div class="w-96 h-4/5 bg-neutral-100 my-6 px-6 py-3 overflow-y-scroll rounded-sm drop-shadow-sm">
+        <div>
+        <div class="w-96 h-4/5 bg-gray-100 my-6 px-6 py-3 overflow-y-scroll rounded-sm drop-shadow-sm">
           <div>
             <h1 class="text-xl font-bold">Order </h1>
           </div>
           <div>
-            <h1 class="text-lg font-bold">Table 1</h1>
+            <h1 class="text-lg font-bold">Table <span id="table-number"></span></h1>
           </div>
           <div id="OrderMenuList" class="w-full h-3/5 space-y-2 mt-2 overflow-y-scroll">
                 <!-- Order Menu Item List-->
@@ -67,12 +65,14 @@ TODO 2: Implement JavaScript to handle the form submission and update
                 <button id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
             </div>
         </div>
+          <div>
+            <button id="closeMenuList" class="w-full h-10 bg-red-500 text-white rounded-md mt-4">Close</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-<!--  <div th:insert="frontDesk/reservation/reservationForm :: reservationForm"></div>-->
-<!--  <div th:insert="frontDesk/reservation/reservationUpdateForm :: reservationUpdateForm"></div>-->
-<!--  <div th:insert="frontDesk/reservation/reservationStatusForm :: reservationStatusForm"></div>-->
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
@@ -80,11 +80,5 @@ TODO 2: Implement JavaScript to handle the form submission and update
 <!-- Include the table.js file  from the static folder
     Create your own js file in the js folder and use it like this
 -->
-<script th:src="@{/js/menuOrdering.js}"></script>
-<script>
-  $(document).ready(function() {
-    init();
-  });
-</script>
 </body>
 </html>

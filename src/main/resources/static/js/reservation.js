@@ -325,7 +325,7 @@ function getAllReservations(){
                         "render": function(data, type, row) {
                             let tablesHtml = '<ul>';
                             data.forEach(function(table) {
-                                tablesHtml += '<li>Table NO.: ' + table.tableNumber + ', Seats: ' + table.tableCapacity + '</li>';
+                                tablesHtml += '<li>Table NO.: ' + table.tableNumber + ', Seats: ' + table.capacity + '</li>';
                             });
                             tablesHtml += '</ul>';
                             return tablesHtml;
@@ -374,8 +374,11 @@ function getAllReservations(){
                     if (data.reservationStatus === 'CANCELLED') {
                         $(row).addClass('cancelled');
                     }
-                    if (data.reservationStatus === 'ATTENDED') {
+                    if (data.reservationStatus === 'PAID') {
                         $(row).addClass('attended');
+                    }
+                    if (data.reservationStatus === 'ORDERED') {
+                        $(row).addClass('ordered');
                     }
                 }
             });

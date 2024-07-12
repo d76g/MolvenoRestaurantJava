@@ -16,7 +16,7 @@ public class CustomerOrder {
     @JoinColumn(name = "reservation_id", nullable = false)
     private  Reservation reservation;
 
-    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItem = new HashSet<>();
 
     public CustomerOrder() {
@@ -53,4 +53,6 @@ public class CustomerOrder {
     public void setTotal_price(double total_price) {
         this.total_price = total_price;
     }
+
+
 }

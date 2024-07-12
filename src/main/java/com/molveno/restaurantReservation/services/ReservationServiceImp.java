@@ -1,6 +1,8 @@
 package com.molveno.restaurantReservation.services;
 
 
+import com.molveno.restaurantReservation.models.DTO.Mappers.ReservationMapper;
+import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
 import com.molveno.restaurantReservation.repos.ReservationRepo;
@@ -27,13 +29,16 @@ public class ReservationServiceImp implements ReservationService{
     }
     // list all reservations
     @Override
-    public List<Reservation> listReservations() {
-        return reservationRepo.findAll();
+    public List<ReservationResponseDTO> listReservations() {
+        return reservationRepo.findAll().stream()
+                .map(ReservationMapper::mapToResponseDTO)
+                .collect(Collectors.toList());
     }
     // get a reservation by id
     @Override
-    public Reservation getReservation(Long id) {
-        return reservationRepo.findById(id).orElse(null);
+    public ReservationResponseDTO getReservation(Long id) {
+        Reservation reservation = reservationRepo.findById(id).orElseThrow(() -> new RuntimeException("Reservation not found"));
+        return ReservationMapper.mapToResponseDTO(reservation);
     }
     @Override
     // delete a reservation
@@ -49,11 +54,12 @@ public class ReservationServiceImp implements ReservationService{
     }
 
     @Override
-    public List<Reservation> getReservationsForToday() {
+    public List<ReservationResponseDTO> getReservationsForToday() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String today = LocalDateTime.now().format(formatter);
         return reservationRepo.findAll().stream()
-                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED"))
+                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED") && !reservation.getReservationStatus().equals("PAID"))
+                .map(ReservationMapper::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -92,8 +98,8 @@ public class ReservationServiceImp implements ReservationService{
     // update a reservation
     @Override
     public Reservation updateReservation(long id, Reservation reservation) {
-        if ("CANCELLED".equals(reservation.getReservationStatus()) || "ATTENDED".equals(reservation.getReservationStatus())){
-            throw new IllegalStateException("Cannot modify this reservation, it has already been cancelled or already attended.");
+        if ("CANCELLED".equals(reservation.getReservationStatus()) || "PAID".equals(reservation.getReservationStatus())){
+            throw new IllegalStateException("Cannot modify this reservation, it has already been cancelled or already attended and paid.");
         }
 
         // Fetch the existing reservation from the database
@@ -148,10 +154,10 @@ public class ReservationServiceImp implements ReservationService{
             throw new RuntimeException("Reservation not found");
         }
         if ("CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
-            throw new IllegalStateException("Cannot modify a cancelled reservation.");
+            throw new IllegalStateException("Cannot modify a CANCELLED reservation.");
         }
-        if ("ATTENDED".equals(existingReservation.getReservationStatus()) && !"ATTENDED".equals(reservationStatus)) {
-            throw new IllegalStateException("Cannot modify an ATTENDED reservation.");
+        if ("PAID".equals(existingReservation.getReservationStatus()) && !"PAID".equals(reservationStatus)) {
+            throw new IllegalStateException("Cannot modify an PAID reservation.");
         }
         if (reservationStatus.equals("CANCELLED")) {
             existingReservation.setTables(new HashSet<>());

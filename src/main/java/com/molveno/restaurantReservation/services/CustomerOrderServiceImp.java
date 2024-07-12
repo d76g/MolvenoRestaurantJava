@@ -91,5 +91,9 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
         orderResponseDTO.setOrderItems(orderItemResponseDTOS);
         return orderResponseDTO;
     }
-
+    // delete all orders
+    @Override
+    public void deleteAll() {
+        orderRepo.deleteAll();
+    }
 }
