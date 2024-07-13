@@ -1,4 +1,4 @@
-
+let menuDiv = $("#menuListContainer");
 // define an Order object
 const Order = {
     reservationId: 0,
@@ -72,7 +72,7 @@ function getMenuItems(){
     )
 }
 function displayMenu(data){
-    const menuDiv = $("#menuListContainer");
+
     menuDiv.empty();
     for (const menu of data) {
         const card = menuCard(menu);
@@ -81,7 +81,7 @@ function displayMenu(data){
 }
 
 //TODO:: Add menu item to the order
-$("#menuListContainer").on("submit", "#addItemToOrder", function(event){
+menuDiv.on("submit", "#addItemToOrder", function(event){
     event.preventDefault();
     const menuItemId = parseInt($(this).find("#menuItemId").val());
     const quantity = parseInt($(this).find("#quantity").val());

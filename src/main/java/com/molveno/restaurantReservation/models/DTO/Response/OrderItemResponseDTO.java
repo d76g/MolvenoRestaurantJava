@@ -1,13 +1,12 @@
 package com.molveno.restaurantReservation.models.DTO.Response;
 
-import java.math.BigDecimal;
-
 public class OrderItemResponseDTO {
 
     private long menuId;
     private String menuName;
     private int quantity;
     private double itemPrice;
+    private String image;
 
     public long getMenuId() {
         return menuId;
@@ -39,5 +38,13 @@ public class OrderItemResponseDTO {
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

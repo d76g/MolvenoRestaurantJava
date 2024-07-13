@@ -85,6 +85,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
             orderItemResponseDTO.setQuantity(orderItem.getQuantity());
             orderItemResponseDTO.setMenuName(menuItem.getItem_name());
             orderItemResponseDTO.setItemPrice(menuItem.getPrice());
+            orderItemResponseDTO.setImage(menuItem.getImage());
             return orderItemResponseDTO;
         }).collect(Collectors.toSet());
 

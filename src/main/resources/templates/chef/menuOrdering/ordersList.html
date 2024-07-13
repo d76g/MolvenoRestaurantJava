@@ -1,0 +1,104 @@
+
+<!--
+ Guys, I have added the table list page with the table form and update form.
+ It's the same as we did with Cor using jQuery but this one is with Thymeleaf and Tailwind CSS.
+
+ Update the form based on your form fields and the controller mappings.
+ Be careful with the form action and the input field names.
+
+ USE THE CODE BELOW:
+ -->
+<!--
+TODO 1: Add the table list page with the table form and update form
+TODO 2: Implement JavaScript to handle the form submission and update
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef - Orders</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.tailwindcss.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatable/2.0.2/js/datatable.js" integrity="sha512-jNM5sph4S0JfKyz27iPhIFj4JG8o/XiIu7WUgCM/EGYCizlQW+RzMi8Y/rnXlqpkUl7ELz5SLfuF44zCvS3NYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        #tableList {
+            width: 80vw !important;
+        }
+        td{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+        th{
+            font-size: 12px;
+        }
+        table.dataTable tr.cancelled {
+            background-color: rgb(248 113 113);
+        }
+
+        table.dataTable tr.attended {
+            background-color: rgb(134 239 172);
+        }
+        table.dataTable tr.ordered {
+            background-color: rgb(255 229 100);
+        }
+
+    </style>
+</head>
+<body >
+<div th:insert="/chef/navbar/nav :: Navbar"></div>
+<div th:insert="/common/ordering/menuList:: menuList"></div>
+<div class="relative w-full h-auto flex flex-col justify-center items-center">
+    <div class="w-full relative h-auto min-h-screen bg-gray-100 ">
+        <div>
+            <div class="w-full flex justify-start items-center p-8">
+                <h1 class="text-xl font-bold">Orders</h1>
+            </div>
+        </div>
+        <div class="w-full flex items-center justify-center h-screen py-10 bg-gray-100">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <h1 class="text-2xl font-bold mb-6">Orders</h1>
+                <table id="orderList" class="mt-10 text-xs">
+                    <thead>
+                    <tr>
+                        <th class="text-left">Table NO.</th>
+                        <th class="text-left">Customer Full Name</th>
+                        <th class="text-left">Total Price</th>
+                        <th class="text-left">View Order Items</th>
+                        <th class="text-left">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Table rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mt-5 w-full h-10 text-black">
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
+<!-- Include the table.js file  from the static folder
+    Create your own js file in the js folder and use it like this
+-->
+<script th:src="@{/js/order.js}"></script>
+<script th:src="@{/js/menuOrdering.js}"></script>
+
+<script>
+    $(document).ready(function() {
+        init();
+        initMenuList();
+    });
+</script>
+</body>
+</html>

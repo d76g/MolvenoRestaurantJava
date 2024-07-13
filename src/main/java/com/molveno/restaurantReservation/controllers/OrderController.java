@@ -14,7 +14,7 @@ public class OrderController {
     @Autowired
     private CustomerOrderServiceImp customerOrderService;
     // get all orders
-    @GetMapping(value = "/orders", produces = "application/json")
+    @GetMapping(value = "/order", produces = "application/json")
     public ResponseEntity<Iterable<CustomerOrder>> getAllOrders() {
         Iterable<CustomerOrder> allOrders = customerOrderService.findAll();
         return ResponseEntity.ok(allOrders);
@@ -34,7 +34,7 @@ public class OrderController {
     }
 
     // delete all orders
-    @DeleteMapping(value = "/orders", produces = "application/json")
+    @DeleteMapping(value = "/order", produces = "application/json")
     public ResponseEntity<String> deleteAllOrders() {
         customerOrderService.deleteAll();
         return ResponseEntity.ok("All orders deleted");

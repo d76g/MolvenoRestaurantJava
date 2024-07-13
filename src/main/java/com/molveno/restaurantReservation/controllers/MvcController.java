@@ -4,15 +4,10 @@ import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
 import com.molveno.restaurantReservation.services.ReservationService;
 import com.molveno.restaurantReservation.services.TableService;
-import com.molveno.restaurantReservation.utils.TableValidationException;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MvcController {
@@ -108,6 +103,10 @@ public class MvcController {
     @GetMapping("/chef/menu/menuCategory/form")
     public String showMenuCategoryForm() {
         return "chef/menuManagement/menuCategory/menuCategoryList";
+    }
+    @GetMapping("/chef/order")
+    public String showOrdersList() {
+        return "chef/menuOrdering/ordersList";
     }
 
 
