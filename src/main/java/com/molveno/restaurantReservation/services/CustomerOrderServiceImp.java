@@ -43,28 +43,43 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
             throw new IllegalArgumentException("Reservation not found");
         }
 
-        CustomerOrder newOrder = new CustomerOrder();
-        newOrder.setReservation(reservationOpt.get());
+        CustomerOrder order;
+        if (orderDTO.getId() != 0) {
+            // Check if order exists and update it
+            order = orderRepo.findById(orderDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        } else {
+            // Create a new order
+            order = new CustomerOrder();
+        }
 
-        Set<OrderItem> orderItems = orderDTO.getOrderItems().stream().map(orderItemDTO -> {
+        // Set reservation
+        order.setReservation(reservationOpt.get());
+
+        // Create new set of order items
+        Set<OrderItem> newOrderItems = orderDTO.getOrderItems().stream().map(orderItemDTO -> {
             OrderItem newOrderItem = new OrderItem();
-            newOrderItem.setOrder(newOrder);
+            newOrderItem.setOrder(order);
             newOrderItem.setMenu(menuRepo.findById(orderItemDTO.getMenuId())
                     .orElseThrow(() -> new IllegalArgumentException("Menu item not found")));
             newOrderItem.setQuantity(orderItemDTO.getQuantity());
             newOrderItem.setPrice(orderItemDTO.getPrice());
             return newOrderItem;
         }).collect(Collectors.toSet());
-        newOrder.setOrderItem(orderItems);
 
-        // Calculate total price correctly
-        double totalPrice = orderItems.stream()
-                .mapToDouble(orderItem -> orderItem.getPrice() * orderItem.getQuantity())
-                .sum();
-        newOrder.setTotal_price(totalPrice);
+        // Clear existing order items and add new ones
+        order.getOrderItem().clear();
+        order.getOrderItem().addAll(newOrderItems);
 
-        return orderRepo.save(newOrder);
+        // Calculate total price
+        double totalPrice = newOrderItems.stream().mapToDouble(orderItem ->
+                orderItem.getMenu().getPrice() * orderItem.getQuantity()).sum();
+        order.setTotal_price(totalPrice);
+
+        // Save and return the order
+        return orderRepo.save(order);
     }
+
+
 
 
     @Override

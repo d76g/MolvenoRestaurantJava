@@ -1,6 +1,7 @@
 let menuDiv = $("#menuListContainer");
 // define an Order object
 const Order = {
+    id: 0,
     reservationId: 0,
     orderItems : [
         // add order items here
@@ -17,8 +18,8 @@ function addOrderItem(menuItemId, quantity, price, itemName, image){
         const orderItem = {
             menuId: menuItemId,
             quantity: quantity,
-            price: price,
-            itemName: itemName,
+            itemPrice: price,
+            menuName: itemName,
             image: image
         };
         Order.orderItems.push(orderItem);
@@ -100,14 +101,15 @@ menuDiv.on("submit", "#addItemToOrder", function(event){
 function displayOrderItems() {
     const orderDiv = $("#OrderMenuList");
     orderDiv.empty();
+    console.log(Order.orderItems)
     for (const orderItem of Order.orderItems) {
-        const orderItemDiv = OrderMenuItem(orderItem.itemName, orderItem.price, orderItem.quantity, orderItem.image, orderItem.menuId);
+        const orderItemDiv = OrderMenuItem(orderItem.menuName, orderItem.itemPrice, orderItem.quantity, orderItem.image, orderItem.menuId);
         orderDiv.append(orderItemDiv);
     }
 }
 // Function to update the total order price
 function updateOrderTotal() {
-    const total = Order.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = Order.orderItems.reduce((sum, item) => sum + (item.itemPrice * item.quantity), 0);
     $("#totalPrice").text(`${total}`);
 }
 function menuCard(menu){
@@ -180,6 +182,8 @@ $("#orderButton").on("click", function(){
                 $('#menuList').toggleClass("hidden");
                 updateOrderTotal();
                 changeReservationStatus(currentReservationId, "ORDERED");
+                getOrderList()
+                alert("Order saved successfully")
             },
             error: function(error){
                 console.log(error)

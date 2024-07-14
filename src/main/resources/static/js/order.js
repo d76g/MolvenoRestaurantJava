@@ -1,22 +1,27 @@
 const url = '/api/order';
 
 function init() {
+    console.log("init order");
     getOrderList();
 
     // view order items
     $('#orderList').on('click', '.viewOrderItems', function () {
-
-
-
+        $('#menuList').toggleClass("hidden");
+        const orderId = $(this).attr('data-id');
+        Order.id = orderId;
+        currentReservationId = $(this).attr('data-reservation-id');
+        getOrderItem(orderId);
     });
 }
 
 function getOrderItem(orderId) {
-    $ajax({
+    $.ajax({
         url: url + '/' + orderId,
         type: 'GET',
         success: function(data) {
-            console.log(data);
+            Order.orderItems = data.orderItems;
+            displayOrderItems();
+            updateOrderTotal();
         },
         error: function(error) {
             console.error("There was an error fetching the order item data:", error);
@@ -60,16 +65,14 @@ function getOrderList(){
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<button class="viewOrderItems text-indigo-600 hover:text-indigo-900">' +
+                            return '<button data-id="'+ row.order_id +'" data-reservation-id="'+ row.reservation.id +'" class="viewOrderItems text-indigo-600 hover:text-indigo-900">' +
                                 '<i class="fa-solid fa-eye"></i></button> '
                         }
                     },
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<button class="editButton text-indigo-600 hover:text-indigo-900">' +
-                                '<i class="fa-solid fa-pen"></i></button> ' +
-                                '<button data-id="'+ row.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
+                            return '<button data-id="'+ row.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
                                 '<i class="fa-solid fa-trash"></i></button>';
                         }
                     }
@@ -78,6 +81,18 @@ function getOrderList(){
         },
         error: function(error) {
             console.error("There was an error fetching the order data:", error);
+        }
+    });
+}
+function changeReservationStatus(id, status){
+    $.ajax({
+        url: `/api/reservation/${id}/status/${status}`,
+        type: "POST",
+        success: function(data) {
+            console.log(data);
+        },
+        error: function(error) {
+            console.log(error);
         }
     });
 }

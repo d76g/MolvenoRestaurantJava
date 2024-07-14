@@ -3,8 +3,17 @@ package com.molveno.restaurantReservation.models.DTO;
 import java.util.Set;
 
 public class OrderDTO {
+    private long id;
     private long reservationId;
     private Set<OrderItemDTO> orderItems;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getReservationId() {
         return reservationId;
