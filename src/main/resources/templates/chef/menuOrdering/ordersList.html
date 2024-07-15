@@ -1,17 +1,4 @@
 
-<!--
- Guys, I have added the table list page with the table form and update form.
- It's the same as we did with Cor using jQuery but this one is with Thymeleaf and Tailwind CSS.
-
- Update the form based on your form fields and the controller mappings.
- Be careful with the form action and the input field names.
-
- USE THE CODE BELOW:
- -->
-<!--
-TODO 1: Add the table list page with the table form and update form
-TODO 2: Implement JavaScript to handle the form submission and update
--->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -38,33 +25,22 @@ TODO 2: Implement JavaScript to handle the form submission and update
         th{
             font-size: 12px;
         }
-        table.dataTable tr.cancelled {
-            background-color: rgb(248 113 113);
-        }
-
-        table.dataTable tr.attended {
-            background-color: rgb(134 239 172);
-        }
-        table.dataTable tr.ordered {
-            background-color: rgb(255 229 100);
-        }
-
     </style>
 </head>
 <body >
 <div th:insert="/chef/navbar/nav :: Navbar"></div>
 <div th:insert="/common/ordering/menuList:: menuList"></div>
-<div class="relative w-full h-auto flex flex-col justify-center items-center">
+<div class="relative w-full flex flex-col justify-center items-center">
     <div class="w-full relative h-auto min-h-screen bg-gray-100 ">
         <div>
             <div class="w-full flex justify-start items-center p-8">
                 <h1 class="text-xl font-bold">Orders</h1>
             </div>
         </div>
-        <div class="w-full flex items-center justify-center h-screen py-10 bg-gray-100">
+        <div class="w-full flex items-center justify-center h-3/4 py-10 bg-gray-100">
             <div class="bg-white p-8 rounded-lg shadow-lg">
                 <h1 class="text-2xl font-bold mb-6">Orders</h1>
-                <table id="orderList" class="mt-10 text-xs">
+                <table id="orderList" class="lg:mt-10 mt-5 text-xs">
                     <thead>
                     <tr>
                         <th class="text-left">Table NO.</th>
@@ -79,8 +55,6 @@ TODO 2: Implement JavaScript to handle the form submission and update
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="mt-5 w-full h-10 text-black">
         </div>
     </div>
 </div>

@@ -12,6 +12,13 @@ function init() {
         currentReservationId = $(this).attr('data-reservation-id');
         getOrderItem(orderId);
     });
+    // delete order
+    $('#orderList').on('click', '.deleteButton', function () {
+        const orderId = $(this).attr('data-id');
+        currentReservationId = $(this).attr('data-reservation-id');
+        if (!confirm('Are you sure you want to delete this order?')) return;
+        deleteOrder(orderId);
+    });
 }
 
 function getOrderItem(orderId) {
@@ -61,18 +68,18 @@ function getOrderList(){
                         return row.reservation.customerFirstName + ' ' + row.reservation.customerLastName;
                       }
                     },
-                    { "data": "total_price" },
+                    { "data": "totalPrice" },
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<button data-id="'+ row.order_id +'" data-reservation-id="'+ row.reservation.id +'" class="viewOrderItems text-indigo-600 hover:text-indigo-900">' +
+                            return '<button data-id="'+ row.orderId +'" data-reservation-id="'+ row.reservation.id +'" class="viewOrderItems text-indigo-600 hover:text-indigo-900">' +
                                 '<i class="fa-solid fa-eye"></i></button> '
                         }
                     },
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<button data-id="'+ row.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
+                            return '<button data-id="'+ row.orderId +'" data-reservation-id="'+ row.reservation.id +'" class="deleteButton text-red-600 hover:text-red-900">' +
                                 '<i class="fa-solid fa-trash"></i></button>';
                         }
                     }
@@ -93,6 +100,21 @@ function changeReservationStatus(id, status){
         },
         error: function(error) {
             console.log(error);
+        }
+    });
+}
+
+function deleteOrder(orderId) {
+    $.ajax({
+        url: url + '/' + orderId,
+        type: 'DELETE',
+        success: function(data) {
+            console.log(data);
+            getOrderList();
+            changeReservationStatus(currentReservationId, 'ATTENDED');
+        },
+        error: function(error) {
+            console.error("There was an error deleting the order:", error);
         }
     });
 }

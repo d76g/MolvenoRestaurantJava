@@ -1,6 +1,5 @@
 package com.molveno.restaurantReservation.models.DTO.Response;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 public class OrderResponseDTO {
@@ -9,6 +8,7 @@ public class OrderResponseDTO {
     private long reservationId;
     private double totalPrice;
     private Set<OrderItemResponseDTO> orderItems;
+    private ReservationResponseDTO reservation;
 
     public long getOrderId() {
         return orderId;
@@ -40,5 +40,12 @@ public class OrderResponseDTO {
 
     public void setOrderItems(Set<OrderItemResponseDTO> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public ReservationResponseDTO getReservation() {
+        return reservation;
+    }
+    public void setReservation(ReservationResponseDTO reservation) {
+        this.reservation = reservation;
     }
 }

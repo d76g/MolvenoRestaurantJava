@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class OrderController {
@@ -15,9 +17,10 @@ public class OrderController {
     private CustomerOrderServiceImp customerOrderService;
     // get all orders
     @GetMapping(value = "/order", produces = "application/json")
-    public ResponseEntity<Iterable<CustomerOrder>> getAllOrders() {
+    public ResponseEntity<List<OrderResponseDTO>> getAllOrders() {
         Iterable<CustomerOrder> allOrders = customerOrderService.findAll();
-        return ResponseEntity.ok(allOrders);
+        List<OrderResponseDTO> responseDTOs = customerOrderService.mapToResponseDTO(allOrders);
+        return ResponseEntity.ok(responseDTOs);
     }
     // get order by id
      @GetMapping(value = "/order/{id}", produces = "application/json")
@@ -33,10 +36,17 @@ public class OrderController {
         return ResponseEntity.ok(customerOrderService.mapToResponseDTO(newOrder));
     }
 
+    // delete order by id
+    @DeleteMapping(value = "/order/{id}", produces = "application/json")
+    public void deleteOrderById(@PathVariable long id) {
+        customerOrderService.deleteById(id);
+    }
+
     // delete all orders
     @DeleteMapping(value = "/order", produces = "application/json")
     public ResponseEntity<String> deleteAllOrders() {
         customerOrderService.deleteAll();
         return ResponseEntity.ok("All orders deleted");
     }
+
 }

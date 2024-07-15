@@ -1,18 +1,20 @@
 package com.molveno.restaurantReservation.services;
 
-import com.molveno.restaurantReservation.models.CustomerOrder;
+import com.molveno.restaurantReservation.models.*;
 import com.molveno.restaurantReservation.models.DTO.OrderDTO;
 
 import com.molveno.restaurantReservation.models.DTO.Response.OrderItemResponseDTO;
 import com.molveno.restaurantReservation.models.DTO.Response.OrderResponseDTO;
-import com.molveno.restaurantReservation.models.Menu;
-import com.molveno.restaurantReservation.models.OrderItem;
+import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
+import com.molveno.restaurantReservation.models.DTO.Response.TableResponseDTO;
 import com.molveno.restaurantReservation.repos.MenuRepo;
 import com.molveno.restaurantReservation.repos.OrderRepo;
 import com.molveno.restaurantReservation.repos.ReservationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,15 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     @Override
     public Iterable<CustomerOrder> findAll() {
         return orderRepo.findAll();
+    }
+
+    @Override
+    public List<OrderResponseDTO> mapToResponseDTO(Iterable<CustomerOrder> customerOrders) {
+        List<OrderResponseDTO> dtos = new ArrayList<>();
+        for (CustomerOrder order : customerOrders) {
+            dtos.add(mapToResponseDTO(order));
+        }
+        return dtos;
     }
 
     @Override
@@ -84,7 +95,16 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
 
     @Override
     public void deleteById(long id) {
+        if (!orderRepo.existsById(id)) {
+            throw new IllegalArgumentException("Order not found");
+        }
+        orderRepo.deleteById(id);
+    }
 
+    // delete all orders
+    @Override
+    public void deleteAll() {
+        orderRepo.deleteAll();
     }
 
     public OrderResponseDTO mapToResponseDTO(CustomerOrder customerOrder) {
@@ -95,7 +115,8 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
 
         Set<OrderItemResponseDTO> orderItemResponseDTOS = customerOrder.getOrderItem().stream().map(orderItem -> {
             OrderItemResponseDTO orderItemResponseDTO = new OrderItemResponseDTO();
-            Menu menuItem = menuRepo.findById(orderItem.getMenu().getMenuItem_id()).orElseThrow(() -> new RuntimeException("Menu item not found"));
+            Menu menuItem = menuRepo.findById(orderItem.getMenu().getMenuItem_id())
+                    .orElseThrow(() -> new RuntimeException("Menu item not found"));
             orderItemResponseDTO.setMenuId(orderItem.getMenu().getMenuItem_id());
             orderItemResponseDTO.setQuantity(orderItem.getQuantity());
             orderItemResponseDTO.setMenuName(menuItem.getItem_name());
@@ -103,13 +124,39 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
             orderItemResponseDTO.setImage(menuItem.getImage());
             return orderItemResponseDTO;
         }).collect(Collectors.toSet());
-
         orderResponseDTO.setOrderItems(orderItemResponseDTOS);
+
+        Reservation reservation = customerOrder.getReservation();
+        if (reservation != null) {
+            ReservationResponseDTO reservationResponseDTO = new ReservationResponseDTO();
+            reservationResponseDTO.setId(reservation.getId());
+            reservationResponseDTO.setCustomerFirstName(reservation.getCustomerFirstName());
+            reservationResponseDTO.setCustomerLastName(reservation.getCustomerLastName());
+            reservationResponseDTO.setCustomerEmail(reservation.getCustomerEmail());
+            reservationResponseDTO.setCustomerPhone(reservation.getCustomerPhone());
+            reservationResponseDTO.setReservationDate(reservation.getReservationDate().toString());
+            reservationResponseDTO.setReservationTime(reservation.getReservationTime().toString());
+            reservationResponseDTO.setNumberOfGuests(reservation.getNumberOfGuests());
+            reservationResponseDTO.setGuest(reservation.isGuest());
+            reservationResponseDTO.setRoomNumber(reservation.getRoomNumber());
+            reservationResponseDTO.setReservationStatus(reservation.getReservationStatus());
+
+            Set<TableResponseDTO> tables = reservation.getTables().stream()
+                    .map(this::mapToTableResponseDTO)
+                    .collect(Collectors.toSet());
+            reservationResponseDTO.setTables(tables);
+
+            orderResponseDTO.setReservation(reservationResponseDTO);
+        }
+
         return orderResponseDTO;
     }
-    // delete all orders
-    @Override
-    public void deleteAll() {
-        orderRepo.deleteAll();
+    private TableResponseDTO mapToTableResponseDTO(Table table) {
+        TableResponseDTO tableResponseDTO = new TableResponseDTO();
+        tableResponseDTO.setId(table.getId());
+        tableResponseDTO.setTableNumber(table.getTableNumber());
+        tableResponseDTO.setCapacity(table.getTableCapacity());
+        return tableResponseDTO;
     }
+
 }

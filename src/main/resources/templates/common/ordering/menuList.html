@@ -30,31 +30,31 @@ TODO 2: Implement JavaScript to handle the form submission and update
   </style>
 </head>
 <body >
-<div th:fragment="menuList" id="menuList" class="w-full h-auto flex flex-col justify-center items-center absolute z-40 w-full inset-0 hidden">
+<div th:fragment="menuList" id="menuList" class="w-full lg:h-auto flex flex-col justify-center items-center absolute z-40 w-full inset-0 hidden">
   <div class="w-full h-screen z-40 bg-black opacity-20 absolute"></div>
 
   <div class="w-full relative z-50 h-full flex justify-center items-center mt-6">
     <!--Menu List-->
-    <div class="w-full flex items-center justify-center h-4/5 py-10">
+    <div class="w-full flex items-center justify-center h-4/5 xl:h-full py-10">
       <div class="w-11/12 h-full bg-white rounded-lg overflow-y-scroll flex flex-cols justify-evenly shadow-md">
-          <div id="menuListContainer" class="w-4/6 h-full grid grid-cols-4 py-6">
+          <div id="menuListContainer" class="w-4/6 h-full grid grid-cols-4 xl:grid-cols-3 py-6 xl:px-4 xl:py-4 xl:gap-3">
 
           </div>
         <div>
-        <div class="w-96 h-4/5 bg-gray-100 my-6 px-6 py-3 overflow-y-scroll rounded-sm drop-shadow-sm">
+        <div class="w-96 h-[95%] bg-gray-100 my-6 px-6 py-3 overflow-y-scroll rounded-sm drop-shadow-sm">
           <div>
             <h1 class="text-xl font-bold">Order </h1>
           </div>
           <div>
             <h1 class="text-lg font-bold">Table <span id="table-number"></span></h1>
           </div>
-          <div id="OrderMenuList" class="w-full h-3/5 space-y-2 mt-2 overflow-y-scroll">
+          <div id="OrderMenuList" class="w-full h-4/5 xl:h-3/5 space-y-2 mt-1 xl:mt-2 overflow-y-scroll">
                 <!-- Order Menu Item List-->
           </div>
           <hr class="my-2 h-2 text-black">
           <!-- Total Price-->
           <div class="mt-2 flex w-full items-center">
-            <h1 class="text-xl font-bold w-26 font-bold px-3">Total Price</h1>
+            <h1 class="text-lg font-bold w-26 font-bold px-3">Total Price</h1>
             <div class="w-auto h-4 rounded-md flex items-center text-lg bg-white py-4 px-2 rounded-lg">
                 <span id="totalPrice">0</span>
                 <span class="px-1 font-bold">&#165;</span>
@@ -66,7 +66,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
             </div>
         </div>
           <div>
-            <button id="closeMenuList" class="w-full h-10 bg-red-500 text-white rounded-md mt-4">Close</button>
+            <button id="closeMenuList" class="w-full h-10 xl:h-8 bg-red-500 text-white rounded-md my-4 xl:my-2">Close</button>
           </div>
         </div>
       </div>
