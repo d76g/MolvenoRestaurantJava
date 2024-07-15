@@ -1,0 +1,85 @@
+
+<!--
+ Guys, I have added the table list page with the table form and update form.
+ It's the same as we did with Cor using jQuery but this one is with Thymeleaf and Tailwind CSS.
+
+ Update the form based on your form fields and the controller mappings.
+ Be careful with the form action and the input field names.
+
+ USE THE CODE BELOW:
+ -->
+<!--
+TODO 1: Add the table list page with the table form and update form
+TODO 2: Implement JavaScript to handle the form submission and update
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu List - Ordering</title>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+
+
+  </style>
+</head>
+<body >
+<div th:fragment="menuList" id="menuList" class="w-full lg:h-auto flex flex-col justify-center items-center absolute z-40 w-full inset-0 hidden">
+  <div class="w-full h-screen z-40 bg-black opacity-20 absolute"></div>
+
+  <div class="w-full relative z-50 h-full flex justify-center items-center mt-6">
+    <!--Menu List-->
+    <div class="w-full flex items-center justify-center h-4/5 xl:h-full py-10">
+      <div class="w-11/12 h-full bg-white rounded-lg overflow-y-scroll flex flex-cols justify-evenly shadow-md">
+          <div id="menuListContainer" class="w-4/6 h-full grid grid-cols-4 xl:grid-cols-3 py-6 xl:px-4 xl:py-4 xl:gap-3">
+
+          </div>
+        <div>
+        <div class="w-96 h-[95%] bg-gray-100 my-6 px-6 py-3 overflow-y-scroll rounded-sm drop-shadow-sm">
+          <div>
+            <h1 class="text-xl font-bold">Order </h1>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold">Table <span id="table-number"></span></h1>
+          </div>
+          <div id="OrderMenuList" class="w-full h-4/5 xl:h-3/5 space-y-2 mt-1 xl:mt-2 overflow-y-scroll">
+                <!-- Order Menu Item List-->
+          </div>
+          <hr class="my-2 h-2 text-black">
+          <!-- Total Price-->
+          <div class="mt-2 flex w-full items-center">
+            <h1 class="text-lg font-bold w-26 font-bold px-3">Total Price</h1>
+            <div class="w-auto h-4 rounded-md flex items-center text-lg bg-white py-4 px-2 rounded-lg">
+                <span id="totalPrice">0</span>
+                <span class="px-1 font-bold">&#165;</span>
+            </div>
+        </div>
+          <!--Order Button-->
+            <div class="w-full h-10 mt-2 flex gap-x-2">
+                <button id="orderButton" class="w-1/2 h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
+                <button id="confirmOrderButton" class="w-1/2 h-full bg-green-500 text-white bg rounded-md bg-blue-600">Confirm</button>
+            </div>
+        </div>
+          <div>
+            <button id="closeMenuList" class="w-full h-10 xl:h-8 bg-red-500 text-white rounded-md my-4 xl:my-2">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+
+<!-- Include the table.js file  from the static folder
+    Create your own js file in the js folder and use it like this
+-->
+</body>
+</html>

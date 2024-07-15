@@ -15,30 +15,24 @@ public class Menu {
     private double price ;
     private String image ;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="menuCategory_id")
     private MenuCategory menuCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="subCategory_id")
     private SubCategory subCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="mealTime_id")
     private MealTime mealTime;
 
     @OneToMany(mappedBy = "menu")
     private Set<OrderItem> orderItems;
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
     private Set<MenuItemStock> menuItemStocks;
 
-    public Set<MenuItemStock> getMenuItemStocks() {
-        return menuItemStocks;
-    }
-    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
-        this.menuItemStocks = menuItemStocks;
-    }
 
     public Menu() {
     }
@@ -113,6 +107,13 @@ public class Menu {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
+    }
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
     }
 
 }

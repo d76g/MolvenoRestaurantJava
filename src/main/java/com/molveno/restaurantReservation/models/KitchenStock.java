@@ -1,7 +1,6 @@
 package com.molveno.restaurantReservation.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -17,7 +16,7 @@ public class KitchenStock {
     @GeneratedValue
     private long id ;
     private String description;
-    private int amount;
+    private double amount;
     private String unit;
     private String brand;
     private String supplier;
@@ -25,29 +24,17 @@ public class KitchenStock {
     private double price;
     private String tax;
     private double pricePerUnit;
-    private int stock;
-    private int stockValue;
+    private double stock;
+    private double stockValue;
     @Column(name = "stock_limit", nullable = true)
-    private int limit;
+    private double limit;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private KitchenCategory category;
 
     @OneToMany(mappedBy = "kitchenStock")
-    private Set<MenuItemStock> menuItemStocks;
-
-    public Set<MenuItemStock> getMenuItemStocks() {
-        return menuItemStocks;
-    }
-
-    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
-        this.menuItemStocks = menuItemStocks;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private Set<MenuItemStock> menuItemStocks= new HashSet<>();
 
     public KitchenStock() {
     }
@@ -68,11 +55,11 @@ public class KitchenStock {
         this.description = description;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -132,26 +119,26 @@ public class KitchenStock {
         this.pricePerUnit = pricePerUnit;
     }
 
-    public int getStock() {
+    public double getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(double stock) {
         this.stock = stock;
     }
 
-    public int getStockValue() {
+    public double getStockValue() {
         return stockValue;
     }
 
-    public void setStockValue(int stockValue) {
+    public void setStockValue(double stockValue) {
         this.stockValue = stockValue;
     }
 
-    public int getLimit() {
+    public double getLimit() {
         return limit;
     }
-    public void setLimit(int limit) {
+    public void setLimit(double limit) {
         this.limit = limit;
     }
 
@@ -161,5 +148,12 @@ public class KitchenStock {
 
     public void setCategory(KitchenCategory category) {
         this.category = category;
+    }
+
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
+    }
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
     }
 }
