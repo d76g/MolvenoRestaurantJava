@@ -3,7 +3,7 @@ package com.molveno.restaurantReservation.models.DTO;
 public class StockDTO {
     private long id;
     private String description;
-    private int amount;
+    private double amount;
     private String unit;
     private String brand;
     private String supplier;
@@ -11,9 +11,9 @@ public class StockDTO {
     private double price;
     private String tax;
     private double pricePerUnit;
-    private int stock;
-    private int stockValue;
-    private int limit;
+    private double stock;
+    private double stockValue;
+    private double limit;
     private StockCategoryDTO category;
 
     public StockDTO() {
@@ -35,11 +35,11 @@ public class StockDTO {
         this.description = description;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -99,27 +99,27 @@ public class StockDTO {
         this.pricePerUnit = pricePerUnit;
     }
 
-    public int getStock() {
+    public double getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(double stock) {
         this.stock = stock;
     }
 
-    public int getStockValue() {
+    public double getStockValue() {
         return stockValue;
     }
 
-    public void setStockValue(int stockValue) {
+    public void setStockValue(double stockValue) {
         this.stockValue = stockValue;
     }
 
-    public int getLimit() {
+    public double getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(double limit) {
         this.limit = limit;
     }
 

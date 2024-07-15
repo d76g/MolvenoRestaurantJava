@@ -15,28 +15,24 @@ public class Menu {
     private double price ;
     private String image ;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="menuCategory_id")
     private MenuCategory menuCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="subCategory_id")
     private SubCategory subCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="mealTime_id")
     private MealTime mealTime;
 
     @OneToMany(mappedBy = "menu")
     private Set<OrderItem> orderItems;
 
-    @ManyToMany
-    @JoinTable(
-            name = "menuItemStock",
-            joinColumns = @JoinColumn(name = "menuItem_id"),
-            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
-    )
-    private Set<KitchenStock> kitchenStocks;
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+    private Set<MenuItemStock> menuItemStocks;
+
 
     public Menu() {
     }
@@ -71,14 +67,6 @@ public class Menu {
 
     public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
-    }
-
-    public Set<KitchenStock> getKitchenStocks() {
-        return kitchenStocks;
-    }
-
-    public void setKitchenStocks(Set<KitchenStock> kitchenStocks) {
-        this.kitchenStocks = kitchenStocks;
     }
 
     public long getMenuItem_id() {
@@ -119,6 +107,13 @@ public class Menu {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
+    }
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
     }
 
 }

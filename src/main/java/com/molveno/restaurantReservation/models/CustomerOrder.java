@@ -11,6 +11,7 @@ public class CustomerOrder {
     @GeneratedValue
     private long order_id;
     private double total_price;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "reservation_id", nullable = false)
@@ -48,6 +49,14 @@ public class CustomerOrder {
 
     public double getTotal_price() {
         return total_price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setTotal_price(double total_price) {

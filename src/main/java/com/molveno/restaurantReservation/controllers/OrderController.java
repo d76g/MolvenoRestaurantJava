@@ -36,6 +36,20 @@ public class OrderController {
         return ResponseEntity.ok(customerOrderService.mapToResponseDTO(newOrder));
     }
 
+    // place order
+    @PostMapping(value = "/order/place", produces = "application/json")
+    public ResponseEntity<OrderResponseDTO> placeOrder(@RequestBody OrderDTO order) {
+        CustomerOrder placedOrder = customerOrderService.placeOrder(order);
+        return ResponseEntity.ok(customerOrderService.mapToResponseDTO(placedOrder));
+    }
+
+    // update order status
+    @PostMapping(value = "/order/{id}/status/{orderStatus}", produces = "application/json")
+    public ResponseEntity<OrderResponseDTO> updateOrderStatus(@PathVariable long id, @PathVariable String orderStatus) {
+        CustomerOrder updatedOrder = customerOrderService.changeOrderStatus(id, orderStatus);
+        return ResponseEntity.ok(customerOrderService.mapToResponseDTO(updatedOrder));
+    }
+
     // delete order by id
     @DeleteMapping(value = "/order/{id}", produces = "application/json")
     public void deleteOrderById(@PathVariable long id) {
@@ -48,5 +62,6 @@ public class OrderController {
         customerOrderService.deleteAll();
         return ResponseEntity.ok("All orders deleted");
     }
+
 
 }
