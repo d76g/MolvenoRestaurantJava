@@ -7,6 +7,7 @@ import com.molveno.restaurantReservation.models.DTO.Response.OrderItemResponseDT
 import com.molveno.restaurantReservation.models.DTO.Response.OrderResponseDTO;
 import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.DTO.Response.TableResponseDTO;
+import com.molveno.restaurantReservation.repos.KitchenStockRepo;
 import com.molveno.restaurantReservation.repos.MenuRepo;
 import com.molveno.restaurantReservation.repos.OrderRepo;
 import com.molveno.restaurantReservation.repos.ReservationRepo;
@@ -26,6 +27,9 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     private ReservationRepo reservationRepo;
     @Autowired
     private MenuRepo menuRepo;
+
+    @Autowired
+    private KitchenStockRepo kitchenStockRepo;
 
     @Override
     public Iterable<CustomerOrder> findAll() {
@@ -61,6 +65,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
         } else {
             // Create a new order
             order = new CustomerOrder();
+            order.setStatus("PENDING");
         }
 
         // Set reservation
@@ -90,8 +95,35 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
         return orderRepo.save(order);
     }
 
+    // place order and deduct from stock
+    public CustomerOrder placeOrder(OrderDTO orderDto){
+        CustomerOrder order = orderRepo.findById(orderDto.getId()).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        order.setStatus("PLACED");
+        orderRepo.save(order);
 
+        for (OrderItem orderItem : order.getOrderItem()) {
+            Menu menuItem = orderItem.getMenu();
 
+            // Deduct stock for each MenuItemStock entry
+            for (MenuItemStock menuItemStock : menuItem.getMenuItemStocks()) {
+                KitchenStock kitchenStock = menuItemStock.getKitchenStock();
+                double amountToDeduct = menuItemStock.getAmount() * orderItem.getQuantity();
+                kitchenStock.setStock(kitchenStock.getStock() - amountToDeduct);
+                kitchenStockRepo.save(kitchenStock); // Assuming you have a KitchenStock repository
+            }
+
+             menuRepo.save(menuItem); // Assuming you have a Menu repository
+        }
+        return order;
+    }
+
+    // change order status
+    @Override
+    public CustomerOrder changeOrderStatus(long id, String status){
+        CustomerOrder order = orderRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        order.setStatus(status);
+        return orderRepo.save(order);
+    }
 
     @Override
     public void deleteById(long id) {
@@ -112,6 +144,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
         orderResponseDTO.setOrderId(customerOrder.getOrder_id());
         orderResponseDTO.setTotalPrice(customerOrder.getTotal_price());
         orderResponseDTO.setReservationId(customerOrder.getReservation().getId());
+        orderResponseDTO.setStatus(customerOrder.getStatus());
 
         Set<OrderItemResponseDTO> orderItemResponseDTOS = customerOrder.getOrderItem().stream().map(orderItem -> {
             OrderItemResponseDTO orderItemResponseDTO = new OrderItemResponseDTO();

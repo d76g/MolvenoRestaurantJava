@@ -19,6 +19,11 @@ function init() {
         if (!confirm('Are you sure you want to delete this order?')) return;
         deleteOrder(orderId);
     });
+
+    // place order
+    $('#confirmOrderButton').on('click', function() {
+        placeOrder();
+    });
 }
 
 function getOrderItem(orderId) {
@@ -35,7 +40,22 @@ function getOrderItem(orderId) {
         }
     });
 }
+function placeOrder() {
+    $.ajax({
+        url: url + '/place',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(Order),
+        success: function(data) {
+            console.log(data);
+            getOrderList();
+        },
+        error: function(error) {
+            console.error("There was an error placing the order:", error);
+        }
+    });
 
+}
 function getOrderList(){
     $.ajax({
         url: url ,
@@ -69,6 +89,7 @@ function getOrderList(){
                       }
                     },
                     { "data": "totalPrice" },
+                    { "data": "status" },
                     {
                         "data": null,
                         "render": function(data, type, row) {

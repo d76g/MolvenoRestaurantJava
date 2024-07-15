@@ -13,6 +13,10 @@ public interface CustomerOrderService {
 
     CustomerOrder findById(long id);
     CustomerOrder save(OrderDTO customerOrder);
+
+    // change order status
+    CustomerOrder changeOrderStatus(long id, String status);
+
     void deleteById(long id);
     void deleteAll();
 }

@@ -19,4 +19,36 @@ public class MenuItemStock {
 
     public MenuItemStock() {
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public KitchenStock getKitchenStock() {
+        return kitchenStock;
+    }
+
+    public void setKitchenStock(KitchenStock kitchenStock) {
+        this.kitchenStock = kitchenStock;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }
