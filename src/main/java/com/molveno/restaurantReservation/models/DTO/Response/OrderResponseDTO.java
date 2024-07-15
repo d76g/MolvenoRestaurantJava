@@ -7,6 +7,7 @@ public class OrderResponseDTO {
     private long orderId;
     private long reservationId;
     private double totalPrice;
+    private String status;
     private Set<OrderItemResponseDTO> orderItems;
     private ReservationResponseDTO reservation;
 
@@ -47,5 +48,12 @@ public class OrderResponseDTO {
     }
     public void setReservation(ReservationResponseDTO reservation) {
         this.reservation = reservation;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
