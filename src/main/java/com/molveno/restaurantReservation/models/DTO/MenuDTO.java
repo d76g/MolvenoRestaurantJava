@@ -1,4 +1,4 @@
-package com.molveno.restaurantReservation.models;
+package com.molveno.restaurantReservation.models.DTO;
 
 public class MenuDTO {
     private long menuItem_id;

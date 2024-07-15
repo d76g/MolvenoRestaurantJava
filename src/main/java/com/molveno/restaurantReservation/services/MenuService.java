@@ -1,7 +1,7 @@
 package com.molveno.restaurantReservation.services;
 
 import com.molveno.restaurantReservation.models.Menu;
-import com.molveno.restaurantReservation.models.MenuDTO;
+import com.molveno.restaurantReservation.models.DTO.MenuDTO;
 
 import java.util.Optional;
 
