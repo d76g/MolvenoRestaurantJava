@@ -1,8 +1,8 @@
 package com.molveno.restaurantReservation.services;
 
+import com.molveno.restaurantReservation.models.DTO.MenuDTO;
 import com.molveno.restaurantReservation.models.Menu;
 import com.molveno.restaurantReservation.models.MenuCategory;
-import com.molveno.restaurantReservation.models.MenuDTO;
 import com.molveno.restaurantReservation.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

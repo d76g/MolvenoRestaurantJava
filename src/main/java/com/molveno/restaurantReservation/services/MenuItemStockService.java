@@ -1,6 +1,7 @@
 package com.molveno.restaurantReservation.services;
 
 import com.molveno.restaurantReservation.models.MenuItemStock;
+import jakarta.transaction.Transactional;
 
 public interface MenuItemStockService {
     //create
@@ -20,5 +21,6 @@ public interface MenuItemStockService {
 
     MenuItemStock findById(Long id);
 
-    void placeOrder(String menuItemName) throws Exception;
+    @Transactional
+    void placeOrder(Long orderItemId) throws Exception;
 }

@@ -1,18 +1,16 @@
 package com.molveno.restaurantReservation.services;
 
-import com.molveno.restaurantReservation.models.KitchenStock;
-import com.molveno.restaurantReservation.models.Menu;
-import com.molveno.restaurantReservation.models.MenuDTO;
 import com.molveno.restaurantReservation.models.MenuItemStock;
+import com.molveno.restaurantReservation.models.OrderItem;
 import com.molveno.restaurantReservation.repos.KitchenStockRepo;
 import com.molveno.restaurantReservation.repos.MenuItemStockRepo;
 import com.molveno.restaurantReservation.repos.MenuRepo;
+import com.molveno.restaurantReservation.repos.OrderItemRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Service
 public class MenuItemStockServiceImpl implements MenuItemStockService {
@@ -24,6 +22,9 @@ public class MenuItemStockServiceImpl implements MenuItemStockService {
 
     @Autowired
     private MenuItemStockRepo menuItemStockRepo;
+
+    @Autowired
+    private OrderItemRepo orderItemRepo;
 
     //create
     @Override
@@ -59,28 +60,15 @@ public class MenuItemStockServiceImpl implements MenuItemStockService {
         return null;
     }
 
+
+    @Override
     @Transactional
-    public void placeOrder(String menuItemName) throws Exception {
-        Menu menu = menuRepo.findByName(menuItemName);
-        if (menu == null) {
-            throw new Exception("Menu item not found");
-        }
+    public void placeOrder(Long orderItemId) throws Exception {
+        Optional<OrderItem> orderItem = orderItemRepo.findById(orderItemId);
 
-        Set<MenuItemStock> items = menu.getMenuItemStocks(); // ?
 
-        for (MenuItemStock item : items) {
-            KitchenStock stock = kitchenStockRepo.findById(item.getKitchenStock().getId())
-                    .orElseThrow(() -> new Exception("Ingredient " + item.getKitchenStock().getDescription() + " not found in kitchen stock"));
 
-            if (stock.getAmount() < item.getAmount()) {
-                throw new Exception("Not enough " + item.getKitchenStock().getDescription() + " in stock");
-            }
 
-            stock.setAmount((int) (stock.getAmount() - item.getAmount()));
-            kitchenStockRepo.save(stock);
-        }
-
-        System.out.println(menuItemName + " order placed successfully.");
     }
 
 

@@ -2,8 +2,6 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.MenuItemStock;
 import com.molveno.restaurantReservation.services.MenuItemStockService;
-import com.molveno.restaurantReservation.services.MenuItemStockServiceImpl;
-import com.molveno.restaurantReservation.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +31,5 @@ public class MenuItemStockController {
         return ResponseEntity.noContent().build();
     }
 
-
-    @PostMapping("/menu-item-stock/{menuItemName}")
-    public String placeOrder(@PathVariable String menuItemName) {
-        try {
-            menuItemStockService.placeOrder(menuItemName);
-            return menuItemName + " order placed successfully.";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
 
 }
