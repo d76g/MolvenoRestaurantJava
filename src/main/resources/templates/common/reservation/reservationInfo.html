@@ -31,13 +31,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+NSW:wght@100..400&display=swap" rel="stylesheet">
 </head>
 <body>
-<div th:fragment="reservationDetails" id="reservationPopup" class="flex justify-center items-center p-8 font-sans absolute z-30 w-full bg-black-10 inset-0 hidden">
+<div th:fragment="reservationDetails" id="reservationPopup" class="hidden flex justify-center items-center p-8 font-sans absolute z-30 w-full h-44 bg-black-10 top-80">
 <div  class="bg-white p-4 rounded-lg shadow-lg w-2/5">
     <div id="checkAnimation" class="flex w-full justify-center">
         <!--        Show GIF from static folder -->
         <img th:src="@{/images/confirmAnimation.gif}" alt="Reservation Confirmed" class="w-24 h-24 rounded-md">
     </div>
-    <div class="text-3xl w-full flex justify-center items-center my-4 font-bold bg-green-200 h-32 rounded-md">
+    <div class="text-3xl w-full flex justify-center items-center my-4 font-bold bg-green-200 h-24 rounded-md">
         <h1 class="text-gray-700">Reservation Confirmed </h1>
     </div>
     <div>
@@ -46,7 +46,7 @@
             <p>Thank you for making a reservation with us. We look forward to seeing you soon.</p>
             <p class="font-bold pt-3">Keep a copy of the following details by taking a screenshot for you when you attend</p>
         </div>
-        <div class="text-2xl font-bold my-3">
+        <div class="text-2xl font-bold my-2">
             <p class="text-gray-600">Table NO.
                 <span id="tables"></span>
             </p>
@@ -71,15 +71,14 @@
     </div>
     <hr>
     <div class="w-full">
-        <div class="my-2 gap-y-1">
+        <div class="my-1 gap-y-1">
             <p class="text-gray-400">* Your reservation is booked for a total of 3 hours. </p>
-            <p class="text-gray-400">* For any changes or cancellations, please contact us at least 24 hours before your reservation.</p>
         </div>
 
     </div>
-    <div class="my-4">
+    <div class="my-2">
         <button id="closeButtonPopup"
-            class="bg-green-400 py-4 px-2 text-white rounded-md w-full font-sans uppercase font-bold text-sm hover:bg-green-500 transition duration-300 hover:-translate-y-1  ease-in-out delay-150 cursor-pointer">
+            class="bg-green-400 p-2 text-white rounded-md w-full font-sans uppercase font-bold text-sm hover:bg-green-500 transition duration-300 hover:-translate-y-1  ease-in-out delay-150 cursor-pointer">
             <i class='bx bx-arrow-back'></i> Close</button>
     </div>
 </div>

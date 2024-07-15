@@ -1,6 +1,7 @@
 package com.molveno.restaurantReservation.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -33,8 +34,9 @@ public class KitchenStock {
     @JoinColumn(name = "category_id", nullable = false)
     private KitchenCategory category;
 
-    @OneToMany(mappedBy = "kitchenStock")
-    private Set<MenuItemStock> menuItemStocks= new HashSet<>();
+    @OneToMany(mappedBy = "kitchenStock", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MenuItemStock> menuItemStocks;
+
     public Set<MenuItemStock> getMenuItemStocks() {
         return menuItemStocks;
     }
@@ -43,8 +45,10 @@ public class KitchenStock {
         this.menuItemStocks = menuItemStocks;
     }
 
-    @ManyToMany(mappedBy = "kitchenStocks")
-    private Set<Menu> menuItems;
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public KitchenStock() {
     }
 

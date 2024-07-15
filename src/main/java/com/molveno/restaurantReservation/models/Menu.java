@@ -30,13 +30,15 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private Set<OrderItem> orderItems;
 
-    @ManyToMany
-    @JoinTable(
-            name = "menuItemStock",
-            joinColumns = @JoinColumn(name = "menuItem_id"),
-            inverseJoinColumns = @JoinColumn(name = "stockItem_id")
-    )
-    private Set<KitchenStock> kitchenStocks;
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MenuItemStock> menuItemStocks;
+
+    public Set<MenuItemStock> getMenuItemStocks() {
+        return menuItemStocks;
+    }
+    public void setMenuItemStocks(Set<MenuItemStock> menuItemStocks) {
+        this.menuItemStocks = menuItemStocks;
+    }
 
     public Menu() {
     }
@@ -71,14 +73,6 @@ public class Menu {
 
     public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
-    }
-
-    public Set<KitchenStock> getKitchenStocks() {
-        return kitchenStocks;
-    }
-
-    public void setKitchenStocks(Set<KitchenStock> kitchenStocks) {
-        this.kitchenStocks = kitchenStocks;
     }
 
     public long getMenuItem_id() {
