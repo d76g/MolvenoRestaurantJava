@@ -1,23 +1,21 @@
 package com.molveno.restaurantReservation.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class OrderItem {
     @Id
-    private Long orderItem_id;
+    @GeneratedValue
+    private long orderItem_id;
     private int quantity;
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private CustomerOrder customerOrder;
 
     @ManyToOne
-    @JoinColumn(name = "menuItem_id")
+    @JoinColumn(name = "menuItem_id", nullable = false)
     private Menu menu;
 
     public Long getOrderItem_id() {
@@ -36,14 +34,6 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public CustomerOrder getOrder() {
         return customerOrder;
     }
@@ -58,6 +48,13 @@ public class OrderItem {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
     }
 
 }

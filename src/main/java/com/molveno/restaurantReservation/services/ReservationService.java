@@ -1,15 +1,16 @@
 package com.molveno.restaurantReservation.services;
 
+import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
 
 import java.util.List;
 
 public interface ReservationService {
     // list all reservations
-    List<Reservation> listReservations();
+    List<ReservationResponseDTO> listReservations();
 
     // get a reservation by id
-    Reservation getReservation(Long id);
+    ReservationResponseDTO getReservation(Long id);
 
     // delete a reservation
     void deleteReservation(Long id);
@@ -26,5 +27,5 @@ public interface ReservationService {
     Reservation getReservationById(long id);
 
     // get all reservation for today
-    List<Reservation> getReservationsForToday();
+    List<ReservationResponseDTO> getReservationsForToday();
 }
