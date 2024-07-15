@@ -34,7 +34,7 @@ public class KitchenStock {
     @JoinColumn(name = "category_id", nullable = false)
     private KitchenCategory category;
 
-    @OneToMany(mappedBy = "kitchenStock", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "kitchenStock")
     private Set<MenuItemStock> menuItemStocks;
 
     public Set<MenuItemStock> getMenuItemStocks() {
