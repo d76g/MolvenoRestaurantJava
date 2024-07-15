@@ -16,7 +16,7 @@ public class MenuItemStock {
     private double amount;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id")
+    @JoinColumn(name = "menuItem_id")
     private Menu menu;
 
     @ManyToOne
@@ -39,13 +39,7 @@ public class MenuItemStock {
         this.amount = amount;
     }
 
-    public Menu getMenuItem() {
-        return menu;
-    }
 
-    public void setMenuItem(Menu menu) {
-        this.menu = menu;
-    }
 
     public KitchenStock getKitchenStock() {
         return kitchenStock;
