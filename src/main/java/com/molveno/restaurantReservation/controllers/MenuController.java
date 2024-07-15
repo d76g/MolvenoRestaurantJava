@@ -1,6 +1,5 @@
 package com.molveno.restaurantReservation.controllers;
 
-import com.molveno.restaurantReservation.models.Menu;
 import com.molveno.restaurantReservation.models.MenuDTO;
 import com.molveno.restaurantReservation.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;

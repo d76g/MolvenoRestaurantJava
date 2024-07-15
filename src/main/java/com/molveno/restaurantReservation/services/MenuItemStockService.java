@@ -19,4 +19,6 @@ public interface MenuItemStockService {
     MenuItemStock updateMenuItemStock(MenuItemStock menuItemStock);
 
     MenuItemStock findById(Long id);
+
+    void placeOrder(String menuItemName) throws Exception;
 }
