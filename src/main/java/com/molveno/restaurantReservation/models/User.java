@@ -9,10 +9,16 @@ public class User {
     @Id
     @GeneratedValue
     private long user_id;
+
+   //@Column(unique = true)
     private String username;
+
     private String firstName;
     private String lastName;
+
+   // @Column(unique = true,nullable = false)
     private String email;
+
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)

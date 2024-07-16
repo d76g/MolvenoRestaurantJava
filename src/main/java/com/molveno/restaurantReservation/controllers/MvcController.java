@@ -47,6 +47,7 @@ public class MvcController {
         model.addAttribute("table", new Table());
         return "admin/tableManagement/tableList";
     }
+    // users
     @GetMapping("/admin/users")
     public String getUsers() {
         return "admin/userManagement/usersList";

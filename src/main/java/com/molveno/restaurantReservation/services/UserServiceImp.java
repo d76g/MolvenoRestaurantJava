@@ -13,6 +13,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
+//    @Override
+//    public UserService loadUserByUsername(String username) throws username {
+//        User user = userRepo.findByUserName(username);
+//        if (user !=null) {
+//            var springUser = User.withUsername(user.getUsername())
+//                    .passward(user.getPassword())
+//                    .roles(user.getUserRole())
+//                    .build();
+//            return springUser;
+//        }
+//        return null;
+//    }
 
     @Autowired
     private UserRepo userRepo;

@@ -6,6 +6,10 @@ import com.molveno.restaurantReservation.models.User;
 import java.util.List;
 
 public interface UserService {
+
+
+   // UserService loadUserByUsername(String username) throws usernameNotFoundException;
+
     // add new user
     UserDTO saveUser(UserDTO user);
 

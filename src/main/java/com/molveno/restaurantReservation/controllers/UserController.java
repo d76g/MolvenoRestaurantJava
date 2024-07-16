@@ -1,7 +1,9 @@
 package com.molveno.restaurantReservation.controllers;
 
+import ch.qos.logback.core.model.Model;
 import com.molveno.restaurantReservation.models.DTO.UserDTO;
 import com.molveno.restaurantReservation.models.User;
+import com.molveno.restaurantReservation.repos.UserRepo;
 import com.molveno.restaurantReservation.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class UserController {
+
+  // @Autowired
+  // private UserRepo repo;
+
+ //  @GetMapping ("/register")
+//   public String register (Model model){
+//       UserDTO userDTO = new UserDTO();
+//       model.addAttribute (userDTO);
+//       return "register";
+//   }
+
 
     @Autowired
     private UserService userService;
