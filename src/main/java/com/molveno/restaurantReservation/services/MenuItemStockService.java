@@ -23,6 +23,5 @@ public interface MenuItemStockService {
 
     MenuItemStock findById(Long id);
 
-    @Transactional
-    void placeOrder(Long orderItemId) throws Exception;
+
 }
