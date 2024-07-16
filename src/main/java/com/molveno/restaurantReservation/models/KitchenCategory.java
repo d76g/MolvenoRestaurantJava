@@ -15,6 +15,7 @@ public class KitchenCategory {
     private String categoryName;
 
     @OneToMany (mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<KitchenStock> kitchenStock =new HashSet<>();
 
     public KitchenCategory() {
