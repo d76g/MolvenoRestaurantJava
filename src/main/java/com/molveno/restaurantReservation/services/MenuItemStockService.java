@@ -3,6 +3,7 @@ package com.molveno.restaurantReservation.services;
 import com.molveno.restaurantReservation.models.DTO.MenuStockDTO;
 import com.molveno.restaurantReservation.models.DTO.Response.MenuStockResponseDTO;
 import com.molveno.restaurantReservation.models.MenuItemStock;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface MenuItemStockService {
     void deleteMenuItemStock(Long menuItemStock_id);
 
     MenuItemStock findById(Long id);
+
+
 }
