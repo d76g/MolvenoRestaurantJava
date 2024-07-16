@@ -51,6 +51,15 @@ public class StockController {
         return ResponseEntity.ok(stockDTO);
     }
 
+    @GetMapping(value = "/stock/checkLimit")
+    public ResponseEntity<Iterable<StockDTO>> checkStockLimit() {
+        Iterable<KitchenStock> kitchenStocks = kitchenStockService.checkStockLimit();
+        Iterable<StockDTO> kitchenStockDTOs = StreamSupport.stream(kitchenStocks.spliterator(), false)
+                .map(StockConverter::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(kitchenStockDTOs);
+    }
+
     @DeleteMapping(value = "/stock/{id}", produces = "application/json")
     public ResponseEntity<KitchenStock> delete(@PathVariable Long id) {
         kitchenStockService.deleteKitchenStock(id);

@@ -58,6 +58,10 @@ public class MvcController {
 
 
     //stock
+    @GetMapping("/chef")
+    public String home() {
+        return "chef/home";
+    }
     @GetMapping("/chef/stock/form")
     public String add() {
         return "chef/stock/form";
