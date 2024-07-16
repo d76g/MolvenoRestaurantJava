@@ -1,11 +1,10 @@
 package com.molveno.restaurantReservation.services;
 
-import com.molveno.restaurantReservation.models.Menu;
 import com.molveno.restaurantReservation.models.DTO.MenuDTO;
-import com.molveno.restaurantReservation.repos.MealTimeRepo;
-import com.molveno.restaurantReservation.repos.MenuCategoryRepo;
-import com.molveno.restaurantReservation.repos.MenuRepo;
-import com.molveno.restaurantReservation.repos.SubCategoryRepo;
+import com.molveno.restaurantReservation.models.Menu;
+import com.molveno.restaurantReservation.models.MenuCategory;
+
+import com.molveno.restaurantReservation.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,8 @@ public class MenuServiceImpl implements MenuService{
 
     @Autowired
     private MealTimeRepo mealTimeRepo;
+    @Autowired
+    private KitchenStockRepo kitchenStockRepo;
 
 
     @Override
@@ -124,6 +125,8 @@ public class MenuServiceImpl implements MenuService{
 
         return menuDto;
     }
+
+
 
 
 }

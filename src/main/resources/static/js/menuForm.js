@@ -15,6 +15,14 @@ function init(){
             return false;
         }
     });
+    // Event listener for the showStock  button
+    $(document).on('click', '.showStock', function (){
+        const menuItemId = $(this).data('id');
+      console.log(menuItemId);
+      window.location.href = '/chef/stock/menu?' + menuItemId;
+
+
+    });
     // Event listener for the add button
     $("#addButton").click(function() {
         $("#addMenuItemFormDiv").toggleClass("hidden");
@@ -112,6 +120,9 @@ function getAllMenu(){
                                                </a>
                                                <button class="deleteButton text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
                                                    <i class="fa-solid fa-trash"></i>
+                                               </button>
+                                               <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
+                                               <i class="fa-solid fa-box-open"></i>
                                                </button>
                                            `;
                                        }

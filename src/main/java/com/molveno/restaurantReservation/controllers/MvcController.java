@@ -56,12 +56,17 @@ public class MvcController {
         return "admin/userManagement/usersList";
     }
 
+
     //stock
     @GetMapping("/chef/stock/form")
     public String add() {
         return "chef/stock/form";
     }
-
+    //stock
+    @GetMapping("/chef/stock/menu")
+    public String manage() {
+        return "chef/stock/menuStock";
+    }
     @GetMapping("/chef/stocks")
     public String getStocks() {
         return "chef/stock/list";
@@ -107,6 +112,12 @@ public class MvcController {
     @GetMapping("/chef/order")
     public String showOrdersList() {
         return "chef/menuOrdering/ordersList";
+    }
+
+    //menuItemStock
+    @GetMapping("/chef/menuItemStock")
+    public String showMenuItemStockForm() {
+        return "chef/menuItemStock/menuItemStockList";
     }
 
 
