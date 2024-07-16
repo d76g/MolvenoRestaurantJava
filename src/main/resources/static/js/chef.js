@@ -20,7 +20,7 @@ function getItemsBelowLimit(){
             async function showAlerts() {
                 for (const item of stockItems) {
                     await Swal.fire({
-                        position: 'center',
+                        position: 'top-end',
                         icon: 'warning',
                         title: 'Stock Alert',
                         text: item + " is below the limit",
