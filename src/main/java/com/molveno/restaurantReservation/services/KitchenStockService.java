@@ -19,4 +19,7 @@ public interface KitchenStockService {
 
     //UPDATE
     KitchenStock updateKitchenStock(KitchenStock kitchenStock);
+
+    //check if a stock is below the stock limit
+    Iterable<KitchenStock> checkStockLimit();
 }

@@ -50,7 +50,6 @@ public class KitchenStockServiceImp implements KitchenStockService {
         return kitchenStockRepo.save(kitchenStock);
     }
 
-
     //FIND
     @Override
     public KitchenStock addKitchenStockById(Long stock_id) {
@@ -67,5 +66,14 @@ public class KitchenStockServiceImp implements KitchenStockService {
     public KitchenStock updateKitchenStock(KitchenStock kitchenStock) {
         return kitchenStockRepo.save(kitchenStock);
     }
+
+    @Override
+    public Iterable<KitchenStock> checkStockLimit() {
+        // loop through the all the kitchen stock items and check if stock is below stock value
+        KitchenStock kitchenStock = new KitchenStock();
+        return kitchenStockRepo.findByStockLessThan();
+    }
+
+
 
 }
