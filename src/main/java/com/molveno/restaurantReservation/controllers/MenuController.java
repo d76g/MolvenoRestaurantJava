@@ -2,6 +2,7 @@ package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.DTO.MenuDTO;
 import com.molveno.restaurantReservation.services.MenuService;
+import com.molveno.restaurantReservation.services.MenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class MenuController {
     @Autowired
-    private MenuService menuService;
+    private MenuServiceImpl menuService;
 
     // get all menu
     @GetMapping("/menu/all")

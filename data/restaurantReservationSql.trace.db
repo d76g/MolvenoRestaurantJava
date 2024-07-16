@@ -1448,7 +1448,7 @@ Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name
 2024-07-10 12:59:59.536546+02:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]CUSTOMER_ORDER"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
 CUSTOMER_ORDER [42001-224]
-2024-07-15 12:42:35.815684+02:00 database: wrong user or password; user: "SA"
+2024-07-15 14:21:24.969718+02:00 database: wrong user or password; user: "SA"
 org.h2.message.DbException: Wrong user name or password [28000-224]
 	at org.h2.message.DbException.get(DbException.java:223)
 	at org.h2.message.DbException.get(DbException.java:199)
@@ -1499,14 +1499,8 @@ org.h2.message.DbException: Wrong user name or password [28000-224]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
-	at java.base/java.lang.Thread.run(Thread.java:1570)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
 Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name or password [28000-224]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:522)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 50 more
-2024-07-15 13:08:53.813177+02:00 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (MENU_ITEM_STOCK: ""ID"" BIGINT NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."MENU_ITEM_STOCK"("ID","AMOUNT","STOCK_ID","MENU_ID","MENU_ITEM_ID","STOCK_ITEM_ID")VALUES(?,?,?,?,?,?) [22018-224]
-2024-07-15 13:08:53.816176+02:00 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (MENU_ITEM_STOCK: ""ID"" BIGINT NOT NULL)"; SQL statement:
-INSERT INTO "PUBLIC"."MENU_ITEM_STOCK"("ID","AMOUNT","STOCK_ID","MENU_ID","MENU_ITEM_ID","STOCK_ITEM_ID")VALUES(?,?,?,?,?,?) [22018-224]

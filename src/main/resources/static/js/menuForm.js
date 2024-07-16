@@ -1,4 +1,5 @@
 const url = '/api/menu/';
+let menu_id;
 function init(){
     // call the get all menu method
     getAllMenu();
@@ -17,9 +18,10 @@ function init(){
     });
     // Event listener for the showStock  button
     $(document).on('click', '.showStock', function (){
-        const menuItemId = $(this).data('id');
-      console.log(menuItemId);
-      window.location.href = '/chef/stock/menu?' + menuItemId;
+        menu_id =  $(this).data('id');
+//        const menuItemId = $(this).data('id');
+//      console.log(menuItemId);
+     window.location.href = '/chef/menuItemStock?menuId=' + menu_id;
 
 
     });
@@ -78,7 +80,7 @@ function init(){
 }
 
 // get all menu method
-function getAllMenu(){
+function getAllMenu() {
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -86,7 +88,7 @@ function getAllMenu(){
         success: function(data) {
             // create the menu using the data from the server
             $('#menuList').DataTable({
-                ajax:{
+                ajax: {
                     url: url + 'all',
                     dataSrc: ''
                 },
@@ -94,40 +96,47 @@ function getAllMenu(){
                 "bDestroy": true,
                 // define the columns (use the data key to map the data to the columns) and the data to be displayed
                 columns: [
-                                   // Number of columns depends on the data of your model and the name of the id field in the form
-                                   { data: 'item_name' },
-                                   { data: 'description' },
-                                   { data: 'price' },
-                                   { data: 'image' },
-                                   { data: 'menuCategoryName' },
-                                   { data: 'subCategoryName' },
-                                   { data: 'mealTimeName' },
-                                   // Action column for delete and update
-                                   {
-                                       data: null,
-                                       render: function(data, type, row) {
-                                           return `
-                                               <a class="editButton text-blue-600 hover:text-blue-900"
-                                                  data-id="${row.menuItem_id}"
-                                                  data-name="${row.item_name}"
-                                                  data-description="${row.description}"
-                                                  data-price="${row.price}"
-                                                  data-image="${row.image}"
-                                                  data-menu-category="${row.menuCategoryId}"
-                                                  data-sub-category="${row.subCategoryId}"
-                                                  data-meal-time="${row.mealTimeId}">
-                                                  <i class="fa-solid fa-pen"></i>
-                                               </a>
-                                               <button class="deleteButton text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
-                                                   <i class="fa-solid fa-trash"></i>
-                                               </button>
-                                               <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
-                                               <i class="fa-solid fa-box-open"></i>
-                                               </button>
-                                           `;
-                                       }
-                                   }
-                               ],
+                    // Add a new column for the showStock button
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return `
+                                <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
+                                    <i class="fa-solid fa-carrot"></i>
+                                </button>
+                            `;
+                        }
+                    },
+                    { data: 'item_name' },
+                    { data: 'description' },
+                    { data: 'price' },
+                    { data: 'image' },
+                    { data: 'menuCategoryName' },
+                    { data: 'subCategoryName' },
+                    { data: 'mealTimeName' },
+                    // Action column for edit and delete buttons
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return `
+                                <a class="editButton text-blue-600 hover:text-blue-900"
+                                   data-id="${row.menuItem_id}"
+                                   data-name="${row.item_name}"
+                                   data-description="${row.description}"
+                                   data-price="${row.price}"
+                                   data-image="${row.image}"
+                                   data-menu-category="${row.menuCategoryId}"
+                                   data-sub-category="${row.subCategoryId}"
+                                   data-meal-time="${row.mealTimeId}">
+                                   <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <button class="deleteButton text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            `;
+                        }
+                    }
+                ],
             });
         },
         error: function(error) {
@@ -135,7 +144,6 @@ function getAllMenu(){
         }
     });
 }
-
 // add menuItem method
 function addMenuItem(){
     const menuItem_id = $('#menuItemId').val();
@@ -288,3 +296,6 @@ function getAllMealTime(){
         }
     });
 }
+
+
+
