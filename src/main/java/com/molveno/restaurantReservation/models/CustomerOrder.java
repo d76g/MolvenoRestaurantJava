@@ -9,18 +9,26 @@ import java.util.Set;
 public class CustomerOrder {
     @Id
     @GeneratedValue
-    private Long order_id;
-    private double totalPrice;
-    private String dateTime;
+    private long order_id;
+    private double total_price;
+    private String status;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_id")
+    @JoinColumn(name = "reservation_id", nullable = false)
     private  Reservation reservation;
 
-    @OneToMany(mappedBy = "customerOrder")
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItem = new HashSet<>();
 
     public CustomerOrder() {
+    }
+
+    public Set<OrderItem> getOrderItem() {
+        return orderItem;
+    }
+
+    public void setOrderItem(Set<OrderItem> orderItem) {
+        this.orderItem = orderItem;
     }
 
     public Long getOrder_id() {
@@ -30,22 +38,6 @@ public class CustomerOrder {
     public void setOrder_id(Long order_id) {
         this.order_id = order_id;
     }
-  
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
 
     public Reservation getReservation() {
         return reservation;
@@ -54,4 +46,22 @@ public class CustomerOrder {
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
+
+    public double getTotal_price() {
+        return total_price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTotal_price(double total_price) {
+        this.total_price = total_price;
+    }
+
+
 }

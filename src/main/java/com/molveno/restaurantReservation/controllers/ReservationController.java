@@ -1,13 +1,14 @@
 package com.molveno.restaurantReservation.controllers;
 
 
+import com.molveno.restaurantReservation.models.DTO.Mappers.ReservationMapper;
+import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
-import com.molveno.restaurantReservation.models.Table;
 import com.molveno.restaurantReservation.services.ReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -24,8 +25,8 @@ public class ReservationController {
         return new ResponseEntity<>(newReservation, HttpStatus.CREATED);
     }
     @GetMapping(value = "/reservation/all", produces = "application/json")
-    public ResponseEntity<Iterable<Reservation>> listReservations(Model model) {
-        Iterable<Reservation> reservations = reservationService.listReservations();
+    public ResponseEntity<Iterable<ReservationResponseDTO>> listReservations(Model model) {
+        Iterable<ReservationResponseDTO> reservations = reservationService.listReservations();
         return ResponseEntity.ok(reservations);
     }
     @DeleteMapping("/reservation/delete/{id}")
@@ -45,13 +46,9 @@ public class ReservationController {
     }
 
     @GetMapping("/reservation/{id}")
-    public ResponseEntity<Reservation> getReservation(@PathVariable long id) {
+    public ResponseEntity<ReservationResponseDTO> getReservation(@PathVariable long id) {
         Reservation reservation = reservationService.getReservationById(id);
-        if (reservation != null) {
-            return new ResponseEntity<>(reservation, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(ReservationMapper.mapToResponseDTO(reservation));
     }
 
     @PostMapping("/reservation/{id}/status/{reservationStatus}")
@@ -61,8 +58,8 @@ public class ReservationController {
     }
 
     @GetMapping("/reservation/today")
-    public ResponseEntity<Iterable<Reservation>> getReservationsForToday() {
-        Iterable<Reservation> reservations = reservationService.getReservationsForToday();
+    public ResponseEntity<Iterable<ReservationResponseDTO>> getReservationsForToday() {
+        Iterable<ReservationResponseDTO> reservations = reservationService.getReservationsForToday();
         return ResponseEntity.ok(reservations);
     }
 }

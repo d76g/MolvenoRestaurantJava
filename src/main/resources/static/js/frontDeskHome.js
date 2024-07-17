@@ -1,3 +1,4 @@
+let currentReservationId;
 function init(){
     console.log("Front Desk Home Page");
     getAllReservationsForToday();
@@ -22,6 +23,14 @@ function init(){
     $(".closePopUp").on("click", function(){
         $('#reservationDetailsPopup').toggleClass("hidden");
     });
+    $("#todayReservationDiv").on("click", ".takeOrder", function(){
+        const id = $(this).attr("date-id");
+        const tableNumbers = $(this).attr("data-table-numbers");
+        currentReservationId = id;
+        $('#table-number').text(tableNumbers);
+        console.log("Take Order for reservation: " + id + " at table: " + tableNumbers);
+        $('#menuList').toggleClass("hidden");
+    });
 
 
 }
@@ -45,7 +54,7 @@ function getAllReservationsForToday() {
         url: "/api/reservation/today",
         type: "GET",
         success: function(data) {
-            console.log(data);
+            console.log('Reservations for today: ', data);
             displayReservations(data);
         },
         error: function(error) {
@@ -57,6 +66,10 @@ function getAllReservationsForToday() {
 function displayReservations(data) {
     const reservationDiv = $("#todayReservationDiv");
     reservationDiv.empty();
+    if (data.length == 0) {
+        reservationDiv.append($("<p class='text-gray-500 '>No reservations for today</p>"));
+        return;
+    }
     for (const reservation of data) {
         const card = createCard(reservation);
         reservationDiv.append(card);
@@ -72,7 +85,13 @@ function displayReservationPopupDetails(reservation) {
 
 function createPopUp(reservation) {
     const tableNumbers = reservation.tables.map(table => table.tableNumber).join(", ");
-    const reservationTimePlus3hours = reservation.reservationTime.add(3, 'hours').format('HH:mm');
+    const reservationTime = reservation.reservationTime;
+    // convert text to date object
+    const time = new Date("1970-01-01T" + reservationTime + "Z");
+    // add 3 hours to the time
+    time.setHours(time.getHours() + 2);
+    // convert time back to text
+    const reservationTimePlus3hours = time.toTimeString().slice(0, 5);
     const card = $(`
         <div class="bg-gray-100 shadow-sm rounded-lg font-sans my-3">
             <div class="p-4 flex flex-col gap-2">
@@ -96,7 +115,6 @@ function createPopUp(reservation) {
         </div>
     `);
     return card;
-
 }
 
 function createCard(reservation) {
@@ -129,7 +147,7 @@ function createCard(reservation) {
             </div>
         </div>
     `);
-    } else {
+    } else if(reservation.reservationStatus == "ATTENDED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-4 flex flex-col gap-2">
@@ -146,7 +164,33 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                     <div class="px-2">
-                        <button class="bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Take Order</button>
+                        <button date-id="${reservation.id}" data-table-numbers="${tableNumbers}" class="takeOrder bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Take Order</button>
+                    </div>
+                    <div class="px-2">
+                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+    } else if (reservation.reservationStatus == "ORDERED") {
+        card = $(`
+        <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
+            <div class="p-4 flex flex-col gap-2">
+                <div class="py-3 font-bold bg-red-400 flex justify-center items-center rounded-md text-white">
+                    <p>Table NO. ${tableNumbers}</p>
+                </div>
+                <div>
+                    <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                </div>
+                <div>
+                    <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
+                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
+                </div>
+                <div class="w-full flex flex-col gap-y-2">
+                <div class="px-2">
+                        <button class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
                     </div>
                     <div class="px-2">
                         <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>

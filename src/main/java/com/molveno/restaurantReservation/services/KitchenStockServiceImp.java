@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class KitchenStockServiceImp implements KitchenStockService {
+
     final KitchenStockRepo kitchenStockRepo;
     private final KitchenCategoryRepo kitchenCategoryRepo;
 
@@ -27,7 +28,7 @@ public class KitchenStockServiceImp implements KitchenStockService {
     //create
     @Override
     public KitchenStock addKitchenStock(KitchenStock kitchenStock) {
-        // Check if the category_id is provided and valid
+    // Check if the category_id is provided and valid
         if (kitchenStock.getCategory() != null && kitchenStock.getCategory().getCategory_id() != null) {
             // Retrieve the KitchenCategory from the repository based on category_id
             Optional<KitchenCategory> optionalKitchenCategory = kitchenCategoryRepo.findById(kitchenStock.getCategory().getCategory_id());
@@ -49,7 +50,6 @@ public class KitchenStockServiceImp implements KitchenStockService {
         return kitchenStockRepo.save(kitchenStock);
     }
 
-
     //FIND
     @Override
     public KitchenStock addKitchenStockById(Long stock_id) {
@@ -66,5 +66,14 @@ public class KitchenStockServiceImp implements KitchenStockService {
     public KitchenStock updateKitchenStock(KitchenStock kitchenStock) {
         return kitchenStockRepo.save(kitchenStock);
     }
+
+    @Override
+    public Iterable<KitchenStock> checkStockLimit() {
+        // loop through the all the kitchen stock items and check if stock is below stock value
+        KitchenStock kitchenStock = new KitchenStock();
+        return kitchenStockRepo.findByStockLessThan();
+    }
+
+
 
 }

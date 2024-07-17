@@ -25,6 +25,9 @@ function init(){
     $(".closeButtonAdd").click(function() {
         $("#addFormDiv").toggleClass("hidden");
     });
+    $(".closeButton").click(function() {
+        $("#updateFormDiv").toggleClass("hidden");
+    });
     // Event listener for the close button
     $(document).on('click', '.editButton', function(){
         // get the table id and capacity
