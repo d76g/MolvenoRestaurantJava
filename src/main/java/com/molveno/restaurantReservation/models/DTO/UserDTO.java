@@ -6,17 +6,12 @@ import jakarta.validation.constraints.Size;
 
 public class UserDTO {
     private long userId;
-   // @NotEmpty
     private String userName;
-   // @NotEmpty
     private String firstName;
-   // @NotEmpty
     private String lastName;
-   // @NotEmpty
-   // @Email
     private String email;
     private String roleName;
-   // @Size(min = 8,message = "Minimum Password Length is 8 characters")
+    // @Size(min = 8,message = "Minimum Password Length is 8 characters")
     private String password;
     private long roleId;
 

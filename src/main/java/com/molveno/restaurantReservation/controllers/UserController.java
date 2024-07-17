@@ -16,20 +16,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController {
 
-  // @Autowired
-  // private UserRepo repo;
-
- //  @GetMapping ("/register")
-//   public String register (Model model){
-//       UserDTO userDTO = new UserDTO();
-//       model.addAttribute (userDTO);
-//       return "register";
-//   }
-
-
     @Autowired
     private UserService userService;
-
 
 // List of  all Users
     @GetMapping("/users/all")
@@ -37,13 +25,7 @@ public class UserController {
     List<UserDTO> users= userService.listUser();
     return ResponseEntity.ok(users);
     }
-    //add new user
-   /* @PostMapping(value ="/users",consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        System.out.println("Inside addUser");
-        User newUser = userService.createUser(user);
-        return  ResponseEntity.ok(newUser);
-        } */
+
     @PostMapping(value = "/users", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> addUser(@RequestBody UserDTO user) {
         System.out.println("Inside addUser");

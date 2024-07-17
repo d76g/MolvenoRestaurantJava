@@ -13,18 +13,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
-//    @Override
-//    public UserService loadUserByUsername(String username) throws username {
-//        User user = userRepo.findByUserName(username);
-//        if (user !=null) {
-//            var springUser = User.withUsername(user.getUsername())
-//                    .passward(user.getPassword())
-//                    .roles(user.getUserRole())
-//                    .build();
-//            return springUser;
-//        }
-//        return null;
-//    }
 
     @Autowired
     private UserRepo userRepo;
@@ -82,6 +70,11 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteUser(long id) {
         userRepo.deleteById(id);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
 
 }
