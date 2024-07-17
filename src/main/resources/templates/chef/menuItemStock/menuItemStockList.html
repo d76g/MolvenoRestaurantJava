@@ -33,13 +33,13 @@
     <div class="w-full flex flex items-center justify-center absolute z-10 h-screen py-10 bg-gray-100">
         <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
             <h1 class="text-2xl font-bold mb-6">MENU ITEM-STOCK</h1>
-            <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Menu Item</button>
+            <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Ingredient</button>
             <table id="menuItemStockList" class="w-full mt-10">
                 <thead>
                 <tr>
-                    <th class="text-left">Menu Item Name</th>
-                    <th class="text-left">Stock Name</th>
+                    <th class="text-left">Ingredient</th>
                     <th class="text-left">Amount</th>
+                    <th class="text-left">Actions</th>
 
                 </tr>
                 </thead>
@@ -54,7 +54,7 @@
     <!-- Include the add and update form using fragment
         Check the addForm.html and updateForm.html for the form structure
     -->
-    <div th:insert="chef/menuManagement/menu/addForm :: addMenuFormHTML"></div>
+    <div th:insert="chef/menuItemStock/addForm :: addIngredientFormHTML"></div>
 </div>
 
 

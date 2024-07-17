@@ -1,28 +1,31 @@
 package com.molveno.restaurantReservation.models.DTO;
 
+import com.molveno.restaurantReservation.models.KitchenStock;
+import com.molveno.restaurantReservation.models.Menu;
+
+import java.util.Set;
+
 public class MenuStockDTO {
 
     private long id;
-    private long menuItemId;
-    private String menuItemName;
+    private long menuId;
     private long kitchenStockId;
-    private String kitchenStockName;
     private double amount;
 
-    public double getAmount() {
-        return amount;
+    public long getId() {
+        return id;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getKitchenStockName() {
-        return kitchenStockName;
+    public long getMenuId() {
+        return menuId;
     }
 
-    public void setKitchenStockName(String kitchenStockName) {
-        this.kitchenStockName = kitchenStockName;
+    public void setMenuId(long menuId) {
+        this.menuId = menuId;
     }
 
     public long getKitchenStockId() {
@@ -33,27 +36,11 @@ public class MenuStockDTO {
         this.kitchenStockId = kitchenStockId;
     }
 
-    public String getMenuItemName() {
-        return menuItemName;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setMenuItemName(String menuItemName) {
-        this.menuItemName = menuItemName;
-    }
-
-    public long getMenuItemId() {
-        return menuItemId;
-    }
-
-    public void setMenuItemId(long menuItemId) {
-        this.menuItemId = menuItemId;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
