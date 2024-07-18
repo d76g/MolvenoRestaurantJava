@@ -380,7 +380,8 @@ function getAllReservations(){
                     if (data.reservationStatus === 'ORDERED') {
                         $(row).addClass('ordered');
                     }
-                }
+                },
+
             });
         },
         error: function(error) {
