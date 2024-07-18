@@ -122,8 +122,8 @@ function menuCard(menu){
               <div class="space-y-1">
                 <div class="px-2">
                   <h1 class="text-md font-bold">${menu.item_name}</h1>
-                  <p class="text-sm">${menu.description}</p>
-                  <p class="text-xs">${menu.price}</p>
+                  <p class="text-xs truncate h-5"">${menu.description}</p>
+                  <p class="text-sm font-bold">${menu.price} &#165</p>
                 </div>
                 <form id="addItemToOrder" class="flex flex-cols justify-evenly">
                   <!--Display counter-->
