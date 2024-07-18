@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,6 +74,7 @@
                 <li><a href="#menu" class="hover:scale-110 transition ease-in-out">Menu</a></li>
                 <li><a href="#about" class="hover:scale-110 transition ease-in-out">About Us</a></li>
                 <li><a href="#contact" class="hover:scale-110 transition ease-in-out">Contact Us</a></li>
+                <li><a sec:authorize ="!isAuthenticated()" th:href="@{/login}">Login</a></li>
             </ul>
         </div>
         <div class="flex items-center space-x-4">

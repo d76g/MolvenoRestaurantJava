@@ -19,20 +19,4 @@ public class HomeController {
     }
 
 
-    @GetMapping({"/home", "/"})
-    public String home(Model model) {
-        model.addAttribute("reservation", new Reservation());
-        return "index";
-    }
-    @PostMapping("/createReservation")
-    public String createReservation(Reservation reservation, RedirectAttributes redirectAttributes) {
-        reservationServiceImp.createReservation(reservation);
-        redirectAttributes.addAttribute("id", reservation.getId());
-        return "redirect:/reservationDetails";
-    }
-    @GetMapping("/reservationDetails")
-    public String reservationDetails(@RequestParam long id, Model model) {
-        model.addAttribute("reservation", reservationServiceImp.getReservation(id));
-        return "common/reservation/reservationInfo";
-    }
 }

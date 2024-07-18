@@ -6,6 +6,7 @@ import com.molveno.restaurantReservation.models.UserRole;
 import com.molveno.restaurantReservation.repos.UserRepo;
 import com.molveno.restaurantReservation.repos.UserRoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserServiceImp implements UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
 
         UserRole userRole = userRoleRepo.findByRole(userDto.getRoleName());
 
