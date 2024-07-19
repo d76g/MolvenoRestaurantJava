@@ -96,27 +96,49 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     }
 
     // place order and deduct from stock
+    @Override
     public CustomerOrder placeOrder(OrderDTO orderDto){
-        CustomerOrder order = orderRepo.findById(orderDto.getId()).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        CustomerOrder order = findById(orderDto.getId());
+        if (order.getStatus() != "PENDING") {
+            throw new IllegalArgumentException("Order is already placed");
+        }
+        validateStockAvailability(order);
+        deductStockAndSaveOrder(order);
+        return order;
+
+    }
+    // validate stock availability
+    private void validateStockAvailability(CustomerOrder order) {
+        for (OrderItem orderItem : order.getOrderItem()) {
+            Menu menuItem = orderItem.getMenu();
+            for (MenuItemStock menuItemStock : menuItem.getMenuItemStocks()) {
+                KitchenStock kitchenStock = menuItemStock.getKitchenStock();
+                double amountToDeduct = menuItemStock.getAmount() * orderItem.getQuantity();
+                if (kitchenStock.getStock() < amountToDeduct) {
+                    throw new IllegalArgumentException("Stock is not enough to make the order");
+                }
+            }
+        }
+    }
+    // deduct from stock and save order
+    private void deductStockAndSaveOrder(CustomerOrder order) {
         order.setStatus("PLACED");
         orderRepo.save(order);
 
         for (OrderItem orderItem : order.getOrderItem()) {
             Menu menuItem = orderItem.getMenu();
 
-            // Deduct stock for each MenuItemStock entry
             for (MenuItemStock menuItemStock : menuItem.getMenuItemStocks()) {
                 KitchenStock kitchenStock = menuItemStock.getKitchenStock();
                 double amountToDeduct = menuItemStock.getAmount() * orderItem.getQuantity();
                 kitchenStock.setStock(kitchenStock.getStock() - amountToDeduct);
-                kitchenStockRepo.save(kitchenStock); // Assuming you have a KitchenStock repository
+                kitchenStock.setStockValue(kitchenStock.getStock() * kitchenStock.getPricePerUnit());
+                kitchenStockRepo.save(kitchenStock);
             }
 
-             menuRepo.save(menuItem); // Assuming you have a Menu repository
+            menuRepo.save(menuItem);
         }
-        return order;
     }
-
     // change order status
     @Override
     public CustomerOrder changeOrderStatus(long id, String status){

@@ -14,9 +14,13 @@ public interface CustomerOrderService {
     CustomerOrder findById(long id);
     CustomerOrder save(OrderDTO customerOrder);
 
+    // place order and deduct from stock
+    CustomerOrder placeOrder(OrderDTO orderDto);
+
     // change order status
     CustomerOrder changeOrderStatus(long id, String status);
 
     void deleteById(long id);
     void deleteAll();
+
 }
