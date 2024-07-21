@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -99,7 +100,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     @Override
     public CustomerOrder placeOrder(OrderDTO orderDto){
         CustomerOrder order = findById(orderDto.getId());
-        if (order.getStatus() != "PENDING") {
+        if (Objects.equals(order.getStatus(), "PLACED")) {
             throw new IllegalArgumentException("Order is already placed");
         }
         validateStockAvailability(order);
@@ -145,6 +146,11 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
         CustomerOrder order = orderRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Order not found"));
         order.setStatus(status);
         return orderRepo.save(order);
+    }
+    // get all orders by reservation id
+    @Override
+    public Iterable<CustomerOrder> findByReservationId(long reservationId) {
+        return orderRepo.findAllByReservationId(reservationId);
     }
 
     @Override

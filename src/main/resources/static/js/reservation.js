@@ -280,6 +280,12 @@ function updateReservation(){
             success: function(data) {
                 $("#updateReservationDiv").addClass("hidden");
                 $('#updateReservation')[0].reset();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reservation Updated',
+                    text: 'Reservation has been updated successfully',
+                    timer: 3000
+                })
                 getAllReservations();
             },
             error: function (error) {
@@ -396,11 +402,16 @@ function updateReservationStatus(reservationId, status){
         url: url + reservationId + '/status/' + status,
         type: 'POST',
         success: function(data) {
-            alert('Reservation status updated successfully');
+            Swal.fire({
+                icon: 'success',
+                title: 'Reservation Status Updated',
+                text: 'Reservation status has been updated successfully',
+                timer: 3000
+            })
             getAllReservations();
         },
         error: function(error) {
-            alert(error.responseJSON.message)
+            console.error("There was an error updating the reservation status:", error);
         }
     });
 }

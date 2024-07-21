@@ -20,6 +20,10 @@ public interface CustomerOrderService {
     // change order status
     CustomerOrder changeOrderStatus(long id, String status);
 
+
+    // get all orders by reservation id
+    Iterable<CustomerOrder> findByReservationId(long reservationId);
+
     void deleteById(long id);
     void deleteAll();
 

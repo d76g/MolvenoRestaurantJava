@@ -38,7 +38,6 @@ function removeOrderItem(menuItemId){
 function initMenuList(){
     console.log("init")
     getMenuItems();
-
     // remove an item from the order
     $("#OrderMenuList").on("click", ".removeItem", function(){
         const menuItemId = $(this).attr("data-id");
@@ -58,10 +57,7 @@ function initMenuList(){
 
 }
 
-
-
 //TODO:: List of all the menu items
-
 function getMenuItems(){
 
     $.ajax(
@@ -165,6 +161,7 @@ function OrderMenuItem(ItemName, Price, Quantity, Image, menuItemId){
     `
 }
 
+
 // save the order to the server
 $("#orderButton").on("click", function(){
     if (Order.orderItems.length === 0){
@@ -187,7 +184,13 @@ $("#orderButton").on("click", function(){
                 $('#menuList').toggleClass("hidden");
                 updateOrderTotal();
                 changeReservationStatus(currentReservationId, "ORDERED");
-                alert("Order saved successfully")
+                getAllReservationsForToday();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Order Placed Successfully',
+                    text: 'Order has been sent to the kitchen',
+                    timer: 3000
+                })
             },
             error: function(error){
                 console.log(error)
