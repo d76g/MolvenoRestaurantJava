@@ -40,7 +40,7 @@ function init(){
             category: $(this).data('category'),
         };
         let queryParameters = $.param(data);
-        window.location.href = '/chef/stock/form?' + queryParameters;
+        window.location.href = '/stock/form?' + queryParameters;
     });
 
     // Event listener for the update table form submission
@@ -186,7 +186,7 @@ function saveStock() {
             $('#stockAddForm')[0].reset();
             alert("Stock Item added successfully");
             // redirect to the table page
-            window.location.href = '/chef/stocks';
+            window.location.href = '/stock';
             // getAllStock();
         },
         error: function(error) {

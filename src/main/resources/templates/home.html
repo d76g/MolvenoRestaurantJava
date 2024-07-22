@@ -2,4 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <div th:insert="/common/header :: header"></div>
 <div sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" th:insert="/frontDesk/home :: frontDeskHome"></div>
+<div  sec:authorize="hasAnyAuthority('Chef')" th:insert="/chef/home :: chefHome"></div>
+
 </html>
