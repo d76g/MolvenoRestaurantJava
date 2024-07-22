@@ -2,7 +2,6 @@ package com.molveno.restaurantReservation.services;
 
 import com.molveno.restaurantReservation.models.DTO.MenuDTO;
 import com.molveno.restaurantReservation.models.Menu;
-import com.molveno.restaurantReservation.models.MenuCategory;
 
 import com.molveno.restaurantReservation.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +79,13 @@ public class MenuServiceImpl implements MenuService{
         menuRepo.deleteById(id);
 
     }
+
+    @Override
+    public Iterable<MenuDTO> getMenuByMealTime(String mealTime) {
+        Iterable<Menu> menus = menuRepo.findByMealTimeName(mealTime);
+        return StreamSupport.stream(menus.spliterator(), false)
+                .map(this::entityToDto)
+                .collect(Collectors.toList());}
 
     private Menu dtoToEntity(MenuDTO menuDto) {
         Menu menu = new Menu();
