@@ -6,6 +6,8 @@ import com.molveno.restaurantReservation.models.UserRole;
 import com.molveno.restaurantReservation.repos.UserRepo;
 import com.molveno.restaurantReservation.repos.UserRoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ public class UserServiceImp implements UserService {
     // save
     @Override
     public UserDTO saveUser(UserDTO userDto) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         User user;
         if (userDto.getUserId() != 0) {
             user = userRepo.findById(userDto.getUserId()).orElse(new User());
@@ -34,7 +38,14 @@ public class UserServiceImp implements UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        // if password is not empty, then encode it
+        if (!userDto.getPassword().isEmpty()) {
+            // Validate password complexity
+            isPasswordComplex(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        } else {
+            user.setPassword(userRepo.findById(userDto.getUserId()).orElse(user).getPassword());
+        }
 
         UserRole userRole = userRoleRepo.findByRole(userDto.getRoleName());
 
@@ -76,6 +87,30 @@ public class UserServiceImp implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+
+    private boolean isPasswordComplex(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUppercase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowercase = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSpecialChar = true;
+            }
+        }
+
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
     }
 
 }

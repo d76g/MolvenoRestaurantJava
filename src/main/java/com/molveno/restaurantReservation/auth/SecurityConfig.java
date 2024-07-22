@@ -35,35 +35,10 @@ public class SecurityConfig {
         http.headers( header -> header.frameOptions( options -> options.sameOrigin()));
         http.csrf( csrf -> csrf.disable())
                 .authorizeHttpRequests( auth -> auth
-                                .requestMatchers("/**"
-                                ).permitAll()
-//                        .requestMatchers("/customer*", "/room*").hasAnyAuthority("USER", "ADMIN")
-//                        .requestMatchers("/reservation*").hasAnyAuthority("ADMIN")
-//                        .anyRequest().authenticated())
-                ).formLogin( login -> login
-                        .loginPage("/login")
-                        .usernameParameter("username")
-                        .failureUrl("/login-fail")
-                        .permitAll())
-                .logout( logout -> logout
-                        .logoutSuccessUrl("/home")
-                        .invalidateHttpSession(true)
-                        .permitAll())
-        ;
-
-        return http.build();
-    }
-    //@Bean
-    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
-        http.headers( header -> header.frameOptions( options -> options.sameOrigin()));
-        http.csrf( csrf -> csrf.disable())
-                .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/"
-                                ,"/home"
+                                .requestMatchers(
+                                "/"
                                 , "/h2-console/**"
                                 , "/console/**"
-                                , "/contact"
-                                , "/blog"
                                 , "/js/**"
                                 , "/css/**"
                                 , "/images/**"
@@ -72,26 +47,65 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/webjars/**"
-                        ).permitAll()
-                        .requestMatchers("/admin*").hasAnyAuthority( "Admin")
-                        .requestMatchers("/chef*").hasAnyAuthority("Chef","Admin")
-                        .requestMatchers("/frontDesk*").hasAnyAuthority("front desk","Chef","Admin")
-                        .requestMatchers("/waiter*").hasAnyAuthority("Waiter","Admin")
+                                ).permitAll()
+                        .requestMatchers("/orders*","/home").hasAnyAuthority("Front desk", "Admin", "Waiter", "Chef")
+                        .requestMatchers("/reservation*").hasAnyAuthority( "Front desk", "Admin")
+                        .requestMatchers( "/tables*","/users*").hasAnyAuthority("Admin")
+                        .requestMatchers("/stock*", "/menu*", "category*", "menuItemStock*").hasAnyAuthority("Chef")
                         .anyRequest().authenticated()
-                         )
-                .formLogin( login -> login
+                ).formLogin( login -> login
                         .loginPage("/login")
                         .usernameParameter("username")
-                        .defaultSuccessUrl("/home",false)
+                        .defaultSuccessUrl("/home",true)
                         .failureUrl("/login-fail")
                         .permitAll())
                 .logout( logout -> logout
-                        .logoutSuccessUrl("/home")
+                        .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
                         .permitAll())
         ;
 
         return http.build();
     }
+//    //@Bean
+//    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+//        http.headers( header -> header.frameOptions( options -> options.sameOrigin()));
+//        http.csrf( csrf -> csrf.disable())
+//                .authorizeHttpRequests( auth -> auth
+//                        .requestMatchers("/"
+//                                ,"/home"
+//                                , "/h2-console/**"
+//                                , "/console/**"
+//                                , "/contact"
+//                                , "/blog"
+//                                , "/js/**"
+//                                , "/css/**"
+//                                , "/images/**"
+//                                , "/api/**"
+//                                ,"/v3/api-docs/**",
+//                                "/swagger-ui.html",
+//                                "/swagger-ui/**",
+//                                "/webjars/**"
+//                        ).permitAll()
+//                        .requestMatchers("/admin*").hasAnyAuthority( "Admin")
+//                        .requestMatchers("/chef*").hasAnyAuthority("Chef","Admin")
+//                        .requestMatchers("/frontDesk*").hasAnyAuthority("front desk","Chef","Admin")
+//                        .requestMatchers("/waiter*").hasAnyAuthority("Waiter","Admin")
+//                        .anyRequest().authenticated()
+//                         )
+//                .formLogin( login -> login
+//                        .loginPage("/login")
+//                        .usernameParameter("username")
+//                        .defaultSuccessUrl("/home",false)
+//                        .failureUrl("/login-fail")
+//                        .permitAll())
+//                .logout( logout -> logout
+//                        .logoutSuccessUrl("/home")
+//                        .invalidateHttpSession(true)
+//                        .permitAll())
+//        ;
+//
+//        return http.build();
+//    }
 }
 

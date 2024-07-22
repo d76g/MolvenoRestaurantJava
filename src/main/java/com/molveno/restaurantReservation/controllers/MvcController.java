@@ -18,16 +18,15 @@ public class MvcController {
     ReservationService reservationService;
     TableService tableService;
 
-
     // home page
-
     @GetMapping("/")
-    public String index(Model model) {
+    public String index() {
         return "index";
     }
+    // home page
     @GetMapping("/home")
-    public String home(Model model) {
-        return "index";
+    public String home() {
+        return "home";
     }
     @PostMapping("/createReservation")
     public String createReservation(Reservation reservation, RedirectAttributes redirectAttributes) {
@@ -41,103 +40,84 @@ public class MvcController {
         return "common/reservation/reservationInfo";
     }
 
-    @GetMapping("frontDesk/reservation/form")
-    public String showReservationForm(Model model) {
-        model.addAttribute("reservation", new Reservation());
-        return "frontDesk/reservation/reservationForm";
-    }
     // front desk
-    @GetMapping("frontDesk/reservation/list")
+    @GetMapping("/reservations")
     public String showReservationList() {
         return "frontDesk/reservation/reservationList";
     }
 
-    @GetMapping("/frontDesk")
-    public String getFrontDesk() {
-        return "frontDesk/home";
-    }
-
-    @GetMapping("/frontDesk/orders")
+    @GetMapping("/orders")
     public String getOrders() {
         return "common/ordering/menuList";
     }
 
     // admin
-    @GetMapping("/admin/tables")
+    @GetMapping("/tables")
     public String getTables(Model model) {
         model.addAttribute("table", new Table());
         return "admin/tableManagement/tableList";
     }
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
     public String getUsers() {
         return "admin/userManagement/usersList";
     }
 
-    //chef
-    @GetMapping("/chef")
-    public String home() {
-        return "chef/home";
-    }
 
-    @GetMapping("/chef/stock/form")
+    @GetMapping("/stock/form")
     public String add() {
         return "chef/stock/form";
     }
 
-    @GetMapping("/chef/stock/menu")
+    @GetMapping("/stock/menu")
     public String manage() {
         return "chef/stock/menuStock";
     }
 
-    @GetMapping("/chef/stocks")
+    @GetMapping("/stock")
     public String getStocks() {
         return "chef/stock/list";
     }
 
-    @GetMapping("/chef/stock/edit/{id}")
+    @GetMapping("/stock/edit/{id}")
     public String edit(@PathVariable Long id) {
         return "chef/stock/update";
     }
 
     // kitchen categories URL
-    @GetMapping("/chef/categories")
+    @GetMapping("/stock/category")
     public String getCategories() {
         return "chef/category/list";
     }
 
-    @GetMapping("/chef/category/form")
+    @GetMapping("/category/form")
     public String addCategory() {
         return "chef/category/form";
     }
 
     //menu
-    @GetMapping("/chef/menu/form")
+    @GetMapping("/menu")
     public String showMenuForm() {
         return "chef/menuManagement/menu/menuList";
     }
     //mealtime
-    @GetMapping("/chef/menu/mealtime/form")
+    @GetMapping("/menu/mealtime")
     public String showMealTimeForm() {
         return "chef/menuManagement/mealTime/mealTimeList";
     }
 
     //subCategory
-    @GetMapping("/chef/menu/subCategory/form")
+    @GetMapping("/menu/subCategory")
     public String showSubCategoryForm() {
         return "chef/menuManagement/subCategory/subCategoryList";
     }
 
     //menuCategory
-    @GetMapping("/chef/menu/menuCategory/form")
+    @GetMapping("/menu/menuCategory")
     public String showMenuCategoryForm() {
         return "chef/menuManagement/menuCategory/menuCategoryList";
     }
-    @GetMapping("/chef/order")
-    public String showOrdersList() {
-        return "chef/menuOrdering/ordersList";
-    }
     //menuItemStock
-    @GetMapping("/chef/menuItemStock")
+    @GetMapping("/menuItemStock")
     public String showMenuItemStockForm() {
         return "chef/menuItemStock/menuItemStockList";
     }

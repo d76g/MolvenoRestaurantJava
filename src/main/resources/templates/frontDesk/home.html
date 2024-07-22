@@ -1,53 +1,6 @@
 
-<!--
- Guys, I have added the table list page with the table form and update form.
- It's the same as we did with Cor using jQuery but this one is with Thymeleaf and Tailwind CSS.
-
- Update the form based on your form fields and the controller mappings.
- Be careful with the form action and the input field names.
-
- USE THE CODE BELOW:
- -->
-<!--
-TODO 1: Add the table list page with the table form and update form
-TODO 2: Implement JavaScript to handle the form submission and update
--->
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front Desk - Home</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-    <script>
-        tailwind.config = {
-            theme: {
-
-                colors: {
-                    mainColor: '#D93A2B',
-                    secondColor: '#F26E50',
-                    thirdColor:'#D96248',
-                    buttonColor:'#0D0D0D',
-                    secondButtonColor:'#BF7449'
-                },
-                fontFamily: {
-                    sans: ['Playfair Display', 'serif'],
-                }
-            }
-        }
-    </script>
-</head>
-<body >
-<div th:insert="/frontDesk/navbar/navbar :: reservationNavbar"></div>
+<body th:fragment="frontDeskHome">
+<div th:insert="common/navbar :: navbar"></div>
 <div th:insert="/common/ordering/menuList:: menuList"></div>
 <div id="reservationDetailsPopup" class="w-full h-screen absolute z-40 flex justify-center items-center hidden">
     <div class="w-full h-screen bg-black opacity-60 absolute z-40"></div>
@@ -79,8 +32,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
     $(document).ready(function() {
         init();
         initMenuList();
-
     });
 </script>
 </body>
-</html>
+

@@ -50,8 +50,10 @@ function init(){
         $('#firstname').val(firstName);
         $('#lastname').val(lastName);
         $('#email').val(userEmail);
-        $('#password').val(userPassword);
         $('#role').val(roleId);
+        // hide password filed
+        $('#password').attr('type','hidden');
+        $('label[for="password"]').css('display', 'none');
 
     });
 
