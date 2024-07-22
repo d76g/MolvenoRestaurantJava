@@ -15,7 +15,7 @@ function init(){
     console.log(menu_id);
     // Event listener for the close button
         $(".closeButtonAdd").click(function() {
-            $("#addSubCategoryFormDiv").toggleClass("hidden");
+            $("#addIngredientFormDiv").toggleClass("hidden");
         });
     $(document).on('click', '.deleteButton', function (){
             const menuItemStockId = $(this).data('id');
