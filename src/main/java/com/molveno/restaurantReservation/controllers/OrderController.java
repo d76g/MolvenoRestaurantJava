@@ -29,6 +29,14 @@ public class OrderController {
         return ResponseEntity.ok(customerOrderService.mapToResponseDTO(order));
     }
 
+    // get order by reservation id
+    @GetMapping(value = "/order/reservation/{id}", produces = "application/json")
+    public ResponseEntity<List<OrderResponseDTO>> getOrderByReservationId(@PathVariable long id) {
+        Iterable<CustomerOrder> orders = customerOrderService.findByReservationId(id);
+        List<OrderResponseDTO> responseDTOs = customerOrderService.mapToResponseDTO(orders);
+        return ResponseEntity.ok(responseDTOs);
+    }
+
     // save order
     @PostMapping(value = "/order", produces = "application/json", consumes = "application/json")
     public ResponseEntity<OrderResponseDTO> saveOrder(@RequestBody OrderDTO order) {
@@ -42,7 +50,6 @@ public class OrderController {
         CustomerOrder placedOrder = customerOrderService.placeOrder(order);
         return ResponseEntity.ok(customerOrderService.mapToResponseDTO(placedOrder));
     }
-
     // update order status
     @PostMapping(value = "/order/{id}/status/{orderStatus}", produces = "application/json")
     public ResponseEntity<OrderResponseDTO> updateOrderStatus(@PathVariable long id, @PathVariable String orderStatus) {

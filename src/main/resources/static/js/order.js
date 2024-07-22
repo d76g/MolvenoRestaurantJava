@@ -1,5 +1,4 @@
 const url = '/api/order';
-
 function init() {
     console.log("init order");
     getOrderList();
@@ -24,13 +23,14 @@ function init() {
     $('#confirmOrderButton').on('click', function() {
         placeOrder();
     });
+
 }
 
 function getOrderItem(orderId) {
     $.ajax({
         url: url + '/' + orderId,
         type: 'GET',
-        success: function(data) {
+        success: function (data) {
             Order.orderItems = data.orderItems;
             displayOrderItems();
             updateOrderTotal();
@@ -49,9 +49,20 @@ function placeOrder() {
         success: function(data) {
             console.log(data);
             getOrderList();
+            $('#menuList').toggleClass("hidden");
+            Swal.fire({
+                icon: 'success',
+                title: 'Order placed successfully',
+                showConfirmButton: false,
+                timer: 1500
+            });
         },
         error: function(error) {
-            console.error("There was an error placing the order:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.responseJSON.message,
+            });
         }
     });
 

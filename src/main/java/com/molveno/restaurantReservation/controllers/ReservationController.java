@@ -1,6 +1,7 @@
 package com.molveno.restaurantReservation.controllers;
 
 
+import com.molveno.restaurantReservation.models.CustomerOrder;
 import com.molveno.restaurantReservation.models.DTO.Mappers.ReservationMapper;
 import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
@@ -52,14 +53,20 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation/{id}/status/{reservationStatus}")
-    public ResponseEntity<Reservation> updateReservationStatus(@PathVariable long id, @PathVariable String reservationStatus) {
-        Reservation updatedReservation = reservationService.updateReservationStatus(id, reservationStatus);
-        return new ResponseEntity<>(updatedReservation, HttpStatus.OK);
+    public ResponseEntity<String> updateReservationStatus(@PathVariable long id, @PathVariable String reservationStatus) {
+        reservationService.updateReservationStatus(id, reservationStatus);
+        return new ResponseEntity<>("Reservation status updated", HttpStatus.OK);
     }
 
     @GetMapping("/reservation/today")
     public ResponseEntity<Iterable<ReservationResponseDTO>> getReservationsForToday() {
         Iterable<ReservationResponseDTO> reservations = reservationService.getReservationsForToday();
         return ResponseEntity.ok(reservations);
+    }
+    // make payment
+    @PostMapping(value = "/reservation/{id}/payment", produces = "application/json")
+    public ResponseEntity<CustomerOrder> makePayment(@PathVariable long id) {
+        CustomerOrder order = reservationService.makePayment(id);
+        return ResponseEntity.ok(order);
     }
 }

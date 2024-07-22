@@ -42,8 +42,9 @@ public class MvcController {
 
     @GetMapping("/frontDesk/orders")
     public String getOrders() {
-        return "common/ordering/menuList";
+        return "common/menuOrdering/ordersList";
     }
+
 
     // tables
     @GetMapping("/admin/tables")
@@ -115,7 +116,7 @@ public class MvcController {
     }
     @GetMapping("/chef/order")
     public String showOrdersList() {
-        return "chef/menuOrdering/ordersList";
+        return "common/menuOrdering/ordersList";
     }
 
     //menuItemStock
