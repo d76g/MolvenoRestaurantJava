@@ -1,10 +1,12 @@
 package com.molveno.restaurantReservation.services;
 
 
+import com.molveno.restaurantReservation.models.CustomerOrder;
 import com.molveno.restaurantReservation.models.DTO.Mappers.ReservationMapper;
 import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
 import com.molveno.restaurantReservation.models.Table;
+import com.molveno.restaurantReservation.repos.OrderRepo;
 import com.molveno.restaurantReservation.repos.ReservationRepo;
 import com.molveno.restaurantReservation.repos.TableRepo;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,12 @@ import java.util.stream.Collectors;
 public class ReservationServiceImp implements ReservationService{
 
     private final ReservationRepo reservationRepo;
+    private final OrderRepo orderRepo;
 
     private final TableRepo tableRepo;
-    public ReservationServiceImp(ReservationRepo reservationRepo, TableRepo tableRepo) {
+    public ReservationServiceImp(ReservationRepo reservationRepo, OrderRepo orderRepo, TableRepo tableRepo) {
         this.reservationRepo = reservationRepo;
+        this.orderRepo = orderRepo;
         this.tableRepo = tableRepo;
     }
     // list all reservations
@@ -58,7 +62,7 @@ public class ReservationServiceImp implements ReservationService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String today = LocalDateTime.now().format(formatter);
         return reservationRepo.findAll().stream()
-                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED") && !reservation.getReservationStatus().equals("PAID"))
+                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED"))
                 .map(ReservationMapper::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -148,7 +152,7 @@ public class ReservationServiceImp implements ReservationService{
     }
 
     @Override
-    public Reservation updateReservationStatus(long id, String reservationStatus) {
+    public void updateReservationStatus(long id, String reservationStatus) {
         Reservation existingReservation = reservationRepo.findById(id).orElse(null);
         if (existingReservation == null) {
             throw new RuntimeException("Reservation not found");
@@ -164,7 +168,6 @@ public class ReservationServiceImp implements ReservationService{
         }
         existingReservation.setReservationStatus(reservationStatus);
         reservationRepo.save(existingReservation);
-        return existingReservation;
     }
     // assign tables to a reservation
     public void assignTablesToReservation(Reservation reservation) {
@@ -227,6 +230,13 @@ public class ReservationServiceImp implements ReservationService{
         return assignedTables;
     }
 
+    // make payment for a reservation
+    @Override
+    public CustomerOrder makePayment(long reservationId){
+        CustomerOrder order = orderRepo.findByReservationId(reservationId);
+        order.setStatus("PAID");
+        return orderRepo.save(order);
+    }
 
 
 }

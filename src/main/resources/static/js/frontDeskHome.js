@@ -1,21 +1,42 @@
 let currentReservationId;
+const url = '/api/reservation/'
 function init(){
     console.log("Front Desk Home Page");
     getAllReservationsForToday();
-
-    $("#todayReservationDiv").on("click", "#attendedButton", function(){
+    const reservationDiv = $("#todayReservationDiv");
+    reservationDiv.on("click", "#attendedButton", function(){
         const id = $(this).attr("date-id");
-        if (!confirm("Are you sure the customer has checked in?")) return;
-        changeReservationStatus(id, "ATTENDED");
-        alert("Customer Checked In")
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, check in!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Checked In!",
+                    text: "The customer has been checked in successfully",
+                    icon: "success"
+                });
+                changeReservationStatus(id, "ATTENDED");
+            }
+        });
+        getAllReservationsForToday();
     });
-    $("#todayReservationDiv").on("click", "#cancelledButton", function(){
+    reservationDiv.on("click", "#makePayment", function(){
+        const id = $(this).attr("date-id");
+        getOrdersForReservation(id);
+    });
+    reservationDiv.on("click", "#cancelledButton", function(){
         const id = $(this).attr("date-id");
         if (!confirm("Are you sure you want to cancel this reservation?")) return;
         changeReservationStatus(id, "CANCELLED");
         alert("Reservation Cancelled")
     });
-    $("#todayReservationDiv").on("click", "#showAllDetails", function(){
+    reservationDiv.on("click", "#showAllDetails", function(){
         const id = $(this).attr("date-id");
         getReservationById(id);
     });
@@ -23,7 +44,7 @@ function init(){
     $(".closePopUp").on("click", function(){
         $('#reservationDetailsPopup').toggleClass("hidden");
     });
-    $("#todayReservationDiv").on("click", ".takeOrder", function(){
+    reservationDiv.on("click", ".takeOrder", function(){
         const id = $(this).attr("date-id");
         const tableNumbers = $(this).attr("data-table-numbers");
         currentReservationId = id;
@@ -37,7 +58,7 @@ function init(){
 function getReservationById(id) {
     console.log("Get all reservations for today");
     $.ajax({
-        url: "/api/reservation/" + id,
+        url: url + id,
         type: "GET",
         success: function(data) {
             console.log(data);
@@ -51,7 +72,7 @@ function getReservationById(id) {
 function getAllReservationsForToday() {
     console.log("Get all reservations for today");
     $.ajax({
-        url: "/api/reservation/today",
+        url: url + "today",
         type: "GET",
         success: function(data) {
             console.log('Reservations for today: ', data);
@@ -63,6 +84,31 @@ function getAllReservationsForToday() {
     });
 }
 
+function changeReservationStatus(id, status){
+    $.ajax({
+        url: `${url}${id}/status/${status}`,
+        type: "POST",
+        success: function(data) {
+            console.log(data);
+            getAllReservationsForToday();
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+function makePayment(reservationId){
+    $.ajax({
+        url: `${url}${reservationId}/payment`,
+        type: "POST",
+        success: function(data) {
+
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
 function displayReservations(data) {
     const reservationDiv = $("#todayReservationDiv");
     reservationDiv.empty();
@@ -82,7 +128,94 @@ function displayReservationPopupDetails(reservation) {
     reservationDiv.append(card);
     $('#reservationDetailsPopup').toggleClass("hidden");
 }
+// get all orders for a reservation
+function getOrdersForReservation(reservationId){
+    $.ajax(
+        {
+            url: `/api/order/reservation/${reservationId}`,
+            type: "GET",
+            contentType: "application/json",
+            success: function(data){
+                displayOrderItemsPop(data, reservationId)
+            },
+            error: function(error){
+                console.log(error)
+            }
+        }
+    )
 
+}
+
+function displayOrderItemsPop(data, reservationId) {
+    // Summarize quantities for the given reservation ID
+    var summedQuantities = {};
+    var totalOrderPrice = 0;
+    for (const order of data) {
+            for (const orderItem of order.orderItems) {
+                totalOrderPrice += orderItem.quantity * orderItem.itemPrice;
+                if (summedQuantities[orderItem.menuName]) {
+                    summedQuantities[orderItem.menuName].quantity += orderItem.quantity;
+                } else {
+                    summedQuantities[orderItem.menuName] = {
+                        image: orderItem.image,
+                        itemPrice: orderItem.itemPrice,
+                        menuName: orderItem.menuName,
+                        quantity: orderItem.quantity
+                    };
+                }
+            }
+    }
+
+    var htmlContent = `
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item Name</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item Price</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Price</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+`;
+    for (const itemName in summedQuantities) {
+        var item = summedQuantities[itemName];
+        var totalPrice = item.quantity * item.itemPrice;
+        htmlContent += `
+      <tr>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.menuName}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.quantity}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.itemPrice}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${totalPrice}</td>
+      </tr>
+    `;
+    }
+    htmlContent += `
+      <tr>
+        <td colspan="3" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-500">Total Price</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${totalOrderPrice}</td>
+      </tr>
+    </tbody>
+  </table>
+`;
+
+    // Display Swal popup
+    Swal.fire({
+        title: 'Order Summary',
+        html: htmlContent,
+        showCancelButton: true,
+        confirmButtonText: 'Make Payment',
+        cancelButtonText: 'Cancel',
+        width: '40rem',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire('Payment processed!', '', 'success');
+            changeReservationStatus(reservationId, "PAID");
+            makePayment(reservationId);
+            getAllReservationsForToday();
+        }
+    });
+}
 function createPopUp(reservation) {
     const tableNumbers = reservation.tables.map(table => table.tableNumber).join(", ");
     const reservationTime = reservation.reservationTime;
@@ -120,7 +253,7 @@ function createPopUp(reservation) {
 function createCard(reservation) {
     const tableNumbers = reservation.tables.map(table => table.tableNumber).join(", ");
     let card;
-    if(reservation.reservationStatus == "CONFIRMED"){
+    if(reservation.reservationStatus === "CONFIRMED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-4 flex flex-col gap-2">
@@ -147,7 +280,7 @@ function createCard(reservation) {
             </div>
         </div>
     `);
-    } else if(reservation.reservationStatus == "ATTENDED"){
+    } else if(reservation.reservationStatus === "ATTENDED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-4 flex flex-col gap-2">
@@ -173,7 +306,7 @@ function createCard(reservation) {
             </div>
         </div>
     `);
-    } else if (reservation.reservationStatus == "ORDERED") {
+    } else if (reservation.reservationStatus === "ORDERED") {
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-4 flex flex-col gap-2">
@@ -190,7 +323,33 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                 <div class="px-2">
-                        <button class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
+                        <button id="makePayment" date-id="${reservation.id}" class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
+                    </div>
+                    <div class="px-2">
+                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+    } else if (reservation.reservationStatus === "PAID") {
+        card = $(`
+        <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
+            <div class="p-4 flex flex-col gap-2">
+                <div class="py-3 font-bold bg-red-400 flex justify-center items-center rounded-md text-white">
+                    <p>Table NO. ${tableNumbers}</p>
+                </div>
+                <div>
+                    <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                </div>
+                <div>
+                    <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
+                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
+                </div>
+                <div class="w-full flex flex-col gap-y-2">
+                <div class="px-2">
+                        <button class="pay-bill bg-blue-600 text-black rounded-md p-2 w-full hover:bg-blue-400 font-bold text-white" disabled>PAID</button>
                     </div>
                     <div class="px-2">
                         <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>
@@ -201,18 +360,4 @@ function createCard(reservation) {
     `);
     }
     return card;
-}
-
-function changeReservationStatus(id, status){
-    $.ajax({
-        url: `/api/reservation/${id}/status/${status}`,
-        type: "POST",
-        success: function(data) {
-            console.log(data);
-            getAllReservationsForToday();
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
 }

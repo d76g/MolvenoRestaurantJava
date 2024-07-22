@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.services;
 
+import com.molveno.restaurantReservation.models.CustomerOrder;
 import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
 
@@ -22,10 +23,13 @@ public interface ReservationService {
     // update a reservation
     Reservation updateReservation(long id, Reservation reservation);
 
-    Reservation updateReservationStatus(long id, String reservationStatus);
+    void updateReservationStatus(long id, String reservationStatus);
 
     Reservation getReservationById(long id);
 
     // get all reservation for today
     List<ReservationResponseDTO> getReservationsForToday();
+
+    // make payment for a reservation
+    CustomerOrder makePayment(long reservationId);
 }

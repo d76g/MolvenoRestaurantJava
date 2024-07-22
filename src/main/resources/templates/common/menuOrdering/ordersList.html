@@ -10,8 +10,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatable/2.0.2/js/datatable.js" integrity="sha512-jNM5sph4S0JfKyz27iPhIFj4JG8o/XiIu7WUgCM/EGYCizlQW+RzMi8Y/rnXlqpkUl7ELz5SLfuF44zCvS3NYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.js"></script>
     <style>
         #tableList {
             width: 80vw !important;
@@ -37,9 +37,12 @@
                 <h1 class="text-xl font-bold">Orders</h1>
             </div>
         </div>
-        <div class="w-full flex items-center justify-center h-3/4 py-10 bg-gray-100">
+        <div class="w-full flex flex-col items-center justify-center h-full bg-gray-100">
+            <div class="w-full h-full px-6 mx-1 my-2">
             <div class="bg-white p-8 rounded-lg shadow-lg">
                 <h1 class="text-2xl font-bold mb-6">Orders</h1>
+                <div class="w-full bg-gray-50 p-3 rounded-md overflow-x-auto p-1 shadow-sm">
+
                 <table id="orderList" class="lg:mt-10 mt-5 text-xs">
                     <thead>
                     <tr>
@@ -54,6 +57,8 @@
                     <!-- Table rows will be added here -->
                     </tbody>
                 </table>
+                </div>
+            </div>
             </div>
         </div>
     </div>
