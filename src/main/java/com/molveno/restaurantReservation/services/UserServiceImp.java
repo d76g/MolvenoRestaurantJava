@@ -38,10 +38,11 @@ public class UserServiceImp implements UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
+        isPasswordComplex(userDto.getPassword());
+
         // if password is not empty, then encode it
         if (!userDto.getPassword().isEmpty()) {
             // Validate password complexity
-            isPasswordComplex(userDto.getPassword());
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         } else {
             user.setPassword(userRepo.findById(userDto.getUserId()).orElse(user).getPassword());
