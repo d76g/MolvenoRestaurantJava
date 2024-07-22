@@ -2,45 +2,58 @@ const url = '/api/users';
 function init(){
     // call the get all user method
     getAllUser();
+
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const userId = $(this).data('id');
         if (confirm("Are you sure you want to delete this user?")){
             deleteUser(userId);
-            getAllUser();
         } else {
             return false;
         }
     });
+
     // Event listener for the add button
     $("#addButton").click(function() {
         $("#addFormDiv").toggleClass("hidden");
     });
+
     // Event listener for the add user form submission
     $('#saveUserForm').on('submit', function (e){
         e.preventDefault();
         saveUser();
     })
+
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addFormDiv").toggleClass("hidden");
     });
-    // Event listener for the close button
+
+    // Event listener for the edit button
+
     $(document).on('click', '.editButton', function(){
-        // get the user id  name ,email and password
+        // get the user id,username,  firstname ,lastname ,email and password
         const userId = $(this).data('id');
-        const userName = $(this).data('name');
+        const userName = $(this).data('user-name');
+        const firstName = $(this).data('first-name');
+        const lastName = $(this).data('last-name');
         const userEmail = $(this).data('email');
         const userPassword = $(this).data('password');
-         const roleId = $(this).data('role');
+        const roleId = $(this).data('role');
+
         // show the update form
         $("#addFormDiv").toggleClass("hidden");
-        // set the new user id,name,email and paasword in the form
+
+        // set the new user id,username,first name,lastname,email,paasword and role in the form
         $('#userId').val(userId);
         $('#username').val(userName);
+        $('#firstname').val(firstName);
+        $('#lastname').val(lastName);
         $('#email').val(userEmail);
-        $('#password').val(userPassword);
         $('#role').val(roleId);
+        // hide password filed
+        $('#password').attr('type','hidden');
+        $('label[for="password"]').css('display', 'none');
 
     });
 
@@ -63,8 +76,9 @@ function getAllUser(){
                 "bDestroy": true,
                 // define the columns (use the data key to map the data to the columns) and the data to be displayed
                 columns: [
-                    // number of columns depends on the data of your model and the name of the id field in the form
-                    { data: 'userName' },
+                    {data: 'userName'},
+                    { data: 'firstName' },
+                    { data: 'lastName' },
                     { data: 'email' },
                     {data: 'roleName'},
 
@@ -74,7 +88,9 @@ function getAllUser(){
                         render: function(data, type, row) {
                             return '<button ' +
                                    'data-id="' + row.userId + '" ' +
-                                   'data-name="' + row.userName + '" ' +
+                                   'data-user-name="' + row.userName + '" ' +
+                                   'data-first-name="' + row.firstName + '" ' +
+                                   'data-last-name="' + row.lastName + '" ' +
                                    'data-email="' + row.email + '" ' +
                                    'data-password="' + row.password + '" ' +
                                    'data-role="' + row.roleId + '" ' +
@@ -101,6 +117,8 @@ function getAllUser(){
 function saveUser(){
     const id = $('#userId').val();
     const userName = $('#username').val();
+    const firstName = $('#firstname').val();
+    const lastName = $('#lastname').val();
     const userEmail = $('#email').val();
     const userPassword = $('#password').val();
     const userRoleId = $('#role').val();
@@ -110,24 +128,31 @@ function saveUser(){
     const user = {
         userId: id,
         userName: userName,
+        firstName: firstName,
+        lastName: lastName,
         email: userEmail,
         password: userPassword,
         roleId: userRoleId,
         roleName:userRole
     };
-    console.log(user);
+
     $.ajax({
         url: url,
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(user),
         success: function(data) {
+
             $("#addFormDiv").toggleClass("hidden");
+
             $('#saveUserForm')[0].reset();
+
             getAllUser();
+             alert('User has been saved successfully!')
         },
         error: function(error) {
             console.error("There was an error adding the user:", error);
+            alert('there was an error adding the user.');
         }
     });
 
@@ -138,10 +163,12 @@ function deleteUser(userId){
         url: url +'/'+ userId,
         type: 'DELETE',
         success: function (data) {
+        alert('User has been deleted successfully!');
             getAllUser();
         },
         error: function (error) {
             console.error("There was an error deleting the user:", error);
+            alert('there was an error deleting the user.');
         }
     });
 }
