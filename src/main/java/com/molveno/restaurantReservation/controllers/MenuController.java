@@ -1,6 +1,7 @@
 package com.molveno.restaurantReservation.controllers;
 
 import com.molveno.restaurantReservation.models.DTO.MenuDTO;
+import com.molveno.restaurantReservation.models.MealTime;
 import com.molveno.restaurantReservation.services.MenuService;
 import com.molveno.restaurantReservation.services.MenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,15 @@ public class MenuController {
     public void deleteMenuItem(@PathVariable long id) {
         System.out.println("Inside deleteMenuItem");
         menuService.deleteMenuItem(id);
+    }
+
+
+    // get menu item base on meal time
+    @GetMapping(value = "/menu/{mealTime}")
+    public ResponseEntity<Iterable<MenuDTO>> getMenuByMealTime(@PathVariable String mealTime) {
+        System.out.println("Inside getMenuByMealTime");
+        Iterable<MenuDTO> menuByMealTime = menuService.getMenuByMealTime(mealTime);
+        return ResponseEntity.ok(menuByMealTime);
     }
 }
 

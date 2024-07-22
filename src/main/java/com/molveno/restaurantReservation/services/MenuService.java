@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.services;
 
+import com.molveno.restaurantReservation.models.MealTime;
 import com.molveno.restaurantReservation.models.Menu;
 import com.molveno.restaurantReservation.models.DTO.MenuDTO;
 
@@ -10,7 +11,5 @@ public interface MenuService {
     Iterable<MenuDTO> listMenu();
     Optional<Menu> getMenuItemById(long id);
     void deleteMenuItem(long id);
-
-
-
+    Iterable<MenuDTO> getMenuByMealTime(String mealTime);
 }

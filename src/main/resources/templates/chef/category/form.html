@@ -11,14 +11,14 @@
    NOTE : Using the fragment to include the form in the tableList.html
 -->
 <div th:fragment="addCategoryFormHTML" id="addFormDiv" class="min-h-screen h-auto flex items-center justify-center absolute w-full top-0 hidden">
-    <div class="w-5/6 h-5/6 rounded-md z-10 bg-black opacity-50 absolute"></div>
-    <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-30">
+    <div class="fixed inset-0 bg-black opacity-50 z-10"></div>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-20">
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-bold mb-6">Kitchen Category Form</h1>
             <span class="closeButtonAdd text-2xl cursor-pointer">&times;</span>
         </div>
         <form class="space-y-4" id="saveCategoryForm">
-            <input type="hidden"  class="d-none form-control" id="categoryId" value="0">
+            <input type="hidden" class="d-none form-control" id="categoryId" value="0">
             <div>
                 <label for="categoryName" class="block text-sm font-medium text-gray-700">Category Name</label>
                 <input type="text" id="categoryName" name="categoryName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
