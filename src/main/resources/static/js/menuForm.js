@@ -21,7 +21,7 @@ function init(){
         menu_id =  $(this).data('id');
 //        const menuItemId = $(this).data('id');
 //      console.log(menuItemId);
-     window.location.href = '/chef/menuItemStock?menuId=' + menu_id;
+     window.location.href = '/menuItemStock?menuId=' + menu_id;
 
 
     });

@@ -48,7 +48,7 @@ public class MvcController {
 
     @GetMapping("/orders")
     public String getOrders() {
-        return "common/ordering/menuList";
+        return "common/menuOrdering/ordersList";
     }
 
     // admin

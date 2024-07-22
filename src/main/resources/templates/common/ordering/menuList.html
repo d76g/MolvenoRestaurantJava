@@ -61,10 +61,10 @@ TODO 2: Implement JavaScript to handle the form submission and update
             </div>
         </div>
           <!--Order Button-->
-            <div class="w-full h-10 mt-2 flex gap-x-2">
+            <div class="w-full h-10 mt-2">
               <!-- TODO:: MAKE THESE BUTTON BASED ON ROLES -->
-                <button id="orderButton" class="w-1/2 h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
-                <button id="confirmOrderButton" class="w-1/2 h-full bg-green-500 text-white bg rounded-md bg-blue-600">Confirm</button>
+                <button sec:authorize="hasAnyAuthority('Front desk')" id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
+                <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600">Confirm</button>
             </div>
         </div>
           <div>
