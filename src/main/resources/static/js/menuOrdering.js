@@ -146,7 +146,7 @@ function OrderMenuItem(ItemName, Price, Quantity, Image, menuItemId){
               <div>
                 <img src="${Image}" alt="Item Image" class="w-20 h-20 rounded-md p-1 object-cover">
               </div>
-              <div class="py-1 px-2 w-3/4">
+              <div class="py-1 px-2 w-4/5">
                   <div class="flex justify-between">
                     <p class="text-md font-bold">${ItemName}</p>
                     <span data-id="${menuItemId}" class="removeItem text-red-600 cursor-pointer">x</span>
