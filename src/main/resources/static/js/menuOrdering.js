@@ -29,8 +29,8 @@ function addOrderItem(menuItemId, quantity, price, itemName, image){
 
 // define a function to remove an order item from the order
 function removeOrderItem(menuItemId){
-    const index = Order.orderItems.findIndex(item => item.menuId === menuItemId);
-    Order.orderItems.splice(index, 1);
+
+    Order.orderItems = Order.orderItems.filter(item => item.menuId !== Number(menuItemId));
 }
 
 
@@ -38,13 +38,14 @@ function removeOrderItem(menuItemId){
 function initMenuList(){
     console.log("init")
     getMenuItems();
-
     // remove an item from the order
     $("#OrderMenuList").on("click", ".removeItem", function(){
         const menuItemId = $(this).attr("data-id");
+        console.log(menuItemId);
         $(this).closest('.order-item').remove(); // Remove the closest order item element
         removeOrderItem(menuItemId);
         displayOrderItems();
+        console.log(Order.orderItems);
         // remove item from display
         updateOrderTotal();
     });
@@ -52,10 +53,11 @@ function initMenuList(){
     $("#closeMenuList").on("click", function(){
         $('#menuList').toggleClass("hidden");
     });
+
+
 }
 
 //TODO:: List of all the menu items
-
 function getMenuItems(){
 
     $.ajax(
@@ -101,7 +103,6 @@ menuDiv.on("submit", "#addItemToOrder", function(event){
 function displayOrderItems() {
     const orderDiv = $("#OrderMenuList");
     orderDiv.empty();
-    console.log(Order.orderItems)
     for (const orderItem of Order.orderItems) {
         const orderItemDiv = OrderMenuItem(orderItem.menuName, orderItem.itemPrice, orderItem.quantity, orderItem.image, orderItem.menuId);
         orderDiv.append(orderItemDiv);
@@ -115,15 +116,15 @@ function updateOrderTotal() {
 function menuCard(menu){
     return `
     <div class="card" style="width: 18rem;">
-        <div class="w-52 h-56 bg-gray-50 rounded-sm drop-shadow-sm">
+        <div class="w-52 h-56 bg-white rounded-md drop-shadow-sm">
               <div class="h-1/2">
                 <img src="${menu.image}" alt="food" class="w-full h-full object-cover rounded-md p-1">
               </div>
               <div class="space-y-1">
                 <div class="px-2">
                   <h1 class="text-md font-bold">${menu.item_name}</h1>
-                  <p class="text-sm">${menu.description}</p>
-                  <p class="text-xs">${menu.price}</p>
+                  <p class="text-xs truncate h-5"">${menu.description}</p>
+                  <p class="text-sm font-bold">${menu.price} &#165</p>
                 </div>
                 <form id="addItemToOrder" class="flex flex-cols justify-evenly">
                   <!--Display counter-->
@@ -131,7 +132,7 @@ function menuCard(menu){
                     <input type="hidden" value="${menu.item_name}" id="menuItemName">
                     <input type="hidden" value="${menu.image}" id="menuItemImage">
                     <input type="hidden" value="${menu.price}" id="menuItemPrice">
-                    <input type="number" id="quantity" class="w-16 text-xs rounded-md " min="1" value="1">
+                    <input type="number" id="quantity" class="w-16 text-xs rounded-md border px-1" min="1" value="1">
                     <button type="submit" class="orderButton bg-blue-500 text-white rounded-md px-2 py-1">Add</button>
                 </form>
           </div>
@@ -147,11 +148,11 @@ function OrderMenuItem(ItemName, Price, Quantity, Image, menuItemId){
               </div>
               <div class="py-1 px-2 w-3/4">
                   <div class="flex justify-between">
-                    <p class="text-lg font-bold">${ItemName}</p>
+                    <p class="text-md font-bold">${ItemName}</p>
                     <span data-id="${menuItemId}" class="removeItem text-red-600 cursor-pointer">x</span>
                   </div>
-                  <div class="text-sm flex gap-x-2">
-                    <p>Price: ${Price}</p>
+                  <div class="text-xs flex gap-x-2">
+                    <p>Price: ${Price} &#165;</p>
                     <p>Quantity: ${Quantity}</p>
                     <p>Total: ${Price * Quantity} &#165;</p>
                   </div>
@@ -159,6 +160,7 @@ function OrderMenuItem(ItemName, Price, Quantity, Image, menuItemId){
             </div>
     `
 }
+
 
 // save the order to the server
 $("#orderButton").on("click", function(){
@@ -182,8 +184,13 @@ $("#orderButton").on("click", function(){
                 $('#menuList').toggleClass("hidden");
                 updateOrderTotal();
                 changeReservationStatus(currentReservationId, "ORDERED");
-                getOrderList()
-                alert("Order saved successfully")
+                getAllReservationsForToday();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Order Placed Successfully',
+                    text: 'Order has been sent to the kitchen',
+                    timer: 3000
+                })
             },
             error: function(error){
                 console.log(error)
