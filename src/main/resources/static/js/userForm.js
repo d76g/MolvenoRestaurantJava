@@ -51,6 +51,7 @@ function init(){
         $('#lastname').val(lastName);
         $('#email').val(userEmail);
         $('#role').val(roleId);
+
         // hide password filed
         $('#password').attr('type','hidden');
         $('label[for="password"]').css('display', 'none');
@@ -112,7 +113,11 @@ function getAllUser(){
         }
     });
 }
-
+function validatePassword(password) {
+    // Regular expression for validating a complex password
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordPattern.test(password);
+}
 // add and update user
 function saveUser(){
     const id = $('#userId').val();
@@ -122,7 +127,20 @@ function saveUser(){
     const userEmail = $('#email').val();
     const userPassword = $('#password').val();
     const userRoleId = $('#role').val();
-    const userRole =  $('#role option:selected').text();
+    const userRole =  $('#role option:selected').text()
+    console.log(userPassword)
+    // Check if the password is complex enough
+    if (!validatePassword(userPassword) && userPassword !== '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Password Validation Error',
+            text: 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.',
+            toast: true,
+            position: 'top-end',
+            timer: 5000,
+        });
+        return;
+    }
 
        // create a user object
     const user = {
@@ -151,8 +169,14 @@ function saveUser(){
              alert('User has been saved successfully!')
         },
         error: function(error) {
-            console.error("There was an error adding the user:", error);
-            alert('there was an error adding the user.');
+            Swal.fire({
+                icon: 'error',
+                title: 'User Save Error',
+                text: error.responseJSON.message,
+                toast: true,
+                position: 'top-end',
+                timer: 5000,
+            });
         }
     });
 

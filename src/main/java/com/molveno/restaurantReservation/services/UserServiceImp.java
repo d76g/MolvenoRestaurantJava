@@ -5,6 +5,7 @@ import com.molveno.restaurantReservation.models.User;
 import com.molveno.restaurantReservation.models.UserRole;
 import com.molveno.restaurantReservation.repos.UserRepo;
 import com.molveno.restaurantReservation.repos.UserRoleRepo;
+import com.molveno.restaurantReservation.utils.UserValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,20 @@ public class UserServiceImp implements UserService {
         } else {
             user = new User();
         }
+
+        // Check if user with the same username already exists
+        User existingUser = userRepo.findByUsername(userDto.getUserName());
+        if (existingUser != null && (userDto.getUserId() == 0 || existingUser.getUser_id() != userDto.getUserId())) {
+            // User already exists, throw error
+            throw new UserValidationException("Username already exists", "username");
+        }
+
         user.setUsername(userDto.getUserName());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        isPasswordComplex(userDto.getPassword());
 
-        // if password is not empty, then encode it
+        // If password is not empty, then encode it
         if (!userDto.getPassword().isEmpty()) {
             // Validate password complexity
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -49,12 +57,12 @@ public class UserServiceImp implements UserService {
         }
 
         UserRole userRole = userRoleRepo.findByRole(userDto.getRoleName());
-
         user.setUserRole(userRole);
 
         userRepo.save(user);
         return convertToDTO(user);
     }
+
 
     @Override
     public List<UserDTO> listUser() {
@@ -90,28 +98,5 @@ public class UserServiceImp implements UserService {
         return userRepo.findByUsername(username);
     }
 
-    private boolean isPasswordComplex(String password) {
-        if (password.length() < 8) {
-            return false;
-        }
-        boolean hasUppercase = false;
-        boolean hasLowercase = false;
-        boolean hasDigit = false;
-        boolean hasSpecialChar = false;
-
-        for (char c : password.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                hasUppercase = true;
-            } else if (Character.isLowerCase(c)) {
-                hasLowercase = true;
-            } else if (Character.isDigit(c)) {
-                hasDigit = true;
-            } else if (!Character.isLetterOrDigit(c)) {
-                hasSpecialChar = true;
-            }
-        }
-
-        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
-    }
 
 }
