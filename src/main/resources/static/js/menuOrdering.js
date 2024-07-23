@@ -197,6 +197,9 @@ $("#orderButton").on("click", function(){
                 if (window.location.pathname === "/home"){
                     getAllReservationsForToday();
                 }
+                if (window.location.pathname === "/orders"){
+                    getOrderList()
+                }
                 Swal.fire({
                     icon: 'success',
                     title: 'Order Placed Successfully',
@@ -208,7 +211,7 @@ $("#orderButton").on("click", function(){
                 Swal.fire({
                     icon: 'error',
                     title: 'Order Failed',
-                    text: 'Order could not be saved',
+                    text: error.responseJSON.message,
                     timer: 3000
                 })
             }
