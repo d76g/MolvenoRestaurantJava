@@ -3,5 +3,6 @@
 <div th:insert="/common/header :: header"></div>
 <div sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" th:insert="/frontDesk/home :: frontDeskHome"></div>
 <div  sec:authorize="hasAnyAuthority('Chef')" th:insert="/chef/home :: chefHome"></div>
+<div  sec:authorize="hasAnyAuthority('Admin')" th:insert="/admin/home :: adminHome"></div>
 
 </html>

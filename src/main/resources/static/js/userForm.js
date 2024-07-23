@@ -166,7 +166,14 @@ function saveUser(){
             $('#saveUserForm')[0].reset();
 
             getAllUser();
-             alert('User has been saved successfully!')
+             Swal.fire({
+                icon: 'success',
+                title: 'User Saved',
+                text: 'User has been saved successfully!',
+                toast: true,
+                position: 'top-end',
+                timer: 5000,
+             });
         },
         error: function(error) {
             Swal.fire({

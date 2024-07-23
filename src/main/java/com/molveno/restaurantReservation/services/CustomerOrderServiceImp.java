@@ -100,7 +100,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     @Override
     public CustomerOrder placeOrder(OrderDTO orderDto){
         CustomerOrder order = findById(orderDto.getId());
-        if (Objects.equals(order.getStatus(), "PLACED")) {
+        if (Objects.equals(order.getStatus(), "PLACED" ) || Objects.equals(order.getStatus(), "PAID" )) {
             throw new IllegalArgumentException("Order is already placed");
         }
         validateStockAvailability(order);

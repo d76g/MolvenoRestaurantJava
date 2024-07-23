@@ -322,7 +322,7 @@ function createCard(reservation) {
                     <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
-                <div class="px-2">
+                <div class="px-2" sec:authorize="hasAnyAuthority('Front desk')">
                         <button id="makePayment" date-id="${reservation.id}" class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
                     </div>
                     <div class="px-2">

@@ -43,9 +43,6 @@ TODO 2: Implement JavaScript to handle the form submission and update
         <div>
         <div class="w-80 h-auto bg-gray-100 my-6 p-3 overflow-y-scroll rounded-md drop-shadow-sm">
           <div>
-            <h1 class="text-xl font-bold">Order </h1>
-          </div>
-          <div>
             <h1 class="text-lg font-bold">Table <span id="table-number"></span></h1>
           </div>
           <div id="OrderMenuList" class="w-full h-4/5 xl:h-3/5 space-y-2 mt-1 xl:mt-2 overflow-y-scroll">
@@ -63,7 +60,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
           <!--Order Button-->
             <div class="w-full h-10 mt-2">
               <!-- TODO:: MAKE THESE BUTTON BASED ON ROLES -->
-                <button sec:authorize="hasAnyAuthority('Front desk')" id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
+                <button sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
                 <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600">Confirm</button>
             </div>
         </div>
