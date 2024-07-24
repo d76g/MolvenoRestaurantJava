@@ -52,13 +52,13 @@
 
             </div>
             <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
-                <h1 class="text-2xl font-bold mb-6">SubCategories</h1>
-                <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add SubCategory</button>
+                <h1 class="text-2xl font-bold mb-6"th:text="#{SubCategories}">SubCategories</h1>
+                <button id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:text="#{Add-SubCategory}">Add SubCategory</button>
                 <table id="subCategoryList" class="w-full mt-10">
                     <thead>
                     <tr>
-                        <th class="text-left">SubCategory Name</th>
-                        <th class="text-left">Actions</th>
+                        <th class="text-left" th:text="#{SubCategory-Name}">SubCategory Name</th>
+                        <th class="text-left" th:text="#{Actions}">Actions</th>
                     </tr>
                     </thead>
                     <tbody>

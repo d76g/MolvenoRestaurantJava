@@ -46,26 +46,26 @@
 
     </div>
         <div class="bg-white p-8 rounded-lg shadow-lg w-5/6 ">
-            <h1 class="text-2xl font-bold mb-6">Stock List</h1>
+            <h1 class="text-2xl font-bold mb-6" th:text="#{Stock-List}">Stock List</h1>
             <a id="addButton" href="/stock/form" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add new stock item</a>
             <div class="w-full overflow-x-auto bg-gray-50 p-4 rounded-md ">
                 <table id="stockList" class="w-full mt-10">
                     <thead>
                     <tr class="text-xs">
-                        <th class="text-left">Description</th>
-                        <th class="text-left">Amount</th>
-                        <th class="text-left">Unit</th>
-                        <th class="text-left">Stock</th>
-                        <th class="text-left">Stock Value</th>
-                        <th class="text-left">Price</th>
-                        <th class="text-left">Price Per Unit</th>
-                        <th class="text-left">Category</th>
-                        <th class="text-left">Brand</th>
-                        <th class="text-left">Supplier</th>
-                        <th class="text-left">Article Number</th>
-                        <th class="text-left">Tax</th>
-                        <th class="text-left">Stock Limit</th>
-                        <th>Actions</th>
+                        <th class="text-left"th:text="#{Description}">Description</th>
+                        <th class="text-left"th:text="#{Amount}">Amount</th>
+                        <th class="text-left"th:text="#{Unit}">Unit</th>
+                        <th class="text-left"th:text="#{Stock}">Stock</th>
+                        <th class="text-left"th:text="#{Stock-Value}">Stock Value</th>
+                        <th class="text-left"th:text="#{Price}">Price</th>
+                        <th class="text-left"th:text="#{Price-Per-Unit}">Price Per Unit</th>
+                        <th class="text-left"th:text="#{Category}">Category</th>
+                        <th class="text-left"th:text="#{Brand}">Brand</th>
+                        <th class="text-left"th:text="#{Supplier}">Supplier</th>
+                        <th class="text-left"th:text="#{Article-Number}">Article Number</th>
+                        <th class="text-left"th:text="#{Tax}">Tax</th>
+                        <th class="text-left"th:text="#{Stock-Limit}">Stock Limit</th>
+                        <th th:text="#{Actions}">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
