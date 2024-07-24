@@ -36,9 +36,25 @@ function init(){
     });
     reservationDiv.on("click", "#cancelledButton", function(){
         const id = $(this).attr("date-id");
-        if (!confirm("Are you sure you want to cancel this reservation?")) return;
-        changeReservationStatus(id, "CANCELLED");
-        alert("Reservation Cancelled")
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, cancel it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Cancelled!",
+                    text: "The reservation has been cancelled successfully",
+                    icon: "success"
+                });
+                changeReservationStatus(id, "CANCELLED");
+                getAllReservationsForToday()
+            }
+        });
     });
     reservationDiv.on("click", "#showAllDetails", function(){
         const id = $(this).attr("date-id");
@@ -256,7 +272,7 @@ function createPopUp(reservation) {
     const reservationTimePlus3hours = time.toTimeString().slice(0, 5);
     const card = $(`
         <div class="bg-gray-100 shadow-sm rounded-lg font-sans my-3">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-blue-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -285,7 +301,7 @@ function createCard(reservation) {
     if(reservation.reservationStatus === "CONFIRMED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-blue-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -298,7 +314,7 @@ function createCard(reservation) {
                     <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
-                    <div class="flex justify-evenly">
+                    <div class="flex justify-between px-2">
                         <button id="attendedButton" date-id="${reservation.id}" class="bg-blue-400 text-white rounded-md p-2 hover:bg-blue-500">Check In</button>
                         <button id="cancelledButton" date-id="${reservation.id}" class="bg-red-400 text-white rounded-md p-2 hover:bg-red-500">Cancelled</button>
                     </div>
@@ -312,7 +328,7 @@ function createCard(reservation) {
     } else if(reservation.reservationStatus === "ATTENDED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-green-300 flex justify-center items-center rounded-md text-black">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -338,7 +354,7 @@ function createCard(reservation) {
     } else if (reservation.reservationStatus === "ORDERED") {
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-red-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -364,7 +380,7 @@ function createCard(reservation) {
     } else if (reservation.reservationStatus === "PAID") {
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-red-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
