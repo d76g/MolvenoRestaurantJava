@@ -31,20 +31,6 @@ public class MenuController {
         return ResponseEntity.ok(savedMenu);
     }
 
-    // Update menu item
-    @PostMapping("/menu/update/{id}")
-    public ResponseEntity<MenuDTO> updateMenuItem(@PathVariable long id, @RequestBody MenuDTO menuDto) {
-        System.out.println("Inside updateMenuItem");
-        menuDto.setMenuItem_id(id); // Ensure the ID is set
-        MenuDTO updatedMenuItem = menuService.saveMenuItem(menuDto);
-        if (updatedMenuItem != null) {
-            return new ResponseEntity<>(updatedMenuItem, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-
     // delete menuItem
     @DeleteMapping(value = "menu/{id}")
     public void deleteMenuItem(@PathVariable long id) {
