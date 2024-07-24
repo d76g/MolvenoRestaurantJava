@@ -21,7 +21,7 @@ function init(){
         menu_id =  $(this).data('id');
 //        const menuItemId = $(this).data('id');
 //      console.log(menuItemId);
-     window.location.href = '/menuItemStock?menuId=' + menu_id;
+     window.location.href = '/menuItemStock?menuId=' + menu_id + '&menuName=' + $(this).data('name');
 
 
     });
@@ -101,7 +101,7 @@ function getAllMenu() {
                         data: null,
                         render: function(data, type, row) {
                             return `
-                                <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
+                                <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}"data-name="${row.item_name}">
                                     <i class="fa-solid fa-carrot"></i>
                                 </button>
                             `;

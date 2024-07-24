@@ -62,7 +62,7 @@ public class ReservationServiceImp implements ReservationService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String today = LocalDateTime.now().format(formatter);
         return reservationRepo.findAll().stream()
-                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED"))
+                .filter(reservation -> reservation.getReservationDate().equals(today) && !reservation.getReservationStatus().equals("CANCELLED") && !reservation.getReservationStatus().equals("PAID"))
                 .map(ReservationMapper::mapToResponseDTO)
                 .collect(Collectors.toList());
     }

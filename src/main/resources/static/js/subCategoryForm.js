@@ -31,6 +31,8 @@ function init(){
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addSubCategoryFormDiv").toggleClass("hidden");
+        $('#saveSubCategoryForm')[0].reset();
+        $('#subCategoryId').val('0');
     });
 
     // Event listener for the update table form submission
