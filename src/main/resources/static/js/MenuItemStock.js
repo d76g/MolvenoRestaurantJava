@@ -1,6 +1,7 @@
 const url = '/api/stock';
 const url2 = '/api/menu-item-stock/menu/'
 let menu_id;
+let menuName;
 function init(){
     function getQueryParameter(param){
     var urlParams = new URLSearchParams(window.location.search);
@@ -11,7 +12,8 @@ function init(){
     getAllStock();
     getAllMenuItemStock();
     menu_id = getQueryParameter('menuId');
-
+    menuName = getQueryParameter('menuName');
+    $('#menuName').text(menuName);
     console.log(menu_id);
     // Event listener for the close button
         $(".closeButtonAdd").click(function() {
@@ -129,7 +131,7 @@ $.ajax({
                     {
                         data: 'action',
                         render: function(data, type, row) {
-                            return '<button class="editButton text-indigo-600 hover:text-indigo-900" data-id="' + row.id + '" data-category="' + row.amount+ '" data-stock="' + row.kitchenStock.id+ '"><i class="fa-solid fa-pen"></i></button> ' +
+                            return '<button class="editButton text-indigo-600 hover:text-indigo-900" data-id="' + row.id + '" data-amount="' + row.amount+ '" data-stock="' + row.kitchenStock.id+ '"><i class="fa-solid fa-pen"></i></button> ' +
                                 '<button class="deleteButton text-red-600 hover:text-red-900" data-id="' + row.id + '" ><i class="fa-solid fa-trash"></i></button>';
                         }
                     }
@@ -153,7 +155,7 @@ function getAllStock(){
             // list all the data in a select option
             $('#stockList').empty();
             $.each(data, function(index, stock) {
-                $('#stockList').append('<option value="' + stock.id + '">' + stock.description + '</option>');
+                $('#stockList').append('<option value="' + stock.id + '">' + stock.description +' / '+ stock.unit + '</option>');
             });
         },
         error: function(error) {

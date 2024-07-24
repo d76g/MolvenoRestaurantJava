@@ -5,13 +5,13 @@ function initMenu(){
            getAllMenu();
        });
      $("#breakfast").on("click", function(){
-           getMenuByMealTime('breakfast');
+           getMenuByMealTime('Breakfast');
      });
      $("#lunch").on("click", function(){
-            getMenuByMealTime('lunch');
+            getMenuByMealTime('Lunch');
      });
      $("#dinner").on("click", function(){
-           getMenuByMealTime('dinner');
+           getMenuByMealTime('Dinner');
      });
 }
 

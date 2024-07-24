@@ -80,11 +80,19 @@ function initReservation(){
     });
     $(document).on('click', '.deleteButton', function (){
         const reservationId = $(this).data('id');
-        if (confirm("Are you sure you want to delete this reservation?")){
-            deleteReservation(reservationId);
-        } else {
-            return false;
-        }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteReservation(reservationId);
+                }
+            })
     });
     // Event listener for the close button
     $(document).on('click', '.editButton', function(){
@@ -195,9 +203,19 @@ function addReservation() {
                 $('#createReservation')[0].reset();
                 getAllReservations();
                 showReservationPopup(id);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reservation Added',
+                    text: 'Reservation has been added successfully',
+                    timer: 3000
+                })
             },
             error: function (error) {
-                alert(error.responseJSON.message)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.responseJSON.message,
+                });
             }
         }
     )
@@ -302,6 +320,12 @@ function deleteReservation(tableId){
         type: 'DELETE',
         success: function (data) {
             getAllReservations();
+            Swal.fire({
+                icon: 'success',
+                title: 'Reservation Deleted',
+                text: 'Reservation has been deleted successfully',
+                timer: 3000
+            })
         },
         error: function (error) {
             console.error("There was an error deleting the table:", error);

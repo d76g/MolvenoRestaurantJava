@@ -63,6 +63,10 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
         if (orderDTO.getId() != 0) {
             // Check if order exists and update it
             order = orderRepo.findById(orderDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            // Check if order is already placed
+            if (Objects.equals(order.getStatus(), "PLACED") || Objects.equals(order.getStatus(), "PAID")) {
+                throw new IllegalArgumentException("Order is already placed");
+            }
         } else {
             // Create a new order
             order = new CustomerOrder();
@@ -100,8 +104,10 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     @Override
     public CustomerOrder placeOrder(OrderDTO orderDto){
         CustomerOrder order = findById(orderDto.getId());
-        if (Objects.equals(order.getStatus(), "PLACED")) {
+        if (Objects.equals(order.getStatus(), "PLACED" )) {
             throw new IllegalArgumentException("Order is already placed");
+        } else if (Objects.equals(order.getStatus(), "PAID")) {
+            throw new IllegalArgumentException("Order is already paid");
         }
         validateStockAvailability(order);
         deductStockAndSaveOrder(order);

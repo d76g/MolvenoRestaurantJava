@@ -59,10 +59,19 @@ function initMenuList(){
 
 //TODO:: List of all the menu items
 function getMenuItems(){
-
+    // get the current time
+    const currentTime = new Date();
+    const hours = currentTime.getHours();
+    console.log(hours);
+    let mealTime = "Breakfast";
+    if (hours >= 12 && hours < 16){
+        mealTime = "Lunch";
+    } else if (hours >= 16) {
+        mealTime = "Dinner";
+    }
     $.ajax(
         {
-            url: "/api/menu/all",
+            url: "/api/menu/" + mealTime,
             type: "GET",
             contentType: "application/json",
             success: function(data){
@@ -184,7 +193,13 @@ $("#orderButton").on("click", function(){
                 $('#menuList').toggleClass("hidden");
                 updateOrderTotal();
                 changeReservationStatus(currentReservationId, "ORDERED");
-                getAllReservationsForToday();
+                // check if URL is at /home
+                if (window.location.pathname === "/home"){
+                    getAllReservationsForToday();
+                }
+                if (window.location.pathname === "/orders"){
+                    getOrderList()
+                }
                 Swal.fire({
                     icon: 'success',
                     title: 'Order Placed Successfully',
@@ -193,7 +208,12 @@ $("#orderButton").on("click", function(){
                 })
             },
             error: function(error){
-                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Order Failed',
+                    text: error.responseJSON.message,
+                    timer: 3000
+                })
             }
         }
     )

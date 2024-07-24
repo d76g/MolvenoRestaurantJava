@@ -10,18 +10,31 @@ function init(){
     $(document).on('click', '.deleteButton', function (){
         const menuItemId = $(this).data('id');
         console.log(menuItemId);
-        if (confirm("Are you sure you want to delete this menuItem?")){
-            deleteMenuItem(menuItemId);
-        } else {
-            return false;
-        }
+        Swal.fire({
+                        title: 'Are you sure to delete this menu item?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteMenuItem(menuItemId);
+                        }
+                    })
+//        if (confirm("Are you sure you want to delete this menuItem?")){
+//            deleteMenuItem(menuItemId);
+//        } else {
+//            return false;
+//        }
     });
     // Event listener for the showStock  button
     $(document).on('click', '.showStock', function (){
         menu_id =  $(this).data('id');
 //        const menuItemId = $(this).data('id');
 //      console.log(menuItemId);
-     window.location.href = '/menuItemStock?menuId=' + menu_id;
+     window.location.href = '/menuItemStock?menuId=' + menu_id + '&menuName=' + $(this).data('name');
 
 
     });
@@ -29,7 +42,7 @@ function init(){
     $("#addButton").click(function() {
         $("#addMenuItemFormDiv").toggleClass("hidden");
     });
-    // Event listener for the addt menuitem form submission
+    // Event listener for the add menuitem form submission
     $('#saveMenuForm').on('submit', function (e){
         e.preventDefault();
          $("#addMenuItemFormDiv").toggleClass("hidden");
@@ -38,6 +51,9 @@ function init(){
     // Event listener for the close button
     $(".closeButton").click(function() {
         $("#addMenuItemFormDiv").toggleClass("hidden");
+        $('#saveMenuForm')[0].reset();
+        $('#menuItemId').val(0);
+
     });
     // Event listener for the close button
     $(document).on('click', '.editButton', function(){
@@ -101,7 +117,7 @@ function getAllMenu() {
                         data: null,
                         render: function(data, type, row) {
                             return `
-                                <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}">
+                                <button class="showStock text-red-600 hover:text-red-900" data-id="${row.menuItem_id}"data-name="${row.item_name}">
                                     <i class="fa-solid fa-carrot"></i>
                                 </button>
                             `;
@@ -180,8 +196,16 @@ function addMenuItem(){
         data: JSON.stringify(menuItem),
         success: function(data) {
             $("#addFormDiv").toggleClass("hidden");
-            $('#saveMenuForm')[0].reset();
             getAllMenu();
+            $('#saveMenuForm')[0].reset();
+            $('#menuItemId').val(0);
+            Swal.fire({
+                            icon: 'success',
+                            title: 'Menu Item is saved successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+            });
+
         },
         error: function(error) {
             console.error("There was an error adding the menuItem:", error);
@@ -189,48 +213,8 @@ function addMenuItem(){
     });
 
 }
-// update menuItem
-function updateMenuItem(){
-    const menuItem_id = $('#menuItem_id').val();
-    const itemName = $('#itemName').val();
-    const description = $('description').val();
-    const price = $('price').val();
-    const image = $('image').val();
-    const menuCategory = $('menuCategory').val();
-    const subCategory = $('subCategory').val();
-    const mealTime = $('mealTime').val();
-
-    const menuItem = {
-           menuItem_id : menuItem_id,
-           itemName : itemName,
-           description : description,
-           price : price,
-           image : image,
-           menuCategory : menuCategory,
-           subCategory : subCategory,
-           mealTime : mealTime
-
-    };
-    $.ajax({
-        url: url + 'update/' + menuItem_id,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(menuItem),
-        success: function(data) {
-            // hide the update form use the form ID to hide the form
-            $("#updateMenuItemFormDiv").toggleClass("hidden");
-            // reset the form
-            $('#updateMenuItemForm')[0].reset();
-            // call the get all menu function to refresh the menu
-            getAllMenu();
-        },
-        error: function(error) {
-            console.error("There was an error updating the menu Item:", error);
-        }
-    });
 
 
-}
 // delete menuITem
 function deleteMenuItem(menuItem_id){
     $.ajax({
@@ -238,6 +222,7 @@ function deleteMenuItem(menuItem_id){
         type: 'DELETE',
         success: function (data) {
             getAllMenu();
+
         },
         error: function (error) {
             console.error("There was an error deleting the menuItem:", error);
