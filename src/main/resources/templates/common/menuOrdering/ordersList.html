@@ -35,17 +35,17 @@
         <div class="w-full flex flex-col items-center justify-center h-full bg-gray-100">
             <div class="w-full h-full px-6 mx-1 my-2">
             <div class="bg-white p-8 rounded-lg shadow-lg">
-                <h1 class="text-2xl font-bold mb-6">Orders</h1>
+                <h1 class="text-2xl font-bold mb-6" th:text="#{orders}">Orders</h1>
                 <div class="w-full bg-gray-50 p-3 rounded-md overflow-x-auto p-1 shadow-sm">
 
                 <table id="orderList" class="lg:mt-10 mt-5 text-xs">
                     <thead>
                     <tr>
-                        <th class="text-left">Table NO.</th>
-                        <th class="text-left">Customer Full Name</th>
-                        <th class="text-left">Total Price</th>
-                        <th class="text-left">Status</th>
-                        <th class="text-left">Actions</th>
+                        <th class="text-left" th:text="#{Table-NO}">Table NO.</th>
+                        <th class="text-left" th:text="#{Customer-Full-Name}">Customer Full Name</th>
+                        <th class="text-left" th:text="#{Total-Price}">Total Price</th>
+                        <th class="text-left" th:text="#{Status}">Status</th>
+                        <th class="text-left" th:text="#{Actions}">Actions</th>
                     </tr>
                     </thead>
                     <tbody>

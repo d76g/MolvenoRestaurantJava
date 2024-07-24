@@ -2,11 +2,11 @@
 <div th:insert="common/navbar :: navbar"></div>
 <div class="relative w-full h-auto flex flex-col justify-center items-center bg-gray-50 h-auto space-y-8 absolute z-20">
     <div>
-        <h1 class="text-3xl font-bold text-gray-800 mt-5">Chef</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mt-5" th:text="#{chaf}">Chef</h1>
     </div>
     <div id="todayReservationDiv" class="grid grid-cols-4 w-10/12 gap-6 justify-items-center items-center py-10 bg-white rounded-md shadow-md">
         <div>
-            <span>No thing to show</span>
+            <span th:text="#{No-thing-to-show}">No thing to show</span>
         </div>
     </div>
 

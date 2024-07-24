@@ -23,46 +23,46 @@
                         <a th:href="@{/home}" class="bg-blue-700 md:bg-transparent text-white block pl-3 pr-4 py-2 md:text-blue-700 md:p-0 rounded focus:outline-none" aria-current="page" th:text="#{home}">Home</a>
                     </li>
                     <li  sec:authorize="hasAnyAuthority('Admin','Front desk')">
-                        <a th:href="@{/reservations}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0">Reservations</a>
+                        <a th:href="@{/reservations}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0" th:text="#{Reservations}">Reservations</a>
                     </li>
                     <li sec:authorize="hasAnyAuthority('Chef','Front desk')">
-                        <a  th:href="@{/orders}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0">Orders</a>
+                        <a  th:href="@{/orders}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0" th:text="#{Orders}">Orders</a>
                     </li>
                     <li sec:authorize="hasAnyAuthority('Admin')">
-                        <a  th:href="@{/tables}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0">Tables</a>
+                        <a  th:href="@{/tables}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0" th:text="#{Tables}">Tables</a>
                     </li>
                     <li sec:authorize="hasAnyAuthority('Admin')">
-                        <a  th:href="@{/users}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0">Users</a>
+                        <a  th:href="@{/users}" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0" th:text="#{Users}">Users</a>
                     </li>
 
                     <li sec:authorize="hasAnyAuthority('Chef')">
-                        <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0 font-medium flex items-center justify-between w-full md:w-auto">Menu<svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
+                        <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0 font-medium flex items-center justify-between w-full md:w-auto" th:text="#{Menu}">Menu<svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
                         <div id="dropdownNavbar" class="hidden bg-white text-base z-50 list-none divide-y divide-gray-100 rounded shadow my-4 w-44">
                             <ul class="py-1" aria-labelledby="dropdownNavbarLink">
                                 <li>
-                                    <a  th:href="@{/menu}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">List</a>
+                                    <a  th:href="@{/menu}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2" th:text="#{List}">List</a>
                                 </li>
                                 <li>
-                                    <a  th:href="@{/menu/menuCategory}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Category</a>
+                                    <a  th:href="@{/menu/menuCategory}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2" th:text="#{Category}">Category</a>
                                 </li>
                                 <li>
-                                    <a  th:href="@{/menu/subCategory}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Sub Category</a>
+                                    <a  th:href="@{/menu/subCategory}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2" th:text="#{Sub-Category}">Sub Category</a>
                                 </li>
                                 <li>
-                                    <a  th:href="@{/menu/mealtime}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Mealtime</a>
+                                    <a  th:href="@{/menu/mealtime}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2" th:text="#{Mealtime}">Mealtime</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li sec:authorize="hasAnyAuthority('Chef')">
-                        <button id="dropdownNavbarLinkS" data-dropdown-toggle="dropdownNavbarStock" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0 font-medium flex items-center justify-between w-full md:w-auto">Stock<svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
+                        <button id="dropdownNavbarLinkS" data-dropdown-toggle="dropdownNavbarStock" class="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0 font-medium flex items-center justify-between w-full md:w-auto" th:text="#{stock}">Stock<svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
                         <div id="dropdownNavbarStock" class="hidden bg-white text-base z-50 list-none divide-y divide-gray-100 rounded shadow my-4 w-44">
                             <ul class="py-1" aria-labelledby="dropdownNavbarLinkS">
                                 <li>
-                                     <a th:href="@{/stock}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">List</a>
+                                     <a th:href="@{/stock}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2" th:text="#{List}">List</a>
                                 </li>
                                 <li>
-                                    <a  th:href="@{/stock/category}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Category</a>
+                                    <a  th:href="@{/stock/category}" class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2" th:text="#{Category}">Category</a>
                                 </li>
                             </ul>
                         </div>
@@ -76,7 +76,7 @@
                 Hello, <span sec:authentication="principal.fullname"></span>
             </div>
         <a th:href="@{/logout}">
-            <button class="bg-blue-700 text-white px-4 py-2 rounded-md">Logout</button>
+            <button class="bg-blue-700 text-white px-4 py-2 rounded-md" th:text="#{Logout}">Logout</button>
         </a>
         </div>
     </div>
