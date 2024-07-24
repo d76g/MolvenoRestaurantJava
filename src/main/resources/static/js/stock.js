@@ -5,13 +5,23 @@ function init(){
     getAllKitchenCategory();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
-        const tableId = $(this).data('id');
-        console.log(tableId);
-        if (confirm("Are you sure you want to delete this item from stock?")){
-            deleteStock(tableId);
-        } else {
-            return false;
-        }
+        const stockId = $(this).data('id');
+        console.log(stockId);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteStock(stockId);
+            }
+        })
+       ;
+
     });
     // Event listener for the add button
     $("#addButton").click(function() {
@@ -184,9 +194,19 @@ function saveStock() {
         data: JSON.stringify(stockData),
         success: function(data) {
             $('#stockAddForm')[0].reset();
-            alert("Stock Item added successfully");
-            // redirect to the table page
-            window.location.href = '/stock';
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Stock Item is saved successfully',
+                showConfirmButton: false,
+                timer: 1500}).then(function () {
+                                  setTimeout(function () {
+                                      window.location.href = '/stock'
+                                  });
+                              });
+
+             // redirect to the table page
+           // window.location.href = '/stock';
             // getAllStock();
         },
         error: function(error) {
