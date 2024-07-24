@@ -9,14 +9,26 @@ function init() {
         const orderId = $(this).attr('data-id');
         Order.id = orderId;
         currentReservationId = $(this).attr('data-reservation-id');
+        $('#table-number').text($(this).attr('data-table'));
         getOrderItem(orderId);
     });
     // delete order
     $('#orderList').on('click', '.deleteButton', function () {
         const orderId = $(this).attr('data-id');
         currentReservationId = $(this).attr('data-reservation-id');
-        if (!confirm('Are you sure you want to delete this order?')) return;
-        deleteOrder(orderId);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteOrder(orderId);
+            }
+        })
     });
 
     // place order
@@ -104,7 +116,8 @@ function getOrderList(){
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<button data-id="'+ row.orderId +'" data-reservation-id="'+ row.reservation.id +'" class="viewOrderItems text-indigo-600 hover:text-indigo-900">' +
+                            const tableNumbers = row.reservation.tables.map(table => table.tableNumber).join(', ');
+                            return '<button data-id="'+ row.orderId +'" data-reservation-id="'+ row.reservation.id +'" data-table="' + tableNumbers +'"  class="viewOrderItems text-indigo-600 hover:text-indigo-900">' +
                                 '<i class="fa-solid fa-eye"></i></button> '
                         }
                     },
@@ -141,7 +154,6 @@ function deleteOrder(orderId) {
         url: url + '/' + orderId,
         type: 'DELETE',
         success: function(data) {
-            console.log(data);
             getOrderList();
             changeReservationStatus(currentReservationId, 'ATTENDED');
         },

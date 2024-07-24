@@ -1,5 +1,7 @@
 let currentReservationId;
 const url = '/api/reservation/'
+let isGuest ;
+let orderStatus;
 function init(){
     console.log("Front Desk Home Page");
     getAllReservationsForToday();
@@ -28,6 +30,8 @@ function init(){
     });
     reservationDiv.on("click", "#makePayment", function(){
         const id = $(this).attr("date-id");
+        isGuest = $(this).attr("data-guest");
+        console.log(isGuest)
         getOrdersForReservation(id);
     });
     reservationDiv.on("click", "#cancelledButton", function(){
@@ -38,6 +42,7 @@ function init(){
     });
     reservationDiv.on("click", "#showAllDetails", function(){
         const id = $(this).attr("date-id");
+
         getReservationById(id);
     });
 
@@ -49,7 +54,6 @@ function init(){
         const tableNumbers = $(this).attr("data-table-numbers");
         currentReservationId = id;
         $('#table-number').text(tableNumbers);
-        console.log("Take Order for reservation: " + id + " at table: " + tableNumbers);
         $('#menuList').toggleClass("hidden");
     });
 
@@ -77,6 +81,14 @@ function getAllReservationsForToday() {
         success: function(data) {
             console.log('Reservations for today: ', data);
             displayReservations(data);
+            // set total number of reservation
+            if (data.length > 0) {
+                if (data.length === 1) {
+                    $("#totalReservation").text("1 Reservation");
+                } else {
+                    $("#totalReservation").text(data.length + " Reservations");
+                }
+            }
         },
         error: function(error) {
             console.log(error);
@@ -151,6 +163,7 @@ function displayOrderItemsPop(data, reservationId) {
     var summedQuantities = {};
     var totalOrderPrice = 0;
     for (const order of data) {
+        orderStatus = order.status;
             for (const orderItem of order.orderItems) {
                 totalOrderPrice += orderItem.quantity * orderItem.itemPrice;
                 if (summedQuantities[orderItem.menuName]) {
@@ -209,10 +222,26 @@ function displayOrderItemsPop(data, reservationId) {
         width: '40rem',
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire('Payment processed!', '', 'success');
-            changeReservationStatus(reservationId, "PAID");
-            makePayment(reservationId);
-            getAllReservationsForToday();
+           if (orderStatus === "PLACED"){
+               console.log(isGuest)
+               if (isGuest === "true") {
+                   Swal.fire('Order amount sent to the hotel room', '', 'success');
+               } else {
+                   Swal.fire('Payment processed!', '', 'success');
+               }
+               changeReservationStatus(reservationId, "PAID");
+               makePayment(reservationId);
+               getAllReservationsForToday();
+               isGuest = false;
+           } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'PENDING ORDER',
+                    text: 'Order has not been placed yet',
+                    timer: 3000
+                })
+
+           }
         }
     });
 }
@@ -323,7 +352,7 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                 <div class="px-2" sec:authorize="hasAnyAuthority('Front desk')">
-                        <button id="makePayment" date-id="${reservation.id}" class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
+                        <button id="makePayment" date-id="${reservation.id}" data-guest="${reservation.guest}" class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
                     </div>
                     <div class="px-2">
                         <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>
