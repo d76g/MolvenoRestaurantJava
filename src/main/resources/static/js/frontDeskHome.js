@@ -1,6 +1,7 @@
 let currentReservationId;
 const url = '/api/reservation/'
 let isGuest ;
+let orderStatus;
 function init(){
     console.log("Front Desk Home Page");
     getAllReservationsForToday();
@@ -80,6 +81,14 @@ function getAllReservationsForToday() {
         success: function(data) {
             console.log('Reservations for today: ', data);
             displayReservations(data);
+            // set total number of reservation
+            if (data.length > 0) {
+                if (data.length === 1) {
+                    $("#totalReservation").text("1 Reservation");
+                } else {
+                    $("#totalReservation").text(data.length + " Reservations");
+                }
+            }
         },
         error: function(error) {
             console.log(error);
@@ -154,6 +163,7 @@ function displayOrderItemsPop(data, reservationId) {
     var summedQuantities = {};
     var totalOrderPrice = 0;
     for (const order of data) {
+        orderStatus = order.status;
             for (const orderItem of order.orderItems) {
                 totalOrderPrice += orderItem.quantity * orderItem.itemPrice;
                 if (summedQuantities[orderItem.menuName]) {
@@ -212,8 +222,7 @@ function displayOrderItemsPop(data, reservationId) {
         width: '40rem',
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log(data.status)
-           if (data.status === "PLACED"){
+           if (orderStatus === "PLACED"){
                console.log(isGuest)
                if (isGuest === "true") {
                    Swal.fire('Order amount sent to the hotel room', '', 'success');
