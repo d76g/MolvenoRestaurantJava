@@ -41,6 +41,8 @@ function init(){
         };
         let queryParameters = $.param(data);
         window.location.href = '/stock/form?' + queryParameters;
+
+
     });
 
     // Event listener for the update table form submission
@@ -66,6 +68,13 @@ function readQueryParameters(){
 }
 // get all table method
 function getAllStock(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '//cdn.datatables.net/plug-ins/1.10.24/i18n/English.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '//cdn.datatables.net/plug-ins/2.1.2/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url,
         type: 'GET',
@@ -78,6 +87,10 @@ function getAllStock(){
                     dataSrc: ''
                 },
                 sWidth: "70%",
+                language:{
+                    // change the default language of the data table
+                    url: dataTableLanguageUrl,
+                },
                 bAutoWidth: false,
                 autoWidth: false,
                 // destroy the table before creating a new one

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
         tailwind.config = {
   darkMode: 'class',
@@ -71,6 +72,45 @@
                     icon.removeClass('fa-eye-slash').addClass('fa-eye'); // Toggle icon
                 }
             });
+
+            // change language
+            // Function to switch the language
+            function switchLanguage(lang) {
+                // Update the language in the URL
+                // Update the URL without reloading the page
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('lang', lang);
+                const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+                history.pushState(null, '', newUrl);
+
+                // Set a cookie to remember the selected language
+                Cookies.set('language', lang, { expires: 7 });
+
+                // Reload the page to apply the new language
+                window.location.search = urlParams.toString();
+            }
+
+            // Event listeners for the language icons
+            $('#language-icon-en').on('click', function() {
+                switchLanguage('zh');
+            });
+
+            $('#language-icon-zh').on('click', function() {
+                switchLanguage('en');
+            });
+
+            // Check the current language from the URL or cookie
+            const urlParams = new URLSearchParams(window.location.search);
+            let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+
+            // Set the DataTable language URL based on the current language
+            if (currentLang === 'zh') {
+                $('#language-icon-en').show();
+                $('#language-icon-zh').hide();
+            } else {
+                $('#language-icon-zh').show();
+                $('#language-icon-en').hide();
+            }
         });
     </script>
 </head>
@@ -78,6 +118,14 @@
 <div class="flex min-h-full flex-col justify-center">
     <section class="bg-gray-50 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div class="flex justify-end w-full px-6">
+                <div class="w-6 h-6 cursor-pointer" data-lang="en" id="language-icon-en">
+                    <img src="/images/united-kingdom.png" alt="English">
+                </div>
+                <div class="w-6 h-6 cursor-pointer" data-lang="zh" id="language-icon-zh">
+                    <img src="/images/chinese.png" alt="Chinese">
+                </div>
+            </div>
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white" th:text="#{Sign-in-to-your-account}">
@@ -100,18 +148,10 @@
                             </span>
                             </div>
                         </div>
-<!--                        <div class="flex items-center justify-between">-->
-<!--                            <div class="flex items-start">-->
-<!--                                <div class="flex items-center h-5">-->
-<!--                                    <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>-->
-<!--                        </div>-->
                         <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"  th:text="#{sign-in}">Sign in</button>
-<!--                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">-->
-<!--                            Don’t have an account yet? <a href="/sign-up" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>-->
-<!--                        </p>-->
+                        <p th:text="#{FORGOT-YOUR-PASSWORD}" class="text-sm font-light text-gray-500 dark:text-gray-400">
+                            Forgot your password? <a href="/forgot-password" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                        </p>
                     </form>
                 </div>
             </div>

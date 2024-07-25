@@ -73,7 +73,7 @@
         <!-- Right side: Logout button -->
         <div class="flex gap-x-3 items-center justify-center">
             <div sec:authorize="isAuthenticated()" class="bg-gray-100 rounded-md py-2 px-1 text-sm">
-                Hello, <span sec:authentication="principal.fullname"></span>
+                <span th:text="#{Hello}">Hello</span>, <span sec:authentication="principal.fullname"></span>
             </div>
         <a th:href="@{/logout}">
             <button class="bg-blue-700 text-white px-4 py-2 rounded-md" th:text="#{Logout}">Logout</button>
