@@ -70,10 +70,10 @@ function readQueryParameters(){
 function getAllStock(){
     const urlParams = new URLSearchParams(window.location.search);
     let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
-    let dataTableLanguageUrl = '//cdn.datatables.net/plug-ins/1.10.24/i18n/English.json'; // default to English
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
 
     if (currentLang === 'zh') {
-        dataTableLanguageUrl = '//cdn.datatables.net/plug-ins/2.1.2/i18n/zh-HANT.json';
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
     }
     $.ajax({
         url: url,

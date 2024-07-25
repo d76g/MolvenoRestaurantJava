@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script th:src="@{/js/login.js}"></script>
     <script>
         tailwind.config = {
   darkMode: 'class',
@@ -56,81 +57,27 @@
 }
     </script>
 
-<!--    Hide password -->
-    <script>
-        $(document).ready(function() {
-            $('#togglePassword').on('click', function() {
-                const passwordField = $('#password');
-                const passwordFieldType = passwordField.attr('type');
-                const icon = $(this).find('i');
-
-                if (passwordFieldType === 'password') {
-                    passwordField.attr('type', 'text');
-                    icon.removeClass('fa-eye').addClass('fa-eye-slash'); // Toggle icon
-                } else {
-                    passwordField.attr('type', 'password');
-                    icon.removeClass('fa-eye-slash').addClass('fa-eye'); // Toggle icon
-                }
-            });
-
-            // change language
-            // Function to switch the language
-            function switchLanguage(lang) {
-                // Update the language in the URL
-                // Update the URL without reloading the page
-                const urlParams = new URLSearchParams(window.location.search);
-                urlParams.set('lang', lang);
-                const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-                history.pushState(null, '', newUrl);
-
-                // Set a cookie to remember the selected language
-                Cookies.set('language', lang, { expires: 7 });
-
-                // Reload the page to apply the new language
-                window.location.search = urlParams.toString();
-            }
-
-            // Event listeners for the language icons
-            $('#language-icon-en').on('click', function() {
-                switchLanguage('zh');
-            });
-
-            $('#language-icon-zh').on('click', function() {
-                switchLanguage('en');
-            });
-
-            // Check the current language from the URL or cookie
-            const urlParams = new URLSearchParams(window.location.search);
-            let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
-
-            // Set the DataTable language URL based on the current language
-            if (currentLang === 'zh') {
-                $('#language-icon-en').show();
-                $('#language-icon-zh').hide();
-            } else {
-                $('#language-icon-zh').show();
-                $('#language-icon-en').hide();
-            }
-        });
-    </script>
 </head>
 <body>
 <div class="flex min-h-full flex-col justify-center">
     <section class="bg-gray-50 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <div class="flex justify-end w-full px-6">
-                <div class="w-6 h-6 cursor-pointer" data-lang="en" id="language-icon-en">
-                    <img src="/images/united-kingdom.png" alt="English">
-                </div>
-                <div class="w-6 h-6 cursor-pointer" data-lang="zh" id="language-icon-zh">
-                    <img src="/images/chinese.png" alt="Chinese">
-                </div>
-            </div>
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white" th:text="#{Sign-in-to-your-account}">
-                        Sign in to your account
-                    </h1>
+                    <div class="w-full flex justify-between">
+                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white" th:text="#{Sign-in-to-your-account}">
+                            Sign in to your account
+                        </h1>
+                        <div class="flex justify-end w-auto px-2">
+                            <div class="w-6 h-6 cursor-pointer" data-lang="en" id="language-icon">
+                                <img src="/images/united-kingdom.png" alt="English">
+                            </div>
+                            <div class="w-6 h-6 cursor-pointer" data-lang="zh" id="language-icon-zh">
+                                <img src="/images/chinese.png" alt="Chinese">
+                            </div>
+                        </div>
+                    </div>
+
                     <div th:if="${param.error}" class="text-red-500 text-sm" th:text="#{Username-text}" >
                         Username and password combination is not matching.
                     </div>

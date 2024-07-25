@@ -35,9 +35,11 @@ public class SecurityConfig {
         http.headers( header -> header.frameOptions( options -> options.sameOrigin()));
         http.csrf( csrf -> csrf.disable())
                 .authorizeHttpRequests( auth -> auth
-                                .requestMatchers(
+                        .requestMatchers("/i18n/**").permitAll()
+                        .requestMatchers(
                                 "/",
-                                "/users*"
+                                "/login",
+                                "/login**"
                                 , "/h2-console/**"
                                 , "/console/**"
                                 , "/js/**"

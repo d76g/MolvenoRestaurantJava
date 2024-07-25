@@ -335,6 +335,13 @@ function deleteReservation(tableId){
 
 // get all reservations method
 function getAllReservations(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -345,6 +352,10 @@ function getAllReservations(){
                 ajax:{
                     url: url + 'all',
                     dataSrc: ''
+                },
+                language:{
+                    // change the default language of the data table
+                    url: dataTableLanguageUrl,
                 },
                 // destroy the table before creating a new one
                 "bDestroy": true,

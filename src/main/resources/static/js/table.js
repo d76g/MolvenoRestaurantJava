@@ -54,6 +54,13 @@ function init(){
 
 // get all table method
 function getAllTable(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -64,6 +71,9 @@ function getAllTable(){
                 ajax:{
                     url: url + 'all',
                     dataSrc: ''
+                },
+                language:{
+                    url: dataTableLanguageUrl
                 },
                 // destroy the table before creating a new one
                 "bDestroy": true,
