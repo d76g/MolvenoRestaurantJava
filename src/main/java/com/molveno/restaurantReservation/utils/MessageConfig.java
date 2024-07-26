@@ -36,7 +36,4 @@ public class MessageConfig {
         return localeChangeInterceptor;
     }
 
-
-
-
 }

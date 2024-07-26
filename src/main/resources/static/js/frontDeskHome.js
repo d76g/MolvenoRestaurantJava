@@ -141,7 +141,7 @@ function displayReservations(data) {
     const reservationDiv = $("#todayReservationDiv");
     reservationDiv.empty();
     if (data.length == 0) {
-        reservationDiv.append($("<p class='text-gray-500 '>No reservations for today</p>"));
+        reservationDiv.append($("<p class='text-gray-500 ' th:text='#{No-Reservations-for-today}'>No reservations for today</p>"));
         return;
     }
     for (const reservation of data) {
@@ -315,11 +315,11 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                     <div class="flex justify-between px-2">
-                        <button id="attendedButton" date-id="${reservation.id}" class="bg-blue-400 text-white rounded-md p-2 hover:bg-blue-500">Check In</button>
-                        <button id="cancelledButton" date-id="${reservation.id}" class="bg-red-400 text-white rounded-md p-2 hover:bg-red-500">Cancelled</button>
+                        <button id="attendedButton" date-id="${reservation.id}" class="bg-blue-400 text-white rounded-md p-2 hover:bg-blue-500" th:text="#{Check-In}">Check In</button>
+                        <button id="cancelledButton" date-id="${reservation.id}" class="bg-red-400 text-white rounded-md p-2 hover:bg-red-500" th:text="#{Cancel}">Cancel</button>
                     </div>
                     <div class="px-2">
-                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400     ">View Details</button>
+                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400" th:text="#{View-Details}">View Details</button>
                     </div>
                 </div>
             </div>
