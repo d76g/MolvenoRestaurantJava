@@ -68,6 +68,12 @@ public class ReservationServiceImp implements ReservationService{
     @Override
     public Reservation createReservation(Reservation reservation) {
        // check if there are available tables for the reservation at the time and date
+        if (reservation.getNumberOfGuests() == 0) {
+            throw new RuntimeException("zero-guests");
+        }
+        if (reservation.getReservationDate().isEmpty() || reservation.getReservationTime().isEmpty()) {
+            throw new RuntimeException("empty-date-time");
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationStart = LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), formatter);
         LocalDateTime reservationEnd = reservationStart.plusHours(3);
@@ -90,7 +96,7 @@ public class ReservationServiceImp implements ReservationService{
         // Find the best fit tables for the number of guests
         Set<Table> assignedTables = findBestFitTables(availableTables, reservation.getNumberOfGuests());
         if (assignedTables.isEmpty()) {
-            throw new RuntimeException("Not enough available tables for the reservation time and date");
+            throw new RuntimeException("No-enough-tables");
         }
         reservation.setTables(assignedTables);
         reservation.setReservationStatus("CONFIRMED");

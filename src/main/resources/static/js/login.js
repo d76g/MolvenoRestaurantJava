@@ -12,12 +12,16 @@ $(document).ready(function() {
             icon.removeClass('fa-eye-slash').addClass('fa-eye'); // Toggle icon
         }
     });
-
+    const lang =  Cookies.get("language") || "en";
+    getLocalizedMessages(lang, function(messages) {
+        console.log(messages);
+    });
     // change language
     // Function to switch the language
     function switchLanguage(lang) {
         console.log("Switching language to:", lang);
         Cookies.set('language', lang, { expires: 7 });
+
         location.reload();
     }
 
@@ -43,5 +47,12 @@ $(document).ready(function() {
     } else {
         $('#language-icon').hide();
         $('#language-icon-zh').show();
+    }
+    function getLocalizedMessages(lang, callback) {
+        console.log("Getting localized messages for:", lang)
+            $.get(`/api/messages?lang=${lang}`, function(data) {
+                localStorage.setItem(`messages_${lang}`, JSON.stringify(data));
+                callback(data);
+            });
     }
 });

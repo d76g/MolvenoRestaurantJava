@@ -23,7 +23,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <style>
 
 
@@ -36,14 +36,15 @@ TODO 2: Implement JavaScript to handle the form submission and update
   <div class="w-full relative z-50 h-full flex justify-center items-center mt-6">
     <!--Menu List-->
     <div class="w-full flex items-center justify-center h-4/5 xl:h-full py-10">
-      <div class="w-11/12 h-3/4 bg-white rounded-lg overflow-y-scroll flex flex-cols justify-evenly shadow-md">
-          <div sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" id="menuListContainer" class="w-4/6 h-full grid grid-cols-4 xl:grid-cols-3 py-6 xl:px-4 xl:py-2 xl:gap-3 bg-zinc-50 my-6 rounded-xl drop-shadow-sm ">
+      <div class="w-11/12 h-3/4 bg-white rounded-lg overflow-y-scroll flex md:flex-col lg:flex-row justify-evenly shadow-md px-4 py-2">
+          <div sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" id="menuListContainer"
+               class="w-full lg:w-4/6 h-full grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 py-6 xl:px-4 xl:py-2 xl:gap-3 bg-zinc-50 my-6 rounded-xl drop-shadow-sm">
 
           </div>
         <div>
-        <div sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" class="w-80 h-auto bg-gray-100 my-6 p-3 overflow-y-scroll rounded-md drop-shadow-sm">
+        <div sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" class="w-auto lg:w-80 h-auto bg-gray-100 my-6 p-3 mx-3 overflow-y-scroll rounded-md drop-shadow-sm">
           <div>
-            <h1 class="text-lg font-bold">Table <span id="table-number"></span></h1>
+            <h1 class="text-lg font-bold" th:text="#{Table-NO}">Table <span id="table-number"></span></h1>
           </div>
           <div id="OrderMenuList" class="w-full h-4/5 xl:h-3/5 space-y-2 mt-1 xl:mt-2 overflow-y-scroll">
                 <!-- Order Menu Item List-->
@@ -51,7 +52,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
           <hr class="my-2 h-2 text-black">
           <!-- Total Price-->
           <div class="mt-2 flex w-full items-center">
-            <h1 class="text-lg font-bold w-26 font-bold px-3">Total Price</h1>
+            <h1 class="text-lg font-bold w-26 font-bold px-3" th:text="#{Total-Price}">Total Price</h1>
             <div class="w-auto h-4 rounded-md flex items-center text-lg bg-white py-4 px-2 rounded-lg">
                 <span id="totalPrice">0</span>
                 <span class="px-1 font-bold">&#165;</span>
@@ -60,8 +61,8 @@ TODO 2: Implement JavaScript to handle the form submission and update
           <!--Order Button-->
             <div class="w-full h-10 mt-2">
               <!-- TODO:: MAKE THESE BUTTON BASED ON ROLES -->
-                <button sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600">Order</button>
-                <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600">Confirm</button>
+                <button sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600" th:text="#{Order}">Order</button>
+                <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600"  th:text="#{Confirm}">Confirm</button>
             </div>
         </div>
           <div sec:authorize="hasAnyAuthority('Chef')" class="w-full h-auto bg-gray-100 my-6 p-3 overflow-y-scroll rounded-md drop-shadow-sm">
@@ -74,7 +75,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
             <hr class="my-2 h-2 text-black">
             <!-- Total Price-->
             <div class="mt-2 flex w-full items-center">
-              <h1 class="text-lg font-bold w-26 font-bold px-3">Total Price</h1>
+              <h1 class="text-lg font-bold w-26 font-bold px-3"  th:text="#{Total-Price}">Total Price</h1>
               <div class="w-auto h-4 rounded-md flex items-center text-lg bg-white py-4 px-2 rounded-lg">
                 <span id="totalPrice">0</span>
                 <span class="px-1 font-bold">&#165;</span>
@@ -83,11 +84,12 @@ TODO 2: Implement JavaScript to handle the form submission and update
             <!--Order Button-->
             <div class="w-full h-10 mt-2">
               <!-- TODO:: MAKE THESE BUTTON BASED ON ROLES -->
-              <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600">Confirm</button>
+              <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton"
+                      class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600"  th:text="#{Confirm}">Confirm</button>
             </div>
           </div>
           <div>
-            <button id="closeMenuList" class="w-full h-10 bg-red-500 text-white rounded-md my-4 xl:my-2">Close</button>
+            <button id="closeMenuList" class="w-full h-10 bg-red-500 text-white rounded-md my-4 xl:my-2"  th:text="#{Close}">Close</button>
           </div>
         </div>
       </div>

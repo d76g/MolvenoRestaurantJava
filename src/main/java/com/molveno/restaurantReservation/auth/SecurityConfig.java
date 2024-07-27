@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/login",
+                                "/error",
                                 "/login**"
                                 , "/h2-console/**"
                                 , "/console/**"

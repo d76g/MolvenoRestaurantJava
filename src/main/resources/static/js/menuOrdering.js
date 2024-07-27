@@ -1,4 +1,5 @@
 let menuDiv = $("#menuListContainer");
+let menuOrderingLocalizationMessages;
 // define an Order object
 const Order = {
     id: 0,
@@ -37,6 +38,9 @@ function removeOrderItem(menuItemId){
 
 function initMenuList(){
     console.log("init")
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    menuOrderingLocalizationMessages = JSON.parse(messages);
     getMenuItems();
     // remove an item from the order
     $("#OrderMenuList").on("click", ".removeItem", function(){
@@ -53,8 +57,6 @@ function initMenuList(){
     $("#closeMenuList").on("click", function(){
         $('#menuList').toggleClass("hidden");
     });
-
-
 }
 
 //TODO:: List of all the menu items
@@ -75,7 +77,7 @@ function getMenuItems(){
             type: "GET",
             contentType: "application/json",
             success: function(data){
-                displayMenu(data)
+                displayMenu(data);
             },
             error: function(error){
                 console.log(error)
@@ -124,7 +126,7 @@ function updateOrderTotal() {
 }
 function menuCard(menu){
     return `
-    <div class="card" style="width: 18rem;">
+    <div class="card">
         <div class="w-52 h-56 bg-white rounded-md drop-shadow-sm">
               <div class="h-1/2">
                 <img src="${menu.image}" alt="food" class="w-full h-full object-cover rounded-md p-1">
@@ -142,7 +144,7 @@ function menuCard(menu){
                     <input type="hidden" value="${menu.image}" id="menuItemImage">
                     <input type="hidden" value="${menu.price}" id="menuItemPrice">
                     <input type="number" id="quantity" class="w-16 text-xs rounded-md border px-1" min="1" value="1">
-                    <button type="submit" class="orderButton bg-blue-500 text-white rounded-md px-2 py-1">Add</button>
+                    <button type="submit" class="orderButton bg-blue-500 text-white rounded-md px-2 py-1">${menuOrderingLocalizationMessages['Add']}</button>
                 </form>
           </div>
     </div>
@@ -161,9 +163,9 @@ function OrderMenuItem(ItemName, Price, Quantity, Image, menuItemId){
                     <span data-id="${menuItemId}" class="removeItem text-red-600 cursor-pointer">x</span>
                   </div>
                   <div class="text-xs flex gap-x-2">
-                    <p>Price: ${Price} &#165;</p>
-                    <p>Quantity: ${Quantity}</p>
-                    <p>Total: ${Price * Quantity} &#165;</p>
+                    <p>${menuOrderingLocalizationMessages['Price']} ${Price} &#165;</p>
+                    <p>${menuOrderingLocalizationMessages['Quantity']} ${Quantity}</p>
+                    <p>${menuOrderingLocalizationMessages['Total']} ${Price * Quantity} &#165;</p>
                   </div>
               </div>
             </div>
@@ -174,7 +176,12 @@ function OrderMenuItem(ItemName, Price, Quantity, Image, menuItemId){
 // save the order to the server
 $("#orderButton").on("click", function(){
     if (Order.orderItems.length === 0){
-        alert("Please add items to the order");
+        Swal.fire({
+            icon: 'error',
+            title: menuOrderingLocalizationMessages['Order Failed'],
+            text: menuOrderingLocalizationMessages['Please-add-items-to-order'],
+            timer: 3000
+        })
         return;
     }
     Order.reservationId = currentReservationId;
@@ -202,15 +209,15 @@ $("#orderButton").on("click", function(){
                 }
                 Swal.fire({
                     icon: 'success',
-                    title: 'Order Placed Successfully',
-                    text: 'Order has been sent to the kitchen',
+                    title: menuOrderingLocalizationMessages['Order-Placed-Successfully'],
+                    text: menuOrderingLocalizationMessages['Order-has-been-sent-to-kitchen'],
                     timer: 3000
                 })
             },
             error: function(error){
                 Swal.fire({
                     icon: 'error',
-                    title: 'Order Failed',
+                    title: menuOrderingLocalizationMessages['Order Failed'],
                     text: error.responseJSON.message,
                     timer: 3000
                 })

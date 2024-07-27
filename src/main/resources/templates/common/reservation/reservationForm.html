@@ -10,71 +10,71 @@
 <!--
    NOTE : Using the fragment to include the form in the tableList.html
 -->
-<div th:fragment="reservationForm" id="addReservationDiv" class="min-h-screen flex items-center justify-center absolute w-full font-sans hidden">
-    <div class="w-full h-screen z-10 bg-black opacity-40 absolute"></div>
-    <div class="bg-white p-6 rounded-lg shadow-lg w-5/12 z-30">
+<div th:fragment="reservationForm" id="addReservationDiv" class="min-h-screen flex items-center justify-center absolute inset-0 font-sans hidden z-50 top-1/4 md:top-0">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-8/12 md:w-5/12 lg:w-4/12 z-50">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold mb-6">Schedule Your Dining</h1>
-            <span class="closeButtonAdd text-2xl cursor-pointer">&times;</span>
+            <h1 class="text-xl sm:text-2xl font-bold mb-6" th:text="#{Schedule-your-dining}">Schedule Your Dining</h1>
+            <span class="closeButtonAdd text-xl sm:text-2xl cursor-pointer">&times;</span>
         </div>
-        <form id="createReservation" class="grid grid-cols-1 space-y-4">
-            <div class="grid grid-cols-2 gap-x-2">
+        <div id="errorMessage" class="hidden text-red-500"></div>
+
+        <form id="createReservation" class="grid grid-cols-1 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                    <label for="customerFirstName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                    <input type="text" id="customerFirstName" name="customerFirstName" placeholder="First Name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="customerFirstName" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{first_name}">First Name</label>
+                    <input type="text" id="customerFirstName" name="customerFirstName" placeholder="First Name" th:placeholder="#{first_name}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 </div>
 
                 <div>
-                    <label for="customerLastName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                    <input type="text" id="customerLastName" placeholder="Last Name" name="customerLastName"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="customerLastName" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{last_name}">Last Name</label>
+                    <input type="text" id="customerLastName" name="customerLastName" placeholder="Last Name" th:placeholder="#{last_name}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-x-2 ">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                    <label for="customerEmail" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                    <input type="email" id="customerEmail" placeholder="Email Address" name="customerEmail" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
-
+                    <label for="customerEmail" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{email}">Email</label>
+                    <input type="email" id="customerEmail" name="customerEmail" placeholder="Email Address" th:placeholder="#{email}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 </div>
 
                 <div>
-                    <label for="customerPhone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                    <input type="tel" id="customerPhone" placeholder="Phone Number" name="customerPhone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                    <label for="customerPhone" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{phone}">Phone</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" placeholder="Phone Number" th:placeholder="#{phone}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-x-2 ">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                    <label for="reservationDate" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reservation Date</label>
-                    <input type="date" id="reservationDate" placeholder="Reservation Date" name="reservationDate" class="flatpickr bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
-                </div>
-                <div>
-                    <label for="numberOfGuests" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Number of Guests</label>
-                    <input type="number" id="numberOfGuests" name="numberOfGuests" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
-                </div>
-            </div>
-                <div>
-                    <label for="reservationTime" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reservation Time</label>
-                    <input  type="time" id="reservationTime" name="reservationTime" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "  />
-                </div>
-                <div class="grid grid-cols-6 gap-2 my-4 timeSlotsGrid">
-                    <!-- Time slots will be dynamically added here by jQuery -->
+                    <label for="reservationDate" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" th:text="#{reservation_date}">Reservation Date</label>
+                    <input type="date" id="reservationDate" placeholder="Reservation Date" th:placeholder="#{reservation_date}" name="reservationDate" class="flatpickr bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                 </div>
 
-            <div class="grid grid-cols-2">
-                <div class="flex items-center space-x-3">
-                    <input type="checkbox" placeholder="Number of Guest attending" id="guest" name="guest" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                    <label for="guest"  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hotel guest?</label>
-                </div>
-
-                <div id="roomNumberDiv" class="hidden">
-                    <label for="roomNumber" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Room Number</label>
-                    <input type="text" id="roomNumber" placeholder="Hotel Room Number" name="roomNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                <div>
+                    <label for="numberOfGuests" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{number_of_guests}">Number of Guests</label>
+                    <input type="number" id="numberOfGuests" name="numberOfGuests" th:placeholder="#{number_of_guests}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                 </div>
             </div>
             <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mainColor">Reserve Your Seat</button>
+                <label for="reservationTime" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{reservation_time}">Reservation Time</label>
+                <input type="hidden" id="reservationTime" name="reservationTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+            </div>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 my-4 timeSlotsGrid">
+                <!-- Time slots will be dynamically added here by jQuery -->
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div class="flex items-center space-x-3">
+                    <input type="checkbox" id="guest" name="guest" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
+                    <label for="guest" class="text-sm font-medium text-gray-900 dark:text-gray-300" th:text="#{hotel_guest}">Hotel guest?</label>
+                </div>
+
+                <div id="roomNumberDiv" class="hidden">
+                    <label for="roomNumber" class="block mb-1 text-sm font-medium text-gray-900" th:text="#{room_number}">Room Number</label>
+                    <input type="text" id="roomNumber" name="roomNumber" placeholder="Hotel Room Number" th:placeholder="#{room_number}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600" th:text="#{Reserve-your-seat}">Save</button>
             </div>
         </form>
-
     </div>
 </div>
 </body>

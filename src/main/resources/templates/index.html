@@ -16,7 +16,6 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
     <script>
         tailwind.config = {
           theme: {
@@ -56,7 +55,7 @@
 
 <!-- Navbar -->
 <div class="relative">
-    <div class="flex justify-end w-full bg-gray-200 px-6">
+    <div class="flex justify-end w-full bg-gray-200 px-4 sm:px-6">
         <div class="w-6 h-6" data-lang="en" id="language-icon">
             <img src="/images/united-kingdom.png" alt="English">
         </div>
@@ -67,77 +66,92 @@
 </div>
 <div th:insert="common/reservation/reservationForm :: reservationForm"></div>
 <div th:insert="common/reservation/reservationInfo :: reservationDetails"></div>
-<nav class="bg-mainColor text-white py-4 z-40">
-    <div class="container mx-auto flex w-3/4 justify-between">
-        <img src="/images/company-logo.jpg"  alt="Logo" class="h-28 absolute left-5 top-10 rounded-lg z-50">
+<nav class="bg-mainColor text-white py-4 z-20">
+    <div class="container mx-auto flex justify-between px-4 lg:px-6">
+        <img src="/images/company-logo.jpg" alt="Logo" class="h-20 md:h-28 md:absolute left-5 top-10 rounded-lg z-30">
         <div class="flex items-center">
-            <ul class="flex space-x-4 font-sans">
+            <ul class="hidden md:flex space-x-4 font-sans">
                 <li><a href="#home" class="hover:scale-110 transition ease-in-out" th:text="#{home}">Home</a></li>
                 <li><a href="#menu" class="hover:scale-110 transition ease-in-out" th:text="#{menu}">Menu</a></li>
                 <li><a href="#about" class="hover:scale-110 transition ease-in-out" th:text="#{about-us}">About Us</a></li>
                 <li><a href="#contact" class="hover:scale-110 transition ease-in-out" th:text="#{contact-us}">Contact Us</a></li>
                 <li><a sec:authorize="!isAuthenticated()" th:href="@{/login}" th:text="#{login}">Login</a></li>
             </ul>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <button class="myBtn text-white select-none rounded-lg border border-gray-900 py-3 px-6
+        <div class="flex items-center space-x-4 hidden md:flex">
+            <button class="myBtn text-white select-none rounded-lg border border-gray-900 py-2 px-4
                  text-center align-middle font-sans text-sm uppercase
                   transition-all  focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
-                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor ml-10" th:text="#{tableWaitingforYou}">Table Waiting for You</button>
+                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor" th:text="#{tableWaitingforYou}">Table Waiting for You</button>
         </div>
     </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden bg-mainColor text-white">
+    <ul class="flex flex-col space-y-2 p-4">
+        <li><a href="#home" class="hover:scale-110 transition ease-in-out" th:text="#{home}">Home</a></li>
+        <li><a href="#menu" class="hover:scale-110 transition ease-in-out" th:text="#{menu}">Menu</a></li>
+        <li><a href="#about" class="hover:scale-110 transition ease-in-out" th:text="#{about-us}">About Us</a></li>
+        <li><a href="#contact" class="hover:scale-110 transition ease-in-out" th:text="#{contact-us}">Contact Us</a></li>
+        <li><a sec:authorize="!isAuthenticated()" th:href="@{/login}" th:text="#{login}">Login</a></li>
+    </ul>
+</div>
+
 <!-- Home Section -->
-<section id="home" class="relative bg-cover bg-center h-screen z-20" >
+<section id="home" class="relative bg-cover bg-center h-screen z-20">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/images/homeBackground-2.jpg'); filter: blur(2px);"></div>
-    <div class="container mx-auto h-full flex flex-col justify-center items-center text-center text-white relative z-10">
-        <h1 class="text-7xl font-bold mb-4 font-serif" th:text="#{molveno-Lake-Resortt}">Molveno Lake Resort</h1>
-        <p class="text-2xl mb-8 font-sans" th:text="#{experience-a-Symphony-of-Flavors}">Experience a Symphony of Flavors</p>
-        <button
-                class="myBtn text-white select-none rounded-lg border border-gray-900 py-3 px-6
+    <div class="container mx-auto h-full flex flex-col justify-center items-center text-center text-white relative z-10 px-4">
+        <h1 class="text-4xl md:text-7xl font-bold mb-4 font-serif" th:text="#{molveno-Lake-Resortt}">Molveno Lake Resort</h1>
+        <p class="text-xl md:text-2xl mb-8 font-sans" th:text="#{experience-a-Symphony-of-Flavors}">Experience a Symphony of Flavors</p>
+        <button class="myBtn text-white select-none rounded-lg border border-gray-900 py-2 md:py-3 px-4 md:px-6
                  text-center align-middle font-sans text-sm uppercase
-                  transition-all  focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
-                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor myBtn" th:text="#{tableWaitingforYou}">Table Waiting for You</button>
+                  transition-all focus:ring focus:ring-gray-300 active:opacity-[0.85] hover:scale-105 transition ease-in-out
+                   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none hover:bg-secondButtonColor" th:text="#{tableWaitingforYou}">Table Waiting for You</button>
     </div>
 </section>
 
-
 <!-- Menu Section -->
 <section id="menu" class="py-12 bg-gray-100 h-auto">
-    <div class="container mx-auto flex flex-col justify-center w-5/6">
+    <div class="container mx-auto flex flex-col justify-center w-full px-4">
         <div>
-            <h2 class="text-4xl font-mono text-center mb-3" th:text="#{Our-best-dishes}">Our best dishes</h2>
+            <h2 class="text-2xl md:text-4xl font-mono text-center mb-3" th:text="#{Our-best-dishes}">Our best dishes</h2>
         </div>
-        <div class="flex w-full justify-center items-center gap-x-4 mb-3 font-sans">
-            <div id="all" class="bg-mainColor w-32 h-10 text-center text-white text-xl
-                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+        <div class="flex flex-wrap justify-center items-center gap-4 mb-3 font-sans">
+            <div id="all" class="bg-mainColor w-28 md:w-32 h-8 md:h-10 text-center text-white text-lg md:text-xl
+                 rounded-sm flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
                 <p th:text="#{All-dishes}">All</p>
             </div>
-            <div id="breakfast" class="bg-mainColor w-32 h-10 text-center text-white text-xl
-                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+            <div id="breakfast" class="bg-mainColor w-28 md:w-32 h-8 md:h-10 text-center text-white text-lg md:text-xl
+                 rounded-sm flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
                 <p th:text="#{Breakfast-menu}">Breakfast</p>
             </div>
-            <div id="lunch" class="bg-mainColor w-32 h-10 text-center text-white text-xl
-                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+            <div id="lunch" class="bg-mainColor w-28 md:w-32 h-8 md:h-10 text-center text-white text-lg md:text-xl
+                 rounded-sm flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
                 <p th:text="#{Lunch-menu}">Lunch</p>
             </div>
-            <div id="dinner" class="bg-mainColor w-32 h-10 text-center text-white text-xl
-                 rounded-sm  flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
+            <div id="dinner" class="bg-mainColor w-28 md:w-32 h-8 md:h-10 text-center text-white text-lg md:text-xl
+                 rounded-sm flex justify-center items-center hover:bg-secondColor hover:scale-110 transition ease-in-out">
                 <p th:text="#{Dinner-menu}">Dinner</p>
             </div>
         </div>
-        <div id="menuList" class="grid grid-cols-3 gap-4 w-full  content-center justify-items-center">
-
+        <div id="menuList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full content-center justify-items-center">
+            <!-- Menu items will be dynamically loaded here -->
         </div>
     </div>
 </section>
 
 <!-- About Us Section -->
 <section id="about" class="py-16">
-    <div class="container mx-auto flex justify-center items-center flex-col gap-y-4 font-sans">
-        <h2 class="text-4xl font-bold" th:text="#{about-us}">About Us</h2>
+    <div class="container mx-auto flex justify-center items-center flex-col gap-y-4 font-sans px-4">
+        <h2 class="text-2xl md:text-4xl font-bold" th:text="#{about-us}">About Us</h2>
         <!-- About us content goes here -->
-        <div class="flex w-4/5 px-8 text-justify">
+        <div class="flex w-full md:w-4/5 px-4 text-justify">
             <p th:text="#{about-us-text}">
                 The restaurant in the new hotel is a culinary delight that will be sure to satisfy the most discerning palates. From the moment you step inside, you'll be transported to a world of culinary excellence, where every dish is a masterpiece.
                 The restaurant is situated on the top floor of the hotel, offering panoramic views of the surrounding mountains and waterways. Its spacious and elegant dining room features floor-to-ceiling windows that allow guests to take in the breathtaking scenery while they dine.
@@ -148,68 +162,73 @@
             </p>
         </div>
     </div>
-    </div>
 </section>
-
-
-
 <!-- Footer -->
 <section id="contact">
-<footer class="bg-mainColor text-white  text-sm h-full font-sans">
-    <div class="container mx-auto px-4">
-        <div class="row flex justify-center pt-8  ">
-            <div class="col-md-3">
-                <img src="./images/company-logo.jpg" alt="Logo" class="h-28  rounded-lg z-50">
-            </div>
-            <div class="col-md-3 ">
-                <h5 class="text-lg font-semibold mb-2" th:text="#{contact-us}">Contact Us</h5>
-                <p><a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out ">
-                    <i class="fa-solid fa-location-dot pr-2"></i>China, Zhejiang, Huzhou <br> Wuxing District, Tai Wu road 168a</a>
-                </p>
-                <p>
-                    <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out ">
-                        <i class="fa-regular fa-envelope pr-1"></i>  info@example.com</a>
-                </p>
-                <p>
-                    <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out ">
-                        <i class="fa-solid fa-phone  pr-1"></i>  (123) 456-7890</a>
-                </p>
-            </div>
-            <div class="col-md-3 ">
-                <h5 class="text-lg font-semibold mb-2" th:text="#{follow-us}">Follow Us</h5>
-                <div class="flex space-x-4">
-                    <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fab fa-facebook fa-2x"></i></a>
-                    <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fa-brands fa-weixin fa-2x"></i></a>
-                    <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fab fa-instagram fa-2x"></i></a>
+    <footer class="bg-mainColor text-white text-sm h-full font-sans py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center pt-8">
+                <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
+                    <img src="./images/company-logo.jpg" alt="Logo" class="h-20 md:h-28 rounded-lg z-50">
+                </div>
+                <div class="w-full md:w-1/4 mb-4 md:mb-0 px-4">
+                    <h5 class="text-lg font-semibold mb-2" th:text="#{contact-us}">Contact Us</h5>
+                    <p><a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out">
+                        <i class="fa-solid fa-location-dot pr-2"></i>China, Zhejiang, Huzhou <br> Wuxing District, Tai Wu road 168a</a>
+                    </p>
+                    <p>
+                        <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out">
+                            <i class="fa-regular fa-envelope pr-1"></i>  info@example.com</a>
+                    </p>
+                    <p>
+                        <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out">
+                            <i class="fa-solid fa-phone pr-1"></i>  (123) 456-7890</a>
+                    </p>
+                </div>
+                <div class="w-full md:w-1/4 mb-4 md:mb-0 px-4">
+                    <h5 class="text-lg font-semibold mb-2" th:text="#{follow-us}">Follow Us</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fa-brands fa-weixin fa-2x"></i></a>
+                        <a href="#" class="hover:text-secondColor transition duration-300 ease-in-out"><i class="fab fa-instagram fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/4 mb-4 md:mb-0 px-4">
+                    <h5 class="text-lg font-semibold mb-2" th:text="#{openings-times}">Opening Time</h5>
+                    <p th:text="#{opening-time-text}"> We open all the days of the week</p>
+                    <p th:text="#{breakfast}">07:00 – Breakfast</p>
+                    <p th:text="#{lunch}">11:30 – Lunch</p>
+                    <p th:text="#{dinner}">17:30 – Dinner</p>
+                    <p th:text="#{only-drinks}">23:00 – Only Drinks </p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4 md:mb-0">
-                <h5 class="text-lg font-semibold mb-2" th:text="#{openings-times}">Opening Time</h5>
-                <p th:text="#{opening-time-text}"> We open all the days of the week</p>
-                <p th:text="#{breakfast}">07:00 – Breakfast</p>
-                <p th:text="#{lunch}">11:30 – Lunch</p>
-                <p th:text="#{dinner}">17:30 – Dinner</p>
-                <p th:text="#{only-drinks}">23:00 – Only Drinks </p>
-            </div>
         </div>
-    </div>
-    <div class="mt-2 border-t border-gray-700  text-center">
-        <p class="text-white "th:text="#{copyright}">© 2024 Molveno Lake Resort. All rights reserved.</p>
-    </div>
-</footer>
+        <div class="mt-2 border-t border-gray-700 text-center">
+            <p class="text-white" th:text="#{copyright}">© 2024 Molveno Lake Resort. All rights reserved.</p>
+        </div>
+    </footer>
 </section>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.js"></script>
+
 <script th:src="@{/js/reservation.js}"></script>
 <script th:src="@{/js/menuList.js}"></script>
 <script>
     $(document).ready(function() {
         initReservation();
         initMenu();
-
+        const mobileMenu = document.getElementById('mobile-menu');
+        $('#mobile-menu-button').on('click', function() {
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        });
         // Function to switch the language
         function switchLanguage(lang) {
             // Update the language in the URL
