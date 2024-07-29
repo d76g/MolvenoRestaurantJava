@@ -55,11 +55,11 @@
 
 <!-- Navbar -->
 <div class="relative">
-    <div class="flex justify-end w-full bg-gray-200 px-4 sm:px-6">
-        <div class="w-6 h-6" data-lang="en" id="language-icon">
+    <div class="flex justify-end w-full bg-gray-200 px-4 sm:px-6 ">
+        <div class="w-6 h-6 hover:cursor-pointer" data-lang="en" id="language-icon">
             <img src="/images/united-kingdom.png" alt="English">
         </div>
-        <div class="w-6 h-6" data-lang="zh" id="language-icon-zh" style="display: none;">
+        <div class="w-6 h-6 hover:cursor-pointer" data-lang="zh" id="language-icon-zh" style="display: none;">
             <img src="/images/chinese.png" alt="Chinese">
         </div>
     </div>
@@ -69,7 +69,7 @@
 <nav class="bg-mainColor text-white py-4 z-20">
     <div class="container mx-auto flex justify-between px-4 lg:px-6">
         <img src="/images/company-logo.jpg" alt="Logo" class="h-20 md:h-28 md:absolute left-5 top-10 rounded-lg z-30">
-        <div class="flex items-center">
+        <div class="flex items-center md:ml-36">
             <ul class="hidden md:flex space-x-4 font-sans">
                 <li><a href="#home" class="hover:scale-110 transition ease-in-out" th:text="#{home}">Home</a></li>
                 <li><a href="#menu" class="hover:scale-110 transition ease-in-out" th:text="#{menu}">Menu</a></li>
@@ -173,9 +173,12 @@
                 </div>
                 <div class="w-full md:w-1/4 mb-4 md:mb-0 px-4">
                     <h5 class="text-lg font-semibold mb-2" th:text="#{contact-us}">Contact Us</h5>
-                    <p><a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out">
-                        <i class="fa-solid fa-location-dot pr-2"></i>China, Zhejiang, Huzhou <br> Wuxing District, Tai Wu road 168a</a>
+                    <p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=China+Zhejiang+Huzhou+Wuxing+District+Tai+Wu+road+168a" class="hover:text-secondColor no-underline transition duration-300 ease-in-out" target="_blank">
+                            <i class="fa-solid fa-location-dot pr-2"></i>China, Zhejiang, Huzhou <br> Wuxing District, Tai Wu road 168a
+                        </a>
                     </p>
+
                     <p>
                         <a href="#" class="hover:text-secondColor no-underline transition duration-300 ease-in-out">
                             <i class="fa-regular fa-envelope pr-1"></i>  info@example.com</a>

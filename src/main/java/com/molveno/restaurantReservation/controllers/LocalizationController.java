@@ -86,7 +86,11 @@ public class LocalizationController {
         properties.put("No-enough-tables", messageSource.getMessage("No-enough-tables", null, locale));
         properties.put("zero-guests", messageSource.getMessage("zero-guests", null, locale));
         properties.put("empty-date-time", messageSource.getMessage("empty-date-time", null, locale));
-
+        properties.put("Guests", messageSource.getMessage("Guests", null, locale));
+        properties.put("cant-modify-cancelled-reservation", messageSource.getMessage("cant-modify-cancelled-reservation", null, locale));
+        properties.put("cant-modify-paid-reservation", messageSource.getMessage("cant-modify-paid-reservation", null, locale));
+        properties.put("Payment-Info", messageSource.getMessage("Payment-Info", null, locale));
+        properties.put("Please-pay-at-the-front-desk", messageSource.getMessage("Please-pay-at-the-front-desk", null, locale));
         return properties;
 
     }

@@ -138,7 +138,7 @@ public class ReservationServiceImp implements ReservationService{
             // Find the best fit tables for the number of guests
             Set<Table> assignedTables = findBestFitTables(availableTables, reservation.getNumberOfGuests());
             if (assignedTables.isEmpty()) {
-                throw new RuntimeException("Not enough available tables for the reservation time and date");
+                throw new RuntimeException("No-enough-tables");
             }
 
             reservation.setTables(assignedTables);
@@ -161,10 +161,10 @@ public class ReservationServiceImp implements ReservationService{
             throw new RuntimeException("Reservation not found");
         }
         if ("CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
-            throw new IllegalStateException("Cannot modify a CANCELLED reservation.");
+            throw new IllegalStateException("cant-modify-cancelled-reservation");
         }
         if ("PAID".equals(existingReservation.getReservationStatus()) && !"PAID".equals(reservationStatus)) {
-            throw new IllegalStateException("Cannot modify an PAID reservation.");
+            throw new IllegalStateException("cant-modify-paid-reservation");
         }
         if (reservationStatus.equals("CANCELLED")) {
             existingReservation.setTables(new HashSet<>());
@@ -181,7 +181,7 @@ public class ReservationServiceImp implements ReservationService{
         Set<Table> assignedTables = findBestFitTables(availableTables, numberOfGuests);
 
         if(assignedTables.isEmpty()) {
-            throw new RuntimeException("No tables available for the number of guests");
+            throw new RuntimeException("No-enough-tables");
         }
         // set the assigned tables to the reservation
         reservation.setTables(assignedTables);

@@ -520,7 +520,11 @@ function updateReservationStatus(reservationId, status){
             getAllReservations();
         },
         error: function(error) {
-            console.error("There was an error updating the reservation status:", error);
+            Swal.fire({
+                icon: 'error',
+                title: reservationLocaleText['Opps'] ,
+                text: reservationLocaleText[error.responseJSON.message],
+            })
         }
     });
 }

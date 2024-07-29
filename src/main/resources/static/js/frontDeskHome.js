@@ -81,11 +81,6 @@ function init(){
 
 
 }
-function getLocalizedMessages(lang, callback) {
-    $.get(`/api/messages?lang=${lang}`, function(data) {
-        callback(data);
-    });
-}
 function getReservationById(id) {
     console.log("Get all reservations for today");
     $.ajax({
@@ -290,11 +285,11 @@ function createPopUp(reservation) {
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
-                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i><span class="font-bold">${reservation.numberOfGuests}</span> ${frontDeskMessages['Guests']}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
-                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime} to ${reservationTimePlus3hours}</p>
+                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime} - ${reservationTimePlus3hours}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-phone px-2 text-green-500'></i>${reservation.customerPhone}</p>
@@ -319,7 +314,7 @@ function createCard(reservation, messages) {
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
-                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i><span class="font-bold">${reservation.numberOfGuests}</span> ${frontDeskMessages['Guests']}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
@@ -346,7 +341,7 @@ function createCard(reservation, messages) {
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
-                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i><span class="font-bold">${reservation.numberOfGuests}</span> ${frontDeskMessages['Guests']}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
@@ -372,7 +367,7 @@ function createCard(reservation, messages) {
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
-                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i><span class="font-bold">${reservation.numberOfGuests}</span> ${frontDeskMessages['Guests']}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
@@ -400,7 +395,7 @@ function createCard(reservation, messages) {
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
-                    <p><i class='bx bxs-group px-2 text-green-500'></i>for <span class="font-bold">${reservation.numberOfGuests}</span> people</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i><span class="font-bold">${reservation.numberOfGuests}</span> ${frontDeskMessages['Guests']}</p>
                 </div>
                 <div>
                     <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>

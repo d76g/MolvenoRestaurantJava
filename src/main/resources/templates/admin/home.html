@@ -2,16 +2,91 @@
 <div th:insert="common/navbar :: navbar"></div>
 <div class="relative w-full h-auto flex flex-col justify-center items-center bg-gray-50 h-auto space-y-8 absolute z-20">
     <div>
-        <h1 class="text-3xl font-bold text-gray-800 mt-5">Admin</h1>
+        <h1 class="text-3xl font-bold text-gray-700 mt-5">Admin</h1>
     </div>
-    <div class="grid grid-cols-4 w-10/12 gap-6 justify-items-center items-center py-10 bg-white rounded-md shadow-md">
-        <div>
-            <span>No thing to show</span>
+    <div id="analysisContainer" class="grid grid-cols-4 w-10/12 gap-6 justify-items-center items-center py-10 bg-white rounded-md shadow-md">
+       <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+           <div class="flex justify-center items-center">
+               <span class="w-full text-3xl font-bold text-white flex gap-x-2"> &#165 <h1 class="text-3xl font-bold text-white" id="revenue"></h1></span>
+           </div>
+           <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white">Revenue</p>
+           </div>
+
+       </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold text-white" id="todayReservations"></h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white" th:text="#{Today-Reservations}">Today's Reservations</p>
+            </div>
+
+        </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold text-white" id="reservations"></h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white">NO. Reservations</p>
+            </div>
+
+        </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold text-white" id="orders"></h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white"  th:text="#{Orders}">Orders</p>
+            </div>
+
+        </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold text-white" id="menu"></h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white">Dishes</p>
+            </div>
+
+        </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-xl font-bold text-white" id="famousMenu"></h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white">Famous Dish</p>
+            </div>
+
+        </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold text-white" id="tables"></h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white" >Tables</p>
+            </div>
+
+        </div>
+        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold text-white" id="guests">10</h1>
+            </div>
+            <div class="flex justify-center items-center">
+                <p class="text-md font-bold text-white">NO. Guests</p>
+            </div>
+
         </div>
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
-
+<script th:src="@{/js/adminHome.js}"></script>
+<script>
+    $(document).ready(function() {
+        init();
+    });
+</script>
 </body>
+
+
