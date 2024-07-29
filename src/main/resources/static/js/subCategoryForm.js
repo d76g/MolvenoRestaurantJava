@@ -1,16 +1,30 @@
 const url = '/api/subCategory/';
+let subCategoryMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    subCategoryMessages = messages ? JSON.parse(messages) : null;
     // call the get all subCategory method
     getAllSubCategory();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const subCategoryId = $(this).data('id');
         console.log(subCategoryId);
-        if (confirm("Are you sure you want to delete this subCategory?")){
-            deleteSubCategory(subCategoryId);
-        } else {
-            return false;
-        }
+
+        Swal.fire({
+            title: subCategoryMessages['Are-you-sure-delete'],
+            text: subCategoryMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: subCategoryMessages['Yes-delete-it'],
+            cancelButtonText: subCategoryMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteSubCategory(subCategoryId);
+            }
+        })
     });
     $(document).on('click', '.editButton', function (){
         const subCategoryId = $(this).data('id');
@@ -39,11 +53,7 @@ function init(){
     $('#updateSubCategoryForm').on('submit', function(event) {
         event.preventDefault();
         // confirm if the user wants to update the subcategory
-        if(confirm("Are you sure you want to update this SubCategory?")){
-            updateSubCategory();
-        } else {
-            return false;
-        }
+       updateSubCategory();
     });
 }
 

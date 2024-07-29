@@ -86,6 +86,11 @@ public class LocalizationController {
         properties.put("No-enough-tables", messageSource.getMessage("No-enough-tables", null, locale));
         properties.put("zero-guests", messageSource.getMessage("zero-guests", null, locale));
         properties.put("empty-date-time", messageSource.getMessage("empty-date-time", null, locale));
+        properties.put("Yes-update-it", messageSource.getMessage("Yes-update-it", null, locale));
+        properties.put("Are-you-sure-delete", messageSource.getMessage("Are-you-sure-delete", null, locale));
+        properties.put("Menu-item-saved", messageSource.getMessage("Menu-item-saved", null, locale));
+        properties.put("User-saved", messageSource.getMessage("User-saved", null, locale));
+
 
         return properties;
 
