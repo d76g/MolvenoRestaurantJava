@@ -91,6 +91,12 @@ public class LocalizationController {
         properties.put("cant-modify-paid-reservation", messageSource.getMessage("cant-modify-paid-reservation", null, locale));
         properties.put("Payment-Info", messageSource.getMessage("Payment-Info", null, locale));
         properties.put("Please-pay-at-the-front-desk", messageSource.getMessage("Please-pay-at-the-front-desk", null, locale));
+        properties.put("Yes-update-it", messageSource.getMessage("Yes-update-it", null, locale));
+        properties.put("Are-you-sure-delete", messageSource.getMessage("Are-you-sure-delete", null, locale));
+        properties.put("Menu-item-saved", messageSource.getMessage("Menu-item-saved", null, locale));
+        properties.put("User-saved", messageSource.getMessage("User-saved", null, locale));
+
+
         return properties;
 
     }

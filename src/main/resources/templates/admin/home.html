@@ -2,7 +2,7 @@
 <div th:insert="common/navbar :: navbar"></div>
 <div class="relative w-full h-auto flex flex-col justify-center items-center bg-gray-50 h-auto space-y-8 absolute z-20">
     <div>
-        <h1 class="text-3xl font-bold text-gray-700 mt-5">Admin</h1>
+        <h1 th:text="#{Admin}" class="text-3xl font-bold text-gray-800 mt-5">Admin</h1>
     </div>
     <div id="analysisContainer" class="grid grid-cols-4 w-10/12 gap-6 justify-items-center items-center py-10 bg-white rounded-md shadow-md">
        <div class="w-44 h-28 rounded-md drop-shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col justify-center items-center">

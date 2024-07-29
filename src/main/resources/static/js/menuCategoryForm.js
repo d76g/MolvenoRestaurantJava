@@ -1,16 +1,29 @@
 const url = '/api/menuCategory/';
+let menuCategoryMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    menuCategoryMessages = messages ? JSON.parse(messages) : null;
     // call the get all menuCategory method
     getAllMenuCategory();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const menuCategoryId = $(this).data('id');
         console.log(menuCategoryId);
-        if (confirm("Are you sure you want to delete this menuCategory?")){
-            deleteMenuCategory(menuCategoryId);
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: menuCategoryMessages['Are-you-sure-delete'],
+            text: menuCategoryMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: menuCategoryMessages['Yes-delete-it'],
+            cancelButtonText: menuCategoryMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMenuCategory(menuCategoryId);
+            }
+        })
     });
     $(document).on('click', '.editButton', function (){
         const menuCategoryId = $(this).data('id');
@@ -39,11 +52,7 @@ function init(){
     $('#updateMenuCategoryForm').on('submit', function(event) {
         event.preventDefault();
         // confirm if the user wants to update the menuCategory
-        if(confirm("Are you sure you want to update this menu item?")){
-            updateMenuCategory();
-        } else {
-            return false;
-        }
+        updateMenuCategory();
     });
 }
 
