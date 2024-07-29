@@ -31,6 +31,8 @@ function init(){
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addMenuCategoryFormDiv").toggleClass("hidden");
+        $('#saveMenuCategoryForm')[0].reset();
+        $('#menuCategoryId').val('0');
     });
 
     // Event listener for the update table form submission

@@ -1,5 +1,7 @@
 let currentReservationId;
 const url = '/api/reservation/'
+let isGuest ;
+let orderStatus;
 function init(){
     console.log("Front Desk Home Page");
     getAllReservationsForToday();
@@ -28,16 +30,35 @@ function init(){
     });
     reservationDiv.on("click", "#makePayment", function(){
         const id = $(this).attr("date-id");
+        isGuest = $(this).attr("data-guest");
+        console.log(isGuest)
         getOrdersForReservation(id);
     });
     reservationDiv.on("click", "#cancelledButton", function(){
         const id = $(this).attr("date-id");
-        if (!confirm("Are you sure you want to cancel this reservation?")) return;
-        changeReservationStatus(id, "CANCELLED");
-        alert("Reservation Cancelled")
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, cancel it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Cancelled!",
+                    text: "The reservation has been cancelled successfully",
+                    icon: "success"
+                });
+                changeReservationStatus(id, "CANCELLED");
+                getAllReservationsForToday()
+            }
+        });
     });
     reservationDiv.on("click", "#showAllDetails", function(){
         const id = $(this).attr("date-id");
+
         getReservationById(id);
     });
 
@@ -49,7 +70,6 @@ function init(){
         const tableNumbers = $(this).attr("data-table-numbers");
         currentReservationId = id;
         $('#table-number').text(tableNumbers);
-        console.log("Take Order for reservation: " + id + " at table: " + tableNumbers);
         $('#menuList').toggleClass("hidden");
     });
 
@@ -77,6 +97,14 @@ function getAllReservationsForToday() {
         success: function(data) {
             console.log('Reservations for today: ', data);
             displayReservations(data);
+            // set total number of reservation
+            if (data.length > 0) {
+                if (data.length === 1) {
+                    $("#totalReservation").text("1 Reservation");
+                } else {
+                    $("#totalReservation").text(data.length + " Reservations");
+                }
+            }
         },
         error: function(error) {
             console.log(error);
@@ -151,6 +179,7 @@ function displayOrderItemsPop(data, reservationId) {
     var summedQuantities = {};
     var totalOrderPrice = 0;
     for (const order of data) {
+        orderStatus = order.status;
             for (const orderItem of order.orderItems) {
                 totalOrderPrice += orderItem.quantity * orderItem.itemPrice;
                 if (summedQuantities[orderItem.menuName]) {
@@ -209,10 +238,26 @@ function displayOrderItemsPop(data, reservationId) {
         width: '40rem',
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire('Payment processed!', '', 'success');
-            changeReservationStatus(reservationId, "PAID");
-            makePayment(reservationId);
-            getAllReservationsForToday();
+           if (orderStatus === "PLACED"){
+               console.log(isGuest)
+               if (isGuest === "true") {
+                   Swal.fire('Order amount sent to the hotel room', '', 'success');
+               } else {
+                   Swal.fire('Payment processed!', '', 'success');
+               }
+               changeReservationStatus(reservationId, "PAID");
+               makePayment(reservationId);
+               getAllReservationsForToday();
+               isGuest = false;
+           } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'PENDING ORDER',
+                    text: 'Order has not been placed yet',
+                    timer: 3000
+                })
+
+           }
         }
     });
 }
@@ -227,7 +272,7 @@ function createPopUp(reservation) {
     const reservationTimePlus3hours = time.toTimeString().slice(0, 5);
     const card = $(`
         <div class="bg-gray-100 shadow-sm rounded-lg font-sans my-3">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-blue-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -256,7 +301,7 @@ function createCard(reservation) {
     if(reservation.reservationStatus === "CONFIRMED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-blue-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -269,7 +314,7 @@ function createCard(reservation) {
                     <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
-                    <div class="flex justify-evenly">
+                    <div class="flex justify-between px-2">
                         <button id="attendedButton" date-id="${reservation.id}" class="bg-blue-400 text-white rounded-md p-2 hover:bg-blue-500">Check In</button>
                         <button id="cancelledButton" date-id="${reservation.id}" class="bg-red-400 text-white rounded-md p-2 hover:bg-red-500">Cancelled</button>
                     </div>
@@ -283,7 +328,7 @@ function createCard(reservation) {
     } else if(reservation.reservationStatus === "ATTENDED"){
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-green-300 flex justify-center items-center rounded-md text-black">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -309,7 +354,7 @@ function createCard(reservation) {
     } else if (reservation.reservationStatus === "ORDERED") {
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-red-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>
@@ -323,7 +368,7 @@ function createCard(reservation) {
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
                 <div class="px-2" sec:authorize="hasAnyAuthority('Front desk')">
-                        <button id="makePayment" date-id="${reservation.id}" class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
+                        <button id="makePayment" date-id="${reservation.id}" data-guest="${reservation.guest}" class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">Pay Bill</button>
                     </div>
                     <div class="px-2">
                         <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">View Details</button>
@@ -335,7 +380,7 @@ function createCard(reservation) {
     } else if (reservation.reservationStatus === "PAID") {
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
-            <div class="p-4 flex flex-col gap-2">
+            <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-red-400 flex justify-center items-center rounded-md text-white">
                     <p>Table NO. ${tableNumbers}</p>
                 </div>

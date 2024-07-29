@@ -31,6 +31,8 @@ function init(){
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addMealTimeFormDiv").toggleClass("hidden");
+        $('#saveMealTimeForm')[0].reset();
+        $('#mealTimeId').val('0');
     });
 
     // Event listener for the update table form submission

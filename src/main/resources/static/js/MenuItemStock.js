@@ -1,6 +1,7 @@
 const url = '/api/stock';
 const url2 = '/api/menu-item-stock/menu/'
 let menu_id;
+let menuName;
 function init(){
     function getQueryParameter(param){
     var urlParams = new URLSearchParams(window.location.search);
@@ -11,7 +12,8 @@ function init(){
     getAllStock();
     getAllMenuItemStock();
     menu_id = getQueryParameter('menuId');
-
+    menuName = getQueryParameter('menuName');
+    $('#menuName').text(menuName);
     console.log(menu_id);
     // Event listener for the close button
         $(".closeButtonAdd").click(function() {
