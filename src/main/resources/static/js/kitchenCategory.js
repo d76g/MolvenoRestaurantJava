@@ -1,5 +1,11 @@
 const url = '/api/category/';
+let categoryLocalMessages;
+
+
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    categoryLocalMessages = messages ? JSON.parse(messages) : null
     // call the get all table method
     getAllCategory();
     // Event listener for the delete button
@@ -7,13 +13,14 @@ function init(){
         const categoryId = $(this).data('id');
         console.log(categoryId);
         Swal.fire({
-                   title: 'Are you sure?',
-                   text: "You won't be able to revert this!",
+                   title:categoryLocalMessages['Are-you-sure'],
+                   text: categoryLocalMessages['You-wont-be-able-to-revert-this'],
                    icon: 'warning',
                    showCancelButton: true,
                    confirmButtonColor: '#3085d6',
                    cancelButtonColor: '#d33',
-                   confirmButtonText: 'Yes, delete it!'
+                   confirmButtonText: categoryLocalMessages['Yes-delete-it'],
+                     cancelButtonText: categoryLocalMessages['Cancel']
                }).then((result) => {
                    if (result.isConfirmed) {
                        deleteCategory(categoryId);
@@ -114,7 +121,7 @@ function addCategory(){
         success: function(data) {
             Swal.fire({
                             icon: 'success',
-                            title: 'Category Item is saved successfully',
+                            title:categoryLocalMessages ['stock-category-save-successfully'],
                             showConfirmButton: false,
                             timer: 1500})
 

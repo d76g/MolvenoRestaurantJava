@@ -1,20 +1,26 @@
 const url = '/api/stock';
+let stockLocalMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    stockLocalMessages = messages ? JSON.parse(messages) : null;
     // call the get all table method
     getAllStock();
     getAllKitchenCategory();
+
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const stockId = $(this).data('id');
         console.log(stockId);
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title:stockLocalMessages['Are-you-sure'],
+            text: stockLocalMessages['You-wont-be-able-to-revert-this'],
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: stockLocalMessages['Yes-delete-it'],
+            cancelButtonText: stockLocalMessages['Cancel']
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteStock(stockId);
@@ -148,8 +154,11 @@ function getAllStock(){
             });
         },
         error: function(error) {
-            console.error("There was an error fetching the table data:", error);
-        }
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });        }
     });
 }
 
@@ -210,7 +219,7 @@ function saveStock() {
 
               Swal.fire({
                 icon: 'success',
-                title: 'Stock Item is saved successfully',
+                title: stockLocalMessages['stock-saved-successfully'],
                 showConfirmButton: false,
                 timer: 1500}).then(function () {
                                   setTimeout(function () {
@@ -223,7 +232,11 @@ function saveStock() {
             // getAllStock();
         },
         error: function(error) {
-            console.error("There was an error adding the stock item:", error);
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });
         }
     });
 }
@@ -234,11 +247,13 @@ function deleteStock(stockId){
         type: 'DELETE',
         success: function (data) {
             getAllStock ();
-            console.log("Stock Item deleted successfully")
         },
         error: function (error) {
-            console.error("There was an error deleting the table:", error);
-        }
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });        }
     });
 }
 function getAllKitchenCategory(){
@@ -254,7 +269,10 @@ function getAllKitchenCategory(){
             });
         },
         error: function(error) {
-            console.error("There was an error fetching the table data:", error);
-        }
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });        }
     });
 }
