@@ -4,14 +4,23 @@ function init(){
     getAllCategory();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
-        const tableId = $(this).data('id');
-        console.log(tableId);
-        if (confirm("Are you sure you want to delete this category?")){
-            deleteTable(tableId);
-        } else {
-            return false;
-        }
+        const categoryId = $(this).data('id');
+        console.log(categoryId);
+        Swal.fire({
+                   title: 'Are you sure?',
+                   text: "You won't be able to revert this!",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: 'Yes, delete it!'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                       deleteCategory(categoryId);
+                   }
     });
+        });
+
     // Event listener for the show
 
     $(document).on('click', '.editButton', function (){
@@ -32,18 +41,12 @@ function init(){
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addFormDiv").toggleClass("hidden");
+         $('#saveCategoryForm')[0].reset();
+         $('#categoryId').val('0');
     });
 
-    // Event listener for the update table form submission
-    $('#updateTableForm').on('submit', function(event) {
-        event.preventDefault();
-        // confirm if the user wants to update the table
-        if(confirm("Are you sure you want to update this table?")){
-            updateTable();
-        } else {
-            return false;
-        }
-    });
+
+
 }
 
 // get all table method
@@ -109,7 +112,12 @@ function addCategory(){
         contentType: 'application/json',
         data: JSON.stringify(category),
         success: function(data) {
-            alert("Category saved successfully")
+            Swal.fire({
+                            icon: 'success',
+                            title: 'Category Item is saved successfully',
+                            showConfirmButton: false,
+                            timer: 1500})
+
             $("#addFormDiv").toggleClass("hidden");
             $('#saveCategoryForm')[0].reset();
             $('#categoryId').val('0');
@@ -122,9 +130,9 @@ function addCategory(){
 
 }
 // delete table
-function deleteTable(tableId){
+function deleteCategory(categoryId){
     $.ajax({
-        url: url + 'delete/' + tableId,
+        url: url + 'delete/' + categoryId,
         type: 'DELETE',
         success: function (data) {
             getAllCategory();
