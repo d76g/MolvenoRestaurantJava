@@ -1,15 +1,19 @@
 package com.molveno.restaurantReservation.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
+
 
     @Bean
     UserDetailsService userDetailsService() {
@@ -29,24 +33,26 @@ public class SecurityConfig {
 
         return authProvider;
     }
-
+    @SuppressWarnings("remova1")
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.headers( header -> header.frameOptions( options -> options.sameOrigin()));
         http.csrf( csrf -> csrf.disable())
                 .authorizeHttpRequests( auth -> auth
                                 .requestMatchers(
-                                "/",
-                                "/users*"
+                                "/"
+                                ,"/users*"
                                 , "/h2-console/**"
                                 , "/console/**"
                                 , "/js/**"
                                 , "/css/**"
                                 , "/images/**"
                                 , "/api/**"
-                                ,"/v3/api-docs/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
+                                ,"/v3/api-docs/**"
+                                ,"/swagger-ui.html"
+                                ,"/swagger-ui/**",
+                                "/reset-password",
+                                "/password-request",
                                 "/webjars/**"
                                 ).permitAll()
                         .requestMatchers("/orders*","/home").hasAnyAuthority("Front desk", "Admin", "Waiter", "Chef")

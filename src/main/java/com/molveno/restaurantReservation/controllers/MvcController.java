@@ -23,17 +23,31 @@ public class MvcController {
     public String index() {
         return "index";
     }
+
     // home page
     @GetMapping("/home")
     public String home() {
         return "home";
     }
+
+    // password reset
+
+//    @GetMapping("/password-request")
+//    public String passwordRequest(){
+//        return "password-request";
+//    }
+//    @GetMapping("/reset-password")
+//    public String passwordReset(){
+//        return "reset-password";
+//    }
+
     @PostMapping("/createReservation")
     public String createReservation(Reservation reservation, RedirectAttributes redirectAttributes) {
         reservationService.createReservation(reservation);
         redirectAttributes.addAttribute("id", reservation.getId());
         return "redirect:/reservationDetails";
     }
+
     @GetMapping("/reservationDetails")
     public String reservationDetails(@RequestParam long id, Model model) {
         model.addAttribute("reservation", reservationService.getReservation(id));
@@ -99,6 +113,7 @@ public class MvcController {
     public String showMenuForm() {
         return "chef/menuManagement/menu/menuList";
     }
+
     //mealtime
     @GetMapping("/menu/mealtime")
     public String showMealTimeForm() {
@@ -116,10 +131,13 @@ public class MvcController {
     public String showMenuCategoryForm() {
         return "chef/menuManagement/menuCategory/menuCategoryList";
     }
+
     //menuItemStock
     @GetMapping("/menuItemStock")
     public String showMenuItemStockForm() {
         return "chef/menuItemStock/menuItemStockList";
     }
+
+
 
 }
