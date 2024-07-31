@@ -63,6 +63,11 @@ public class UserServiceImp implements UserService {
         return convertToDTO(user);
     }
 
+    @Override
+    public User save(User user) {
+        return userRepo.save(user);
+    }
+
 
     @Override
     public List<UserDTO> listUser() {

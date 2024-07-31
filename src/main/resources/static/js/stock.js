@@ -1,17 +1,33 @@
 const url = '/api/stock';
+let stockLocalMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    stockLocalMessages = messages ? JSON.parse(messages) : null;
     // call the get all table method
     getAllStock();
     getAllKitchenCategory();
+
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
-        const tableId = $(this).data('id');
-        console.log(tableId);
-        if (confirm("Are you sure you want to delete this item from stock?")){
-            deleteStock(tableId);
-        } else {
-            return false;
-        }
+        const stockId = $(this).data('id');
+        console.log(stockId);
+        Swal.fire({
+            title:stockLocalMessages['Are-you-sure'],
+            text: stockLocalMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: stockLocalMessages['Yes-delete-it'],
+            cancelButtonText: stockLocalMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteStock(stockId);
+            }
+        })
+       ;
+
     });
     // Event listener for the add button
     $("#addButton").click(function() {
@@ -41,6 +57,8 @@ function init(){
         };
         let queryParameters = $.param(data);
         window.location.href = '/stock/form?' + queryParameters;
+
+
     });
 
     // Event listener for the update table form submission
@@ -66,6 +84,13 @@ function readQueryParameters(){
 }
 // get all table method
 function getAllStock(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url,
         type: 'GET',
@@ -78,6 +103,10 @@ function getAllStock(){
                     dataSrc: ''
                 },
                 sWidth: "70%",
+                language:{
+                    // change the default language of the data table
+                    url: dataTableLanguageUrl,
+                },
                 bAutoWidth: false,
                 autoWidth: false,
                 // destroy the table before creating a new one
@@ -125,8 +154,11 @@ function getAllStock(){
             });
         },
         error: function(error) {
-            console.error("There was an error fetching the table data:", error);
-        }
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });        }
     });
 }
 
@@ -184,13 +216,27 @@ function saveStock() {
         data: JSON.stringify(stockData),
         success: function(data) {
             $('#stockAddForm')[0].reset();
-            alert("Stock Item added successfully");
-            // redirect to the table page
-            window.location.href = '/stock';
+
+              Swal.fire({
+                icon: 'success',
+                title: stockLocalMessages['stock-saved-successfully'],
+                showConfirmButton: false,
+                timer: 1500}).then(function () {
+                                  setTimeout(function () {
+                                      window.location.href = '/stock'
+                                  });
+                              });
+
+             // redirect to the table page
+           // window.location.href = '/stock';
             // getAllStock();
         },
         error: function(error) {
-            console.error("There was an error adding the stock item:", error);
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });
         }
     });
 }
@@ -201,11 +247,13 @@ function deleteStock(stockId){
         type: 'DELETE',
         success: function (data) {
             getAllStock ();
-            console.log("Stock Item deleted successfully")
         },
         error: function (error) {
-            console.error("There was an error deleting the table:", error);
-        }
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });        }
     });
 }
 function getAllKitchenCategory(){
@@ -221,7 +269,10 @@ function getAllKitchenCategory(){
             });
         },
         error: function(error) {
-            console.error("There was an error fetching the table data:", error);
-        }
+            Swal.fire({
+                icon: 'error',
+                title: stockLocalMessages['Opps'],
+                text: stockLocalMessages['Something-went-wrong'],
+            });        }
     });
 }

@@ -31,57 +31,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+NSW:wght@100..400&display=swap" rel="stylesheet">
 </head>
 <body>
-<div th:fragment="reservationDetails" id="reservationPopup" class="hidden flex justify-center items-center p-8 font-sans absolute z-30 w-full h-44 bg-black-10 top-80">
-<div  class="bg-white p-4 rounded-lg shadow-lg w-2/5">
-    <div id="checkAnimation" class="flex w-full justify-center">
-        <!--        Show GIF from static folder -->
-        <img th:src="@{/images/confirmAnimation.gif}" alt="Reservation Confirmed" class="w-24 h-24 rounded-md">
-    </div>
-    <div class="text-3xl w-full flex justify-center items-center my-4 font-bold bg-green-200 h-24 rounded-md">
-        <h1 class="text-gray-700">Reservation Confirmed </h1>
-    </div>
-    <div>
+<div th:fragment="reservationDetails" id="reservationPopup" class="hidden fixed inset-0 flex justify-center items-center p-4 font-sans z-50 bg-black bg-opacity-50">
+    <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-lg">
+        <div id="checkAnimation" class="flex justify-center">
+            <!-- Show GIF from static folder -->
+            <img th:src="@{/images/confirmAnimation.gif}" alt="Reservation Confirmed" class="w-24 h-24 rounded-md">
+        </div>
+        <div class="text-2xl sm:text-3xl w-full flex justify-center items-center my-4 font-bold bg-green-200 h-16 sm:h-24 rounded-md">
+            <h1 class="text-gray-700" th:text="#{reservation-confirmed}">Reservation Confirmed</h1>
+        </div>
+        <div>
+            <hr>
+            <div class="text-gray-500 my-3 flex flex-col items-center">
+                <p th:text="#{thank-you}">Thank you for making a reservation with us. We look forward to seeing you soon.</p>
+                <p class="font-bold pt-3" th:text="#{keep-a-copy}">Keep a copy of the following details by taking a screenshot for you when you attend.</p>
+            </div>
+            <div class="text-xl sm:text-2xl font-bold my-2 text-center">
+                <p class="text-gray-600">
+                    <span id="tables"></span>
+                </p>
+            </div>
+            <hr>
+            <p class="py-3 uppercase font-bold text-gray-600 text-center" th:text="#{Reservation-details}">Reservation Details</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-3 bg-gray-50 rounded-md my-2 font-sans text-md">
+                <div class="flex items-center">
+                    <i class='bx bxs-user p-2 text-blue-500'></i>
+                    <span id="customerFirstName"></span> <span id="customerLastName"></span>
+                </div>
+                <div class="flex items-center">
+                    <i class='bx bxs-envelope p-2 text-blue-500'></i>
+                    <span id="customerEmail"></span>
+                </div>
+                <div class="flex items-center">
+                    <i class='bx bxs-phone p-2 text-blue-500'></i>
+                    <span id="customerPhone"></span>
+                </div>
+                <div class="flex items-center">
+                    <i class='bx bxs-calendar p-2 text-green-500'></i>
+                    <span id="reservationDate"></span>
+                </div>
+                <div class="flex items-center">
+                    <i class='bx bxs-time p-2 text-green-500'></i>
+                    <span id="reservationTime"></span>
+                </div>
+                <div class="flex items-center">
+                    <i class='bx bxs-group p-2 text-green-500'></i>
+                    <span id="numberOfGuests"></span>
+                </div>
+            </div>
+        </div>
         <hr>
-        <div class="text-gray-500 my-3 flex flex-col items-center justify-center">
-            <p>Thank you for making a reservation with us. We look forward to seeing you soon.</p>
-            <p class="font-bold pt-3">Keep a copy of the following details by taking a screenshot for you when you attend</p>
+        <div class="w-full text-center">
+            <p class="text-gray-400" th:text="#{your-reservation-is-booked-for-3-hours}">* Your reservation is booked for a total of 3 hours.</p>
         </div>
-        <div class="text-2xl font-bold my-2">
-            <p class="text-gray-600">Table NO.
-                <span id="tables"></span>
-            </p>
-        </div>
-        <hr>
-        <p class="py-3 uppercase font-bold text-gray-600">Reservation Details</p>
-        <div class="grid grid-cols-1 py-3 bg-gray-50 rounded-md my-2 font-sans text-md">
-            <div class="grid grid-cols-2 gap-4 py-1">
-                <p><i class='bx bxs-user p-2 text-blue-500'></i><span id="customerFirstName"></span> <span id="customerLastName"></span> </p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 py-1">
-                <p><i class='bx bxs-envelope p-2 text-blue-500' ></i><span id="customerEmail"></span> </p>
-                <p><i class='bx bxs-phone p-2 text-blue-500'></i><span id="customerPhone"></span> </p>
-            </div>
-            <div class="grid grid-cols-3 gap-4 py-1">
-                <p><i class='bx bxs-calendar p-2 text-green-500'></i><span id="reservationDate"></span> </p>
-                <p><i class='bx bxs-time p-2 text-green-500'></i><span id="reservationTime"></span> </p>
-                <p><i class='bx bxs-group p-2 text-green-500'></i><span id="numberOfGuests"></span></p>
-            </div>
-
+        <div class="my-4">
+            <button id="closeButtonPopup" th:text="#{Close}"
+                    class="bg-green-400 p-2 text-white rounded-md w-full font-sans uppercase font-bold text-sm hover:bg-green-500 transition duration-300 hover:-translate-y-1 ease-in-out cursor-pointer">
+                <i class='bx bx-arrow-back'></i> Close
+            </button>
         </div>
     </div>
-    <hr>
-    <div class="w-full">
-        <div class="my-1 gap-y-1">
-            <p class="text-gray-400">* Your reservation is booked for a total of 3 hours. </p>
-        </div>
-
-    </div>
-    <div class="my-2">
-        <button id="closeButtonPopup"
-            class="bg-green-400 p-2 text-white rounded-md w-full font-sans uppercase font-bold text-sm hover:bg-green-500 transition duration-300 hover:-translate-y-1  ease-in-out delay-150 cursor-pointer">
-            <i class='bx bx-arrow-back'></i> Close</button>
-    </div>
-</div>
 </div>
 </body>
 </html>

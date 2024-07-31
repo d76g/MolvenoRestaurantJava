@@ -35,18 +35,23 @@ public class SecurityConfig {
         http.headers( header -> header.frameOptions( options -> options.sameOrigin()));
         http.csrf( csrf -> csrf.disable())
                 .authorizeHttpRequests( auth -> auth
-                                .requestMatchers(
+                        .requestMatchers("/i18n/**").permitAll()
+                        .requestMatchers(
                                 "/",
-                                "/users*"
+                                "/login",
+                                "/error",
+                                "/login**"
                                 , "/h2-console/**"
                                 , "/console/**"
                                 , "/js/**"
                                 , "/css/**"
                                 , "/images/**"
                                 , "/api/**"
-                                ,"/v3/api-docs/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
+                                ,"/v3/api-docs/**"
+                                ,"/swagger-ui.html"
+                                ,"/swagger-ui/**",
+                                "/reset-password*",
+                                "/password-request*",
                                 "/webjars/**"
                                 ).permitAll()
                         .requestMatchers("/orders*","/home").hasAnyAuthority("Front desk", "Admin", "Waiter", "Chef")

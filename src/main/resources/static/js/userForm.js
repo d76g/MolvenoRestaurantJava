@@ -1,16 +1,29 @@
 const url = '/api/users';
+let userMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    userMessages = messages ? JSON.parse(messages) : null;
     // call the get all user method
     getAllUser();
 
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const userId = $(this).data('id');
-        if (confirm("Are you sure you want to delete this user?")){
-            deleteUser(userId);
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: userMessages['Are-you-sure'],
+            text: userMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: userMessages['Yes-delete-it'],
+            cancelButtonText: userMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteUser(userId);
+            }
+        })
     });
 
     // Event listener for the add button
@@ -27,6 +40,8 @@ function init(){
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addFormDiv").toggleClass("hidden");
+         $('#saveUserForm')[0].reset();
+         $('#userId').val(0);
     });
 
     // Event listener for the edit button
@@ -44,7 +59,7 @@ function init(){
         // show the update form
         $("#addFormDiv").toggleClass("hidden");
 
-        // set the new user id,username,first name,lastname,email,paasword and role in the form
+        // set the new user id,username,first name,lastname,email,password and role in the form
         $('#userId').val(userId);
         $('#username').val(userName);
         $('#firstname').val(firstName);
@@ -62,6 +77,13 @@ function init(){
 
 // get all user method
 function getAllUser(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + '/all',
         type: 'GET',
@@ -72,6 +94,9 @@ function getAllUser(){
                 ajax:{
                     url: url + '/all',
                     dataSrc: ''
+                },
+                language:{
+                    url: dataTableLanguageUrl
                 },
                 // destroy the user before creating a new one
                 "bDestroy": true,
@@ -133,8 +158,8 @@ function saveUser(){
     if (!validatePassword(userPassword) && userPassword !== '') {
         Swal.fire({
             icon: 'error',
-            title: 'Password Validation Error',
-            text: 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.',
+            title: userMessages['Password-error'],
+            text: userMessages['Password-message'],
             toast: true,
             position: 'top-end',
             timer: 5000,
@@ -160,20 +185,16 @@ function saveUser(){
         contentType: 'application/json',
         data: JSON.stringify(user),
         success: function(data) {
-
             $("#addFormDiv").toggleClass("hidden");
-
             $('#saveUserForm')[0].reset();
-
             getAllUser();
-             Swal.fire({
+            Swal.fire({
                 icon: 'success',
-                title: 'User Saved',
-                text: 'User has been saved successfully!',
+                title: userMessages['User-saved'],
                 toast: true,
                 position: 'top-end',
                 timer: 5000,
-             });
+            });
         },
         error: function(error) {
             Swal.fire({
@@ -194,8 +215,7 @@ function deleteUser(userId){
         url: url +'/'+ userId,
         type: 'DELETE',
         success: function (data) {
-        alert('User has been deleted successfully!');
-            getAllUser();
+           getAllUser();
         },
         error: function (error) {
             console.error("There was an error deleting the user:", error);

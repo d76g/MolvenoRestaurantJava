@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepo extends CrudRepository<CustomerOrder, Long>{
+    List<CustomerOrder> findAll();
     // find by reservation id
     CustomerOrder findByReservationId(long reservationId);
     List<CustomerOrder> findAllByReservationId(long reservationId);

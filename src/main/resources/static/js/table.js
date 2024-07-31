@@ -1,16 +1,29 @@
 const url = '/api/table/';
+let tableMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    tableMessages = messages ? JSON.parse(messages) : null;
     // call the get all table method
     getAllTable();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const tableId = $(this).data('id');
         console.log(tableId);
-        if (confirm("Are you sure you want to delete this table?")){
-            deleteTable(tableId);
-        } else {
-            return false;
-        }
+        Swal.fire({
+            title: tableMessages['Are-you-sure'],
+            text: tableMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: tableMessages['Yes-delete-it'],
+            cancelButtonText: tableMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteTable(tableId);
+            }
+        })
     });
     // Event listener for the add button
     $("#addButton").click(function() {
@@ -44,16 +57,19 @@ function init(){
     $('#updateTableForm').on('submit', function(event) {
         event.preventDefault();
         // confirm if the user wants to update the table
-        if(confirm("Are you sure you want to update this table?")){
-            updateTable();
-        } else {
-            return false;
-        }
+        updateTable();
     });
 }
 
 // get all table method
 function getAllTable(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -64,6 +80,9 @@ function getAllTable(){
                 ajax:{
                     url: url + 'all',
                     dataSrc: ''
+                },
+                language:{
+                    url: dataTableLanguageUrl
                 },
                 // destroy the table before creating a new one
                 "bDestroy": true,

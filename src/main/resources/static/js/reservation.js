@@ -1,6 +1,10 @@
 const url = '/api/reservation/';
+let reservationLocaleText;
 function initReservation(){
     console.log("Reservation page loaded");
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    reservationLocaleText = messages ? JSON.parse(messages) : null;
     getAllReservations();
     displayTimeSlots();
     $(".myBtn").click(function(){
@@ -46,6 +50,7 @@ function initReservation(){
         minDate: "today",
         altFormat: "F j, Y",
         maxDate: new Date().fp_incr(30),
+        disableMobile: "true",
     });
     // Event listener for the update table form submission
     $('#createReservation').on('submit', function(event) {
@@ -59,7 +64,11 @@ function initReservation(){
             }
             event.preventDefault(); // Prevent form submission to show the validation errors
         }
-        addReservation()
+        if (window.location.pathname === '/reservations') {
+            addReservation()
+        } else {
+            addReservationForGuest()
+        }
         $('#reservationTime').val('');
 
     });
@@ -81,13 +90,13 @@ function initReservation(){
     $(document).on('click', '.deleteButton', function (){
         const reservationId = $(this).data('id');
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: reservationLocaleText['Are-you-sure'],
+                text: reservationLocaleText['You-wont-be-able-to-revert-this'],
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: reservationLocaleText['Yes-delete-it']
             }).then((result) => {
                 if (result.isConfirmed) {
                     deleteReservation(reservationId);
@@ -202,25 +211,72 @@ function addReservation() {
                 $("#addReservationDiv").addClass("hidden");
                 $('#createReservation')[0].reset();
                 getAllReservations();
-                showReservationPopup(id);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Reservation Added',
-                    text: 'Reservation has been added successfully',
-                    timer: 3000
-                })
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: reservationLocaleText['Reservation-Saved'],
+                        text: reservationLocaleText['Reservation-has-been-saved'],
+                        timer: 3000
+                    })
+
             },
             error: function (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
-                    text: error.responseJSON.message,
+                    title: reservationLocaleText['Something-went-wrong'],
+                    text: reservationLocaleText[error.responseJSON.message],
                 });
             }
         }
     )
 }
-
+function addReservationForGuest() {
+    const customerFirstName = $('#customerFirstName').val();
+    const customerLastName = $('#customerLastName').val();
+    const customerEmail = $('#customerEmail').val();
+    const customerPhone = $('#customerPhone').val();
+    const reservationDate = $('#reservationDate').val();
+    const reservationTime = $('#reservationTime').val();
+    const numberOfGuests = $('#numberOfGuests').val();
+    const isGuest = $('#guest').is(':checked');
+    const roomNumber = $('#roomNumber').val();
+    // create a table object
+    const reservation = {
+        customerFirstName: customerFirstName,
+        customerLastName: customerLastName,
+        customerEmail: customerEmail,
+        customerPhone: customerPhone,
+        reservationDate: reservationDate,
+        reservationTime: reservationTime,
+        numberOfGuests: numberOfGuests,
+        guest: isGuest,
+        roomNumber: roomNumber
+    };
+    $.ajax(
+        {
+            url: url + 'add',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(reservation),
+            success: function(data) {
+                const id = data.id;
+                if (id !== undefined) {
+                    $("#addReservationDiv").addClass("hidden");
+                    $('#createReservation')[0].reset();
+                    showReservationPopup(id);
+                }
+            },
+            error: function (error) {
+                const errorMessage = error.responseJSON.message;
+                console.log(errorMessage);
+                const message = reservationLocaleText[errorMessage];
+                console.log(message);
+                $("#errorMessage").text(message).removeClass("hidden");
+                $('#addReservationDiv').removeClass("hidden");
+            }
+        }
+    )
+}
 function hideCheckAnimation() {
     setTimeout(function() {
         $('#checkAnimation').fadeOut(1000); // 1000 milliseconds = 1 second
@@ -233,9 +289,9 @@ function showReservationPopup(reservationId) {
         type: 'GET',
         success: function(data) {
             // create the table using the data from the server
-            console.log(data);
             const reservation = data;
             const popUpId = '#reservationPopup';
+
             // show the popup
             $(popUpId).removeClass('hidden');
             $(popUpId).find('#customerFirstName').text(reservation.customerFirstName);
@@ -245,20 +301,37 @@ function showReservationPopup(reservationId) {
             $(popUpId).find('#reservationDate').text(reservation.reservationDate);
             $(popUpId).find('#reservationTime').text(reservation.reservationTime);
             $(popUpId).find('#numberOfGuests').text(reservation.numberOfGuests);
-            // loop through the tables and display number only
-            const tables = reservation.tables;
-            let tablesHtml = '';
-            tables.forEach(function (table) {
-                tablesHtml += table.tableNumber + ', ';
-            });
-            $(popUpId).find('#tables').text(tablesHtml);
+
+            // Check if tables are present
+            if (reservation.tables && reservation.tables.length > 0) {
+                let tablesHtml = '<ul>';
+                reservation.tables.forEach(function(table) {
+                    tablesHtml += '<li>'+ reservationLocaleText['Table-NO'] + table.tableNumber + '</li>';
+                });
+                tablesHtml += '</ul>';
+                $(popUpId).find('#tables').html(tablesHtml);
+            } else {
+                // Display SweetAlert2 error if no tables
+                Swal.fire({
+                    icon: 'error',
+                    title: reservationLocaleText['Opps'] || 'Oops',
+                    text: reservationLocaleText['Something-went-wrong'] || 'Something went wrong',
+                });
+                $(popUpId).find('#tables').html('<p>No tables available</p>');
+            }
         },
         error: function(error) {
-            console.error("There was an error fetching the reservation data:", error);
+            // Display SweetAlert2 error on ajax error
+            Swal.fire({
+                icon: 'error',
+                title: reservationLocaleText['Opps'] || 'Oops',
+                text: reservationLocaleText['Something-went-wrong'] || 'Something went wrong',
+            });
         }
     });
     hideCheckAnimation();
 }
+
 
 // update reservation
 function updateReservation(){
@@ -300,8 +373,8 @@ function updateReservation(){
                 $('#updateReservation')[0].reset();
                 Swal.fire({
                     icon: 'success',
-                    title: 'Reservation Updated',
-                    text: 'Reservation has been updated successfully',
+                    title: reservationLocaleText['Reservation-Updated'],
+                    text: reservationLocaleText['Reservation-has-been-updated'],
                     timer: 3000
                 })
                 getAllReservations();
@@ -322,8 +395,8 @@ function deleteReservation(tableId){
             getAllReservations();
             Swal.fire({
                 icon: 'success',
-                title: 'Reservation Deleted',
-                text: 'Reservation has been deleted successfully',
+                title: reservationLocaleText['Reservation-Deleted'],
+                text: reservationLocaleText['Reservation-has-been-deleted'],
                 timer: 3000
             })
         },
@@ -335,6 +408,13 @@ function deleteReservation(tableId){
 
 // get all reservations method
 function getAllReservations(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -345,6 +425,10 @@ function getAllReservations(){
                 ajax:{
                     url: url + 'all',
                     dataSrc: ''
+                },
+                language:{
+                    // change the default language of the data table
+                    url: dataTableLanguageUrl,
                 },
                 // destroy the table before creating a new one
                 "bDestroy": true,
@@ -364,6 +448,7 @@ function getAllReservations(){
                     { "data": "customerFirstName" },
                     { "data": "customerLastName" },
                     { "data": "customerEmail" },
+                    { "data": "customerPhone" },
                     { "data": "reservationDate" },
                     { "data": "reservationTime" },
                     { "data": "numberOfGuests" },
@@ -375,9 +460,9 @@ function getAllReservations(){
                     },
                     { "data": "roomNumber" },
                     {
-                        "data": "reservationStatus",
+                        "data": null,
                         "render": function(data, type, row) {
-                            return '<button class="editStatus cursor-pointer" data-id="' + row.id + '" data-status="' + row.reservationStatus + '">' + data + '</button>';
+                            return '<button class="editStatus cursor-pointer" data-id="' + row.id + '" data-status="' + row.reservationStatus + '">' + reservationLocaleText[row.reservationStatus] + '</button>';
                         }
                     },
                     {
@@ -428,14 +513,18 @@ function updateReservationStatus(reservationId, status){
         success: function(data) {
             Swal.fire({
                 icon: 'success',
-                title: 'Reservation Status Updated',
-                text: 'Reservation status has been updated successfully',
+                title: reservationLocaleText['Reservation-Status-Updated'],
+                text: reservationLocaleText['Reservation-status-has-been-updated'],
                 timer: 3000
             })
             getAllReservations();
         },
         error: function(error) {
-            console.error("There was an error updating the reservation status:", error);
+            Swal.fire({
+                icon: 'error',
+                title: reservationLocaleText['Opps'] ,
+                text: reservationLocaleText[error.responseJSON.message],
+            })
         }
     });
 }

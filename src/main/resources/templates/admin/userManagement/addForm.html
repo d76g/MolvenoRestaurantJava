@@ -14,36 +14,36 @@
     <div class="fixed inset-0 bg-black opacity-50 z-10"></div>
     <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-30">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold mb-6">User Form</h1>
+            <h1 th:text="#{User-Form}" class="text-2xl font-bold mb-6">User Form</h1>
             <span class="closeButtonAdd text-2xl cursor-pointer">&times;</span>
         </div>
         <form class="space-y-4" id="saveUserForm">
             <input type="hidden" id="userId" value="0">
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">User Name</label>
+                <label th:text="#{user-name}" for="username" class="block text-sm font-medium text-gray-700">User Name</label>
                 <input type="username" id="username" name="username" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
             </div>
             <div>
-                <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
+                <label th:text="#{first-name}" for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
                 <input type="firstname" id="firstname" name="firstname" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <label th:text="#{last-name}" for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
                 <input type="lastname" id="lastname" name="lastname" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <label th:text="#{Email}" for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" id="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <label th:text="#{Password}" for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input type="password" id="password" name="password"  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
-                <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+                <label th:text="#{Select-an-option}" for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
                 <select id="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Choose a role</option>
+                    <option th:text="#{Choose-a-role}" selected>Choose a role</option>
                     <option value="1">Admin</option>
                     <option value="2">Chef</option>
                     <option value="3">Front desk</option>
@@ -51,7 +51,7 @@
                 </select>
             </div>
             <div>
-                <button type="submit" id="addUserButton" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+                <button th:text="#{Save}" type="submit" id="addUserButton" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
             </div>
         </form>
     </div>
