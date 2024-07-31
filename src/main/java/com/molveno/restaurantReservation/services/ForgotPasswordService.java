@@ -20,7 +20,7 @@ public class ForgotPasswordService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    private final int MINUTES = 10;
+    private final int MINUTES = 3;
 
     public String generateToken() {
         return UUID.randomUUID().toString();
