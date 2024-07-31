@@ -1,6 +1,10 @@
 const url = '/api/menu/';
 let menu_id;
+let menuFormMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    menuFormMessages = messages ? JSON.parse(messages) : null;
     // call the get all menu method
     getAllMenu();
     getAllMenuCategory();
@@ -11,23 +15,20 @@ function init(){
         const menuItemId = $(this).data('id');
         console.log(menuItemId);
         Swal.fire({
-                        title: 'Are you sure to delete this menu item?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            deleteMenuItem(menuItemId);
-                        }
-                    })
-//        if (confirm("Are you sure you want to delete this menuItem?")){
-//            deleteMenuItem(menuItemId);
-//        } else {
-//            return false;
-//        }
+            title: menuFormMessages['Are-you-sure-delete'],
+            text: menuFormMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: menuFormMessages['Yes-delete-it'],
+            cancelButtonText: menuFormMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMenuItem(menuItemId);
+            }
+        })
+
     });
     // Event listener for the showStock  button
     $(document).on('click', '.showStock', function (){
@@ -97,6 +98,13 @@ function init(){
 
 // get all menu method
 function getAllMenu() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -107,6 +115,10 @@ function getAllMenu() {
                 ajax: {
                     url: url + 'all',
                     dataSrc: ''
+                },
+                language: {
+                    // change the default language of the data table
+                    url: dataTableLanguageUrl,
                 },
                 // destroy the menuItem before creating a new one
                 "bDestroy": true,
@@ -200,12 +212,11 @@ function addMenuItem(){
             $('#saveMenuForm')[0].reset();
             $('#menuItemId').val(0);
             Swal.fire({
-                            icon: 'success',
-                            title: 'Menu Item is saved successfully',
-                            showConfirmButton: false,
-                            timer: 1500
+                icon: 'success',
+                title: menuFormMessages['Menu-item-saved'],
+                showConfirmButton: false,
+                timer: 1500
             });
-
         },
         error: function(error) {
             console.error("There was an error adding the menuItem:", error);

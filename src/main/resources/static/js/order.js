@@ -1,8 +1,12 @@
 const url = '/api/order';
+let orderLocalizationMessages;
+
 function init() {
     console.log("init order");
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    orderLocalizationMessages = JSON.parse(messages);
     getOrderList();
-
     // view order items
     $('#orderList').on('click', '.viewOrderItems', function () {
         $('#menuList').toggleClass("hidden");
@@ -17,13 +21,14 @@ function init() {
         const orderId = $(this).attr('data-id');
         currentReservationId = $(this).attr('data-reservation-id');
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: orderLocalizationMessages['Are-you-sure'],
+            text: orderLocalizationMessages['You-wont-be-able-to-revert-this'],
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: orderLocalizationMessages['Yes-delete-it'],
+            cancelButtonText: orderLocalizationMessages['Cancel']
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteOrder(orderId);
@@ -64,7 +69,7 @@ function placeOrder() {
             $('#menuList').toggleClass("hidden");
             Swal.fire({
                 icon: 'success',
-                title: 'Order placed successfully',
+                title: orderLocalizationMessages['Order-Placed-Successfully'],
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -72,14 +77,21 @@ function placeOrder() {
         error: function(error) {
             Swal.fire({
                 icon: 'error',
-                title: 'Oops...',
-                text: error.responseJSON.message,
+                title: orderLocalizationMessages['Opps'],
+                text: orderLocalizationMessages['Something-went-wrong'],
             });
         }
     });
 
 }
 function getOrderList(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url ,
         type: 'GET',
@@ -90,6 +102,10 @@ function getOrderList(){
                 ajax:{
                     url: url,
                     dataSrc: ''
+                },
+                language:{
+                    // change the default language of the data table
+                    url: dataTableLanguageUrl,
                 },
                 // destroy the table before creating a new one
                 "bDestroy": true,
@@ -112,7 +128,11 @@ function getOrderList(){
                       }
                     },
                     { "data": "totalPrice" },
-                    { "data": "status" },
+                    { "data": null,
+                        "render": function(data, type, row) {
+                            return orderLocalizationMessages[row.status];
+                        }
+                    },
                     {
                         "data": null,
                         "render": function(data, type, row) {
@@ -156,9 +176,19 @@ function deleteOrder(orderId) {
         success: function(data) {
             getOrderList();
             changeReservationStatus(currentReservationId, 'ATTENDED');
+            Swal.fire({
+                icon: 'success',
+                title: orderLocalizationMessages['Order-Deleted'],
+                showConfirmButton: false,
+                timer: 1500
+            });
         },
         error: function(error) {
-            console.error("There was an error deleting the order:", error);
+            Swal.fire({
+                icon: 'error',
+                title: orderLocalizationMessages['Opps'],
+                text: orderLocalizationMessages['Cannot-delete-this-order'],
+            });
         }
     });
 }
