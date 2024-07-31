@@ -36,7 +36,7 @@ public class ForgotPasswordService {
 
         String emailContent = "<p>Hello</p>"
                 + "Click the link below to reset password"
-                + "<p><a href=\"" + emailLink + "\">Change My Password<a/></p>"
+                + "<p><a href=\""+ emailLink + "\">Change My Password<a/></p>"
                 + "<br>"
                 + "Ignore This Email if you did not made the request";
 
