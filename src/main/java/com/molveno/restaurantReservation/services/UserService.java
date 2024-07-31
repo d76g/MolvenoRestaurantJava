@@ -12,7 +12,7 @@ public interface UserService {
 
     // add new user
     UserDTO saveUser(UserDTO user);
-
+    User save (User user);
     // get user by id
     List<UserDTO> listUser();
 
