@@ -143,4 +143,5 @@ function deleteMealTime(mealTimeId){
             console.error("There was an error deleting the mealtime:", error);
         }
     });
+
 }

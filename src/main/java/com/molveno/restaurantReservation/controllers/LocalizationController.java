@@ -95,6 +95,8 @@ public class LocalizationController {
         properties.put("Are-you-sure-delete", messageSource.getMessage("Are-you-sure-delete", null, locale));
         properties.put("Menu-item-saved", messageSource.getMessage("Menu-item-saved", null, locale));
         properties.put("User-saved", messageSource.getMessage("User-saved", null, locale));
+        properties.put("Password-message", messageSource.getMessage("Password-message", null, locale));
+
         properties.put("stock-saved-successfully", messageSource.getMessage("stock-saved-successfully", null, locale));
         properties.put("stock-category-save-successfully", messageSource.getMessage("stock-category-save-successfully", null, locale));
 
