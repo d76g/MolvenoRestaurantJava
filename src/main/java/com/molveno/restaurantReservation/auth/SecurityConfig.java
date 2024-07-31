@@ -51,8 +51,8 @@ public class SecurityConfig {
                                 ,"/v3/api-docs/**"
                                 ,"/swagger-ui.html"
                                 ,"/swagger-ui/**",
-                                "/reset-password",
-                                "/password-request",
+                                "/reset-password*",
+                                "/password-request*",
                                 "/webjars/**"
                                 ).permitAll()
                         .requestMatchers("/orders*","/home").hasAnyAuthority("Front desk", "Admin", "Waiter", "Chef")
