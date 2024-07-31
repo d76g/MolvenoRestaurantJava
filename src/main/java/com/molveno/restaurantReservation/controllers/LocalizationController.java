@@ -97,6 +97,8 @@ public class LocalizationController {
         properties.put("User-saved", messageSource.getMessage("User-saved", null, locale));
         properties.put("Password-message", messageSource.getMessage("Password-message", null, locale));
 
+        properties.put("stock-saved-successfully", messageSource.getMessage("stock-saved-successfully", null, locale));
+        properties.put("stock-category-save-successfully", messageSource.getMessage("stock-category-save-successfully", null, locale));
 
         return properties;
 
