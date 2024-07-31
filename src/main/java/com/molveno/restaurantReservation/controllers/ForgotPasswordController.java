@@ -47,12 +47,8 @@ public class ForgotPasswordController {
     @PostMapping("/password-request")
     public String savePasswordRequest(@RequestParam("email")String email, Model model){
         User user = userRepo.findByEmail(email);
-        System.out.println(
-                "email: " + user.getEmail() + "\n"
-                + "username: " + user.getUsername() + "\n"
-        );
+        System.out.println(user);
         if (user == null){
-          // model.addAttribute("error","This UserName is not Exist");
            model.addAttribute("error","This Email is not registered");
             return "password-request";
         }
