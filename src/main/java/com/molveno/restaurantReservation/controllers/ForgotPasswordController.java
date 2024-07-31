@@ -1,5 +1,6 @@
 package com.molveno.restaurantReservation.controllers;
 
+import com.molveno.restaurantReservation.repos.UserRepo;
 import org.springframework.ui.Model;
 import com.molveno.restaurantReservation.models.ForgetPasswordToken;
 import com.molveno.restaurantReservation.models.User;
@@ -23,7 +24,10 @@ import java.io.UnsupportedEncodingException;
 @Controller
 public class ForgotPasswordController {
 
-       @Autowired
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -41,8 +45,12 @@ public class ForgotPasswordController {
     }
 
     @PostMapping("/password-request")
-    public String savePasswordRequest(@RequestParam("username")String username, Model model){
-        User user = userService.findByUsername(username);
+    public String savePasswordRequest(@RequestParam("email")String email, Model model){
+        User user = userRepo.findByEmail(email);
+        System.out.println(
+                "email: " + user.getEmail() + "\n"
+                + "username: " + user.getUsername() + "\n"
+        );
         if (user == null){
           // model.addAttribute("error","This UserName is not Exist");
            model.addAttribute("error","This Email is not registered");
@@ -59,7 +67,7 @@ public class ForgotPasswordController {
 
         String emailLink = "http://localhost:9090/reset-password?token=" + forgotPasswordToken.getToken();
         try {
-            forgotPasswordService.sendEmail(user.getUsername(),"Password Reset Link",user.getEmail());
+            forgotPasswordService.sendEmail(user.getEmail(),"Password Reset Link",emailLink);
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error","Error while sending email");
             return "password-request";
