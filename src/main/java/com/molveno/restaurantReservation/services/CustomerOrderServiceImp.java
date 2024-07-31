@@ -163,6 +163,8 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     public void deleteById(long id) {
         if (!orderRepo.existsById(id)) {
             throw new IllegalArgumentException("Order not found");
+        } else if(orderRepo.findById(id).get().getStatus().equals("PLACED") || orderRepo.findById(id).get().getStatus().equals("PAID")){
+            throw new IllegalArgumentException("Order is already placed or paid");
         }
         orderRepo.deleteById(id);
     }

@@ -14,21 +14,21 @@
     <div class="w-full h-screen z-10 bg-black opacity-40 absolute"></div>
     <div class="bg-white p-8 rounded-lg shadow-lg w-96 z-30">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold mb-6">Reservation Status Update</h1>
+            <h1 class="text-2xl font-bold mb-6" th:text="#{Update-Reservation-Status}">Reservation Status Update</h1>
             <span class="closeButtonStatus text-2xl cursor-pointer">&times;</span>
         </div>
         <form id="saveReservationStatus" class="space-y-4">
             <input type="hidden" id="reservationId4Status" />
-            <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+            <label for="status" class="block mb-2 text-sm font-medium text-gray-900" th:text="#{status}">Status</label>
             <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="CONFIRMED">CONFIRMED</option>
-                <option value="ATTENDED">ATTENDED</option>
-                <option value="ORDERED">ORDERED</option>
-                <option value="PAID">PAID</option>
-                <option value="CANCELLED">CANCELLED</option>
+                <option value="CONFIRMED" th:text="#{CONFIRMED}">CONFIRMED</option>
+                <option value="ATTENDED" th:text="#{ATTENDED}">ATTENDED</option>
+                <option value="ORDERED" th:text="#{ORDERED}">ORDERED</option>
+                <option value="PAID" th:text="#{PAID}">PAID</option>
+                <option value="CANCELLED" th:text="#{CANCELLED}">CANCELLED</option>
             </select>
             <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:text="#{save}">Save</button>
             </div>
 
         </form>

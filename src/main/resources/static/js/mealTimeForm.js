@@ -1,16 +1,30 @@
 const url = '/api/mealTime/';
+let mealTimeMessages;
 function init(){
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    mealTimeMessages = messages ? JSON.parse(messages) : null;
     // call the get allMealTime method
     getAllMealTime();
     // Event listener for the delete button
     $(document).on('click', '.deleteButton', function (){
         const mealTimeId = $(this).data('id');
         console.log(mealTimeId);
-        if (confirm("Are you sure you want to delete this mealTime?")){
-            deleteMealTime(mealTimeId);
-        } else {
-            return false;
-        }
+        deleteMealTime(mealTimeId);
+        Swal.fire({
+            title: mealTimeMessages['Are-you-sure-delete'],
+            text: mealTimeMessages['You-wont-be-able-to-revert-this'],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: mealTimeMessages['Yes-delete-it'],
+            cancelButtonText: mealTimeMessages['Cancel']
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMealTime(mealTimeId);
+            }
+        })
     });
     $(document).on('click', '.editButton', function (){
         const mealTimeId = $(this).data('id');
@@ -39,16 +53,19 @@ function init(){
     $('#updateMealTimeForm').on('submit', function(event) {
         event.preventDefault();
         // confirm if the user wants to update the meal time
-        if(confirm("Are you sure you want to update this meal time?")){
-            updateMealTime();
-        } else {
-            return false;
-        }
+       updateMealTime();
     });
 }
 
 // get all mealtime method
 function getAllMealTime(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || Cookies.get('language') || 'en';
+    let dataTableLanguageUrl = '/i18n/en-GB.json'; // default to English
+
+    if (currentLang === 'zh') {
+        dataTableLanguageUrl = '/i18n/zh-HANT.json';
+    }
     $.ajax({
         url: url + 'all',
         type: 'GET',
@@ -59,6 +76,9 @@ function getAllMealTime(){
                 ajax:{
                     url: url + 'all',
                     dataSrc: ''
+                },
+                language:{
+                    url: dataTableLanguageUrl
                 },
                 // destroy the table before creating a new one
                 "bDestroy": true,
