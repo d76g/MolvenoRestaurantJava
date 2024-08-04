@@ -22,10 +22,13 @@ public class ReservationServiceImp implements ReservationService{
     private final ReservationRepo reservationRepo;
     private final OrderRepo orderRepo;
 
+    private final CustomerOrderService customerOrderService;
+
     private final TableRepo tableRepo;
-    public ReservationServiceImp(ReservationRepo reservationRepo, OrderRepo orderRepo, TableRepo tableRepo) {
+    public ReservationServiceImp(ReservationRepo reservationRepo, OrderRepo orderRepo, CustomerOrderService customerOrderService, TableRepo tableRepo) {
         this.reservationRepo = reservationRepo;
         this.orderRepo = orderRepo;
+        this.customerOrderService = customerOrderService;
         this.tableRepo = tableRepo;
     }
     // list all reservations
@@ -263,10 +266,18 @@ public class ReservationServiceImp implements ReservationService{
 
     // make payment for a reservation
     @Override
-    public CustomerOrder makePayment(long reservationId){
-        CustomerOrder order = orderRepo.findByReservationId(reservationId);
-        order.setStatus("PAID");
-        return orderRepo.save(order);
+    public void makePayment(long reservationId){
+        Reservation reservation = reservationRepo.findById(reservationId).orElse(null);
+        if (reservation == null) {
+            throw new RuntimeException("Reservation not found");
+        }
+        // change all the orders in the reservation to paid
+        Iterable<CustomerOrder> orders = customerOrderService.findByReservationId(reservationId);
+        for (CustomerOrder order : orders) {
+            order.setStatus("PAID");
+            orderRepo.save(order);
+        }
+        reservation.setReservationStatus("PAID");
     }
 
 

@@ -374,9 +374,11 @@ function createCard(reservation, messages) {
                     <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
                 </div>
                 <div class="w-full flex flex-col gap-y-2">
-                <div class="px-2" sec:authorize="hasAnyAuthority('Front desk')">
+                    <div class="px-2 flex gap-x-1" >
                         <button id="makePayment" date-id="${reservation.id}" data-guest="${reservation.guest}"
                          class="pay-bill bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">${messages['Pay-Bill']}</button>
+                        <button date-id="${reservation.id}" data-table-numbers="${tableNumbers}" class="takeOrder bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">${messages['Take-order']}</button>
+                    </div>
                     </div>
                     <div class="px-2">  
                         <button id="showAllDetails" date-id="${reservation.id}" 

@@ -75,10 +75,11 @@ function placeOrder() {
             });
         },
         error: function(error) {
+            console.log(error);
             Swal.fire({
                 icon: 'error',
                 title: orderLocalizationMessages['Opps'],
-                text: orderLocalizationMessages['Something-went-wrong'],
+                text: orderLocalizationMessages[error.responseJSON.message],
             });
         }
     });
@@ -179,6 +180,7 @@ function deleteOrder(orderId) {
             Swal.fire({
                 icon: 'success',
                 title: orderLocalizationMessages['Order-Deleted'],
+                message: orderLocalizationMessages['Order-Deleted'],
                 showConfirmButton: false,
                 timer: 1500
             });

@@ -122,7 +122,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
                 KitchenStock kitchenStock = menuItemStock.getKitchenStock();
                 double amountToDeduct = menuItemStock.getAmount() * orderItem.getQuantity();
                 if (kitchenStock.getStock() < amountToDeduct) {
-                    throw new IllegalArgumentException("Stock is not enough to make the order");
+                    throw new IllegalArgumentException("stock-not-enough");
                 }
             }
         }
@@ -163,8 +163,6 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     public void deleteById(long id) {
         if (!orderRepo.existsById(id)) {
             throw new IllegalArgumentException("Order not found");
-        } else if(orderRepo.findById(id).get().getStatus().equals("PLACED") || orderRepo.findById(id).get().getStatus().equals("PAID")){
-            throw new IllegalArgumentException("Order is already placed or paid");
         }
         orderRepo.deleteById(id);
     }
