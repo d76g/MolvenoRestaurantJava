@@ -18,4 +18,8 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     // total number of guests
     @Query("SELECT SUM(r.numberOfGuests) FROM Reservation r WHERE r.reservationStatus = 'PAID'")
     int countTotalGuests();
+
+    @Query("SELECT r FROM Reservation r ORDER BY r.reservationDate DESC")
+    List<Reservation> findAllOrderByReservationDateDesc();
+
 }

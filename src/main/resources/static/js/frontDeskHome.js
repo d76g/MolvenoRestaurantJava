@@ -114,11 +114,16 @@ function changeReservationStatus(id, status){
         url: `${url}${id}/status/${status}`,
         type: "POST",
         success: function(data) {
-            console.log(data);
             getAllReservationsForToday();
         },
         error: function(error) {
-            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: frontDeskMessages['Opps'],
+                text: frontDeskMessages[error.responseJSON.message],
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     });
 }

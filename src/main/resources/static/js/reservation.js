@@ -380,8 +380,11 @@ function updateReservation(){
                 getAllReservations();
             },
             error: function (error) {
-                alert(error.responseJSON.message)
-            }
+                Swal.fire({
+                    icon: 'error',
+                    title: reservationLocaleText['Something-went-wrong'],
+                    text: reservationLocaleText[error.responseJSON.message],
+                });            }
         }
     )
 
@@ -401,7 +404,11 @@ function deleteReservation(tableId){
             })
         },
         error: function (error) {
-            console.error("There was an error deleting the table:", error);
+            Swal.fire({
+                icon: 'error',
+                title: reservationLocaleText['Something-went-wrong'],
+                text: reservationLocaleText[error.responseJSON.message],
+            });
         }
     });
 }

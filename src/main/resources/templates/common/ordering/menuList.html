@@ -65,7 +65,7 @@ TODO 2: Implement JavaScript to handle the form submission and update
                 <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600"  th:text="#{Confirm}">Confirm</button>
             </div>
         </div>
-          <div sec:authorize="hasAnyAuthority('Chef')" class="w-full h-auto bg-gray-100 my-6 p-3 overflow-y-scroll rounded-md drop-shadow-sm">
+          <div sec:authorize="hasAnyAuthority('Chef')" class="w-full lg:w-auto h-auto bg-gray-100 my-6 p-3 overflow-y-scroll rounded-md drop-shadow-sm">
             <div>
               <h1 class="text-lg font-bold">Table <span id="table-number"></span></h1>
             </div>

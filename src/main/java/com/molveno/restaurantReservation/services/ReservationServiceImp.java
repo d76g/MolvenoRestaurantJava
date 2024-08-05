@@ -12,6 +12,7 @@ import com.molveno.restaurantReservation.repos.TableRepo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ public class ReservationServiceImp implements ReservationService{
     // list all reservations
     @Override
     public List<ReservationResponseDTO> listReservations() {
-        return reservationRepo.findAll().stream()
+        return reservationRepo.findAllOrderByReservationDateDesc().stream()
                 .map(ReservationMapper::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -77,6 +78,10 @@ public class ReservationServiceImp implements ReservationService{
         if (reservation.getReservationDate().isEmpty() || reservation.getReservationTime().isEmpty()) {
             throw new RuntimeException("empty-date-time");
         }
+        // check if the reservation time is in the past
+        if(LocalTime.parse(reservation.getReservationTime()).isBefore(LocalTime.now())) {
+            throw new RuntimeException("invalid-reservation-time");
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationStart = LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), formatter);
         LocalDateTime reservationEnd = reservationStart.plusHours(3);
@@ -115,7 +120,9 @@ public class ReservationServiceImp implements ReservationService{
         // Fetch the existing reservation from the database
         Reservation existingReservation = reservationRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
-
+        if(LocalTime.parse(reservation.getReservationTime()).isBefore(LocalTime.now())) {
+            throw new RuntimeException("invalid-reservation-time");
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationStart = LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), formatter);
         LocalDateTime reservationEnd = reservationStart.plusHours(3);
@@ -163,15 +170,24 @@ public class ReservationServiceImp implements ReservationService{
         if (existingReservation == null) {
             throw new RuntimeException("Reservation not found");
         }
-        if ("CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
-            throw new IllegalStateException("cant-modify-cancelled-reservation");
+        // check if the reservation date is in the past
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime reservationStart = LocalDateTime.parse(existingReservation.getReservationDate() + " " + existingReservation.getReservationTime(), formatter);
+        if(reservationStatus.equals("ATTENDED")) {
+            // ensure the check in must be 30 minutes before the reservation time and between the reservation time not after 3 hours of the reservation time
+            LocalDateTime checkInTime = LocalDateTime.now();
+            if (checkInTime.isBefore(reservationStart.minusMinutes(30)) || checkInTime.isAfter(reservationStart.plusHours(3))) {
+                throw new RuntimeException("invalid-check-in-time");
+            }
         }
-        if ("PAID".equals(existingReservation.getReservationStatus()) && !"PAID".equals(reservationStatus)) {
-            throw new IllegalStateException("cant-modify-paid-reservation");
-        }
-        if (reservationStatus.equals("CANCELLED")) {
+        if (reservationStart.isBefore(LocalDateTime.now()) && "CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
+            throw new RuntimeException("cant-modify-cancelled-reservation");
+        } else if ("PAID".equals(existingReservation.getReservationStatus()) && !"PAID".equals(reservationStatus)) {
+            throw new RuntimeException("cant-modify-paid-reservation");
+        } else if (reservationStatus.equals("CANCELLED")) {
             existingReservation.setTables(new HashSet<>());
         }
+
         existingReservation.setReservationStatus(reservationStatus);
         reservationRepo.save(existingReservation);
     }

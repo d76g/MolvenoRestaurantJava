@@ -102,6 +102,9 @@ public class LocalizationController {
         properties.put("Stock-Alert", messageSource.getMessage("Stock-Alert", null, locale));
         properties.put("is-low-on-stock", messageSource.getMessage("is-low-on-stock", null, locale));
         properties.put("Order-Deleted", messageSource.getMessage("Order-Deleted", null, locale));
+        properties.put("invalid-check-in-time", messageSource.getMessage("invalid-check-in-time", null, locale));
+        properties.put("invalid-reservation-time", messageSource.getMessage("invalid-reservation-time", null, locale));
+        properties.put("make-another-order", messageSource.getMessage("make-another-order", null, locale));
         return properties;
 
     }
