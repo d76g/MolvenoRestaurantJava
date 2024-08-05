@@ -21,46 +21,42 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-
 </head>
-<body >
+<body>
 <div th:insert="common/navbar :: navbar"></div>
-<div class="w-full flex flex-col h-full items-center justify-center  bg-gray-100">
-    <div class="h-4 w-full   ">
-
-    </div>
-            <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
-                <h1 th:text="#{Users}" class="text-2xl font-bold mb-6">Users</h1>
-                <button th:text="#{Add-User}" id="addButton" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add User</button>
-                <table id="userList" class="w-full mt-10">
-                    <thead>
-                    <tr>
-                        <th th:text="#{user-name}" class="text-left">User name</th>
-                        <th th:text="#{first-name}" class="text-left">First name</th>
-                        <th th:text="#{last-name}" class="text-left">Last name</th>
-                        <th th:text="#{Email}" class="text-left">Email</th>
-                        <th th:text="#{Role}" class="text-left">Role</th>
-                        <th th:text="#{Actions}" class="text-left">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- User rows will be added here -->
-                    </tbody>
-                </table>
-            </div>
+<div class="w-full flex flex-col h-full items-center justify-center bg-gray-100 p-4 md:p-8">
+    <div class="bg-white p-4 md:p-8 rounded-lg shadow-lg w-full md:w-3/4">
+        <h1 th:text="#{Users}" class="text-2xl font-bold mb-4 md:mb-6">Users</h1>
+        <button th:text="#{Add-User}" id="addButton" class="w-full flex justify-center mb-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add User</button>
+        <div class="overflow-x-auto">
+            <table id="userList" class="w-full mt-6">
+                <thead>
+                <tr>
+                    <th th:text="#{user-name}" class="text-left">User name</th>
+                    <th th:text="#{first-name}" class="text-left">First name</th>
+                    <th th:text="#{last-name}" class="text-left">Last name</th>
+                    <th th:text="#{Email}" class="text-left">Email</th>
+                    <th th:text="#{Role}" class="text-left">Role</th>
+                    <th th:text="#{Actions}" class="text-left">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- User rows will be added here -->
+                </tbody>
+            </table>
         </div>
-        <div class="mt-5 w-full h-10 text-black">
-        </div>
-        <!-- Include the add and update form using fragment
-            Check the addForm.html and updateForm.html for the form structure
-        -->
-        <div th:insert="admin/userManagement/addForm :: addUserFormHTML"></div>
     </div>
-
 </div>
+<div class="mt-5 w-full h-10 text-black">
+</div>
+<!-- Include the add and update form using fragment
+    Check the addForm.html and updateForm.html for the form structure
+-->
+<div th:insert="admin/userManagement/addForm :: addUserFormHTML"></div>
+
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
-<!-- Include the usersForm.js file  from the static folder
+<!-- Include the usersForm.js file from the static folder
     Create your own js file in the js folder and use it like this
 -->
 <script th:src="@{/js/userForm.js}"></script>
@@ -71,3 +67,4 @@
 </script>
 </body>
 </html>
+
