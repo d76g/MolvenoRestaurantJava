@@ -79,6 +79,7 @@ public class ForgotPasswordController {
         session.setAttribute("token", token);
         ForgetPasswordToken forgetPasswordToken = forgotPasswordRepository.findByToken(token);
         return forgotPasswordService.checkValidity(forgetPasswordToken, model);
+
     }
 
     @PostMapping("/reset-password")

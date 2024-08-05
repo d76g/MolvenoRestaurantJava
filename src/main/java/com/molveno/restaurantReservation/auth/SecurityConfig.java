@@ -53,6 +53,7 @@ public class SecurityConfig {
                                 "/reset-password*",
                                 "/password-request*",
                                 "/webjars/**"
+
                                 ).permitAll()
                         .requestMatchers("/orders*","/home").hasAnyAuthority("Front desk", "Admin", "Waiter", "Chef")
                         .requestMatchers("/reservation*").hasAnyAuthority( "Front desk", "Admin")
