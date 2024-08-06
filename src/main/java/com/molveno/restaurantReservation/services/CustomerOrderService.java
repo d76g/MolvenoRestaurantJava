@@ -17,6 +17,9 @@ public interface CustomerOrderService {
     // place order and deduct from stock
     CustomerOrder placeOrder(OrderDTO orderDto);
 
+    // cancel placed order and restore stock
+    CustomerOrder cancelOrder(long id);
+
     // change order status
     CustomerOrder changeOrderStatus(long id, String status);
 

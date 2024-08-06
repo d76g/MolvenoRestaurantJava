@@ -12,6 +12,7 @@ import com.molveno.restaurantReservation.repos.TableRepo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,16 +23,19 @@ public class ReservationServiceImp implements ReservationService{
     private final ReservationRepo reservationRepo;
     private final OrderRepo orderRepo;
 
+    private final CustomerOrderService customerOrderService;
+
     private final TableRepo tableRepo;
-    public ReservationServiceImp(ReservationRepo reservationRepo, OrderRepo orderRepo, TableRepo tableRepo) {
+    public ReservationServiceImp(ReservationRepo reservationRepo, OrderRepo orderRepo, CustomerOrderService customerOrderService, TableRepo tableRepo) {
         this.reservationRepo = reservationRepo;
         this.orderRepo = orderRepo;
+        this.customerOrderService = customerOrderService;
         this.tableRepo = tableRepo;
     }
     // list all reservations
     @Override
     public List<ReservationResponseDTO> listReservations() {
-        return reservationRepo.findAll().stream()
+        return reservationRepo.findAllOrderByStatusAndDateDesc().stream()
                 .map(ReservationMapper::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -74,6 +78,10 @@ public class ReservationServiceImp implements ReservationService{
         if (reservation.getReservationDate().isEmpty() || reservation.getReservationTime().isEmpty()) {
             throw new RuntimeException("empty-date-time");
         }
+        // check if the reservation time is in the past
+        if(LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("invalid-reservation-time");
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationStart = LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), formatter);
         LocalDateTime reservationEnd = reservationStart.plusHours(3);
@@ -112,7 +120,9 @@ public class ReservationServiceImp implements ReservationService{
         // Fetch the existing reservation from the database
         Reservation existingReservation = reservationRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
-
+        if(LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("invalid-reservation-time");
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationStart = LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), formatter);
         LocalDateTime reservationEnd = reservationStart.plusHours(3);
@@ -160,15 +170,24 @@ public class ReservationServiceImp implements ReservationService{
         if (existingReservation == null) {
             throw new RuntimeException("Reservation not found");
         }
-        if ("CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
-            throw new IllegalStateException("cant-modify-cancelled-reservation");
+        // check if the reservation date is in the past
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime reservationStart = LocalDateTime.parse(existingReservation.getReservationDate() + " " + existingReservation.getReservationTime(), formatter);
+        if(reservationStatus.equals("ATTENDED")) {
+            // ensure the check in must be 30 minutes before the reservation time and between the reservation time not after 3 hours of the reservation time
+            LocalDateTime checkInTime = LocalDateTime.now();
+            if (checkInTime.isBefore(reservationStart.minusMinutes(30)) || checkInTime.isAfter(reservationStart.plusHours(3))) {
+                throw new RuntimeException("invalid-check-in-time");
+            }
         }
-        if ("PAID".equals(existingReservation.getReservationStatus()) && !"PAID".equals(reservationStatus)) {
-            throw new IllegalStateException("cant-modify-paid-reservation");
-        }
-        if (reservationStatus.equals("CANCELLED")) {
+        if (reservationStart.isBefore(LocalDateTime.now()) && "CANCELLED".equals(existingReservation.getReservationStatus()) && !"CANCELLED".equals(reservationStatus)) {
+            throw new RuntimeException("cant-modify-cancelled-reservation");
+        } else if ("PAID".equals(existingReservation.getReservationStatus()) && !"PAID".equals(reservationStatus)) {
+            throw new RuntimeException("cant-modify-paid-reservation");
+        } else if (reservationStatus.equals("CANCELLED")) {
             existingReservation.setTables(new HashSet<>());
         }
+
         existingReservation.setReservationStatus(reservationStatus);
         reservationRepo.save(existingReservation);
     }
@@ -201,20 +220,20 @@ public class ReservationServiceImp implements ReservationService{
             }
         }
 
-        // If the number of guests is greater than 8, only use tables with capacity of 2 and 4
+        // If the number of guests is greater than 8, try to use tables with capacity of 2 and 4
         if (numberOfGuests > 8) {
-            List<Table> filteredTables = new ArrayList<>();
+            List<Table> preferredTables = new ArrayList<>();
             for (Table table : availableTables) {
                 if (table.getTableCapacity() == 2 || table.getTableCapacity() == 4) {
-                    filteredTables.add(table);
+                    preferredTables.add(table);
                 }
             }
 
-            // Sort filtered tables by capacity in descending order
-            filteredTables.sort(Comparator.comparingInt(Table::getTableCapacity).reversed());
+            // Sort preferred tables by capacity in descending order
+            preferredTables.sort(Comparator.comparingInt(Table::getTableCapacity).reversed());
 
             // Use a combination of tables with capacities 2 and 4 to fit the number of guests
-            for (Table table : filteredTables) {
+            for (Table table : preferredTables) {
                 if (totalCapacity >= numberOfGuests) {
                     break;
                 }
@@ -222,12 +241,27 @@ public class ReservationServiceImp implements ReservationService{
                 totalCapacity += table.getTableCapacity();
             }
 
-            // If the total capacity is not sufficient, clear the assigned tables to indicate failure
+            // If the total capacity from preferred tables is not sufficient
             if (totalCapacity < numberOfGuests) {
                 assignedTables.clear();
+                totalCapacity = 0;
+
+                // Try using any combination of tables
+                for (Table table : availableTables) {
+                    if (totalCapacity >= numberOfGuests) {
+                        break;
+                    }
+                    assignedTables.add(table);
+                    totalCapacity += table.getTableCapacity();
+                }
+
+                // If it's still not enough, clear the assigned tables to indicate failure
+                if (totalCapacity < numberOfGuests) {
+                    assignedTables.clear();
+                }
             }
         } else {
-            // If no exact match, try to find the best fit with any combination of tables
+            // For guests less than or equal to 8, use any available table combination
             for (Table table : availableTables) {
                 if (totalCapacity >= numberOfGuests) {
                     break;
@@ -261,12 +295,21 @@ public class ReservationServiceImp implements ReservationService{
     }
 
 
+
     // make payment for a reservation
     @Override
-    public CustomerOrder makePayment(long reservationId){
-        CustomerOrder order = orderRepo.findByReservationId(reservationId);
-        order.setStatus("PAID");
-        return orderRepo.save(order);
+    public void makePayment(long reservationId){
+        Reservation reservation = reservationRepo.findById(reservationId).orElse(null);
+        if (reservation == null) {
+            throw new RuntimeException("Reservation not found");
+        }
+        // change all the orders in the reservation to paid
+        Iterable<CustomerOrder> orders = customerOrderService.findByReservationId(reservationId);
+        for (CustomerOrder order : orders) {
+            order.setStatus("PAID");
+            orderRepo.save(order);
+        }
+        reservation.setReservationStatus("PAID");
     }
 
 

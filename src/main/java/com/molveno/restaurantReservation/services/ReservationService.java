@@ -1,6 +1,5 @@
 package com.molveno.restaurantReservation.services;
 
-import com.molveno.restaurantReservation.models.CustomerOrder;
 import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
 
@@ -31,5 +30,5 @@ public interface ReservationService {
     List<ReservationResponseDTO> getReservationsForToday();
 
     // make payment for a reservation
-    CustomerOrder makePayment(long reservationId);
+    void makePayment(long reservationId);
 }
