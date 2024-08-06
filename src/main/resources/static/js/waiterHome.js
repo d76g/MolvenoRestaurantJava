@@ -132,7 +132,7 @@ function createCard(reservation, messages) {
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-green-300 flex justify-center items-center rounded-md text-black">
-                    <p>${messages['Table-NO']}. ${tableNumbers}</p>
+                    <p  class="truncate">${messages['Table-NO']}. ${tableNumbers}</p>
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
@@ -158,7 +158,7 @@ function createCard(reservation, messages) {
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-2 flex flex-col gap-2">
                 <div class="py-3 font-bold bg-red-300 flex justify-center items-center rounded-md text-black">
-                    <p>${messages['Table-NO']}. ${tableNumbers}</p>
+                    <p  class="truncate">${messages['Table-NO']}. ${tableNumbers}</p>
                 </div>
                 <div>
                     <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
