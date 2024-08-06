@@ -39,55 +39,54 @@
             padding-top: 80px; /* Adjust this value based on the height of your navbar */
         }
 
+        /* Custom styles for responsive table */
+        @media (max-width: 1024px) {
+            .responsive-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                white-space: nowrap;
+            }
+        }
 
     </style>
 </head>
 <body>
 <div th:insert="common/navbar :: navbar"></div>
-<div class="w-full flex flex-col h-full items-center justify-center  bg-gray-100">
-    <div class="h-6 w-full   ">
+<div class="w-full flex flex-col h-full items-center justify-center bg-gray-100">
+    <div class="h-6 w-full"></div>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full md:w-5/6">
+        <h1 class="text-2xl font-bold mb-6" th:text="#{Stock-List}">Stock List</h1>
+        <a id="addButton" href="/stock/form" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:text="#{Add-New-Stock-Item}">Add new stock item</a>
+        <div class="w-full overflow-x-auto bg-gray-50 p-4 rounded-md responsive-table">
+            <table id="stockList" class="w-full mt-10">
+                <thead>
+                <tr class="text-xs">
+                    <th class="text-left" th:text="#{Description}">Description</th>
+                    <th class="text-left" th:text="#{Amount}">Amount</th>
+                    <th class="text-left" th:text="#{Unit}">Unit</th>
+                    <th class="text-left" th:text="#{Stock}">Stock</th>
+                    <th class="text-left" th:text="#{Stock-Value}">Stock Value</th>
+                    <th class="text-left" th:text="#{Price}">Price</th>
+                    <th class="text-left" th:text="#{Price-Per-Unit}">Price Per Unit</th>
+                    <th class="text-left" th:text="#{Category}">Category</th>
+                    <th class="text-left" th:text="#{Brand}">Brand</th>
+                    <th class="text-left" th:text="#{Supplier}">Supplier</th>
+                    <th class="text-left" th:text="#{Article-Number}">Article Number</th>
+                    <th class="text-left" th:text="#{Tax}">Tax</th>
+                    <th class="text-left" th:text="#{Stock-Limit}">Stock Limit</th>
+                    <th th:text="#{Actions}">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
 
-    </div>
-        <div class="bg-white p-8 rounded-lg shadow-lg w-5/6 ">
-            <h1 class="text-2xl font-bold mb-6" th:text="#{Stock-List}">Stock List</h1>
-            <a id="addButton" href="/stock/form" class="w-full flex justify-center mb-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:text="#{Add-New-Stock-Item}">Add new stock item</a>
-            <div class="w-full overflow-x-auto bg-gray-50 p-4 rounded-md ">
-                <table id="stockList" class="w-full mt-10">
-                    <thead>
-                    <tr class="text-xs">
-                        <th class="text-left"th:text="#{Description}">Description</th>
-                        <th class="text-left"th:text="#{Amount}">Amount</th>
-                        <th class="text-left"th:text="#{Unit}">Unit</th>
-                        <th class="text-left"th:text="#{Stock}">Stock</th>
-                        <th class="text-left"th:text="#{Stock-Value}">Stock Value</th>
-                        <th class="text-left"th:text="#{Price}">Price</th>
-                        <th class="text-left"th:text="#{Price-Per-Unit}">Price Per Unit</th>
-                        <th class="text-left"th:text="#{Category}">Category</th>
-                        <th class="text-left"th:text="#{Brand}">Brand</th>
-                        <th class="text-left"th:text="#{Supplier}">Supplier</th>
-                        <th class="text-left"th:text="#{Article-Number}">Article Number</th>
-                        <th class="text-left"th:text="#{Tax}">Tax</th>
-                        <th class="text-left"th:text="#{Stock-Limit}">Stock Limit</th>
-                        <th th:text="#{Actions}">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
-    <!-- Include the add and update form using fragment
-        Check the addForm.html and updateForm.html for the form structure
-    -->
-    <!--    <div th:insert="admin/tableManagement/updateForm :: updateTableFormHTML"></div>-->
 </div>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
-<!-- Include the tablesForm.js file  from the static folder
-    Create your own js file in the js folder and use it like this
--->
 <script th:src="@{/js/stock.js}"></script>
 <script>
     $(document).ready(function() {
