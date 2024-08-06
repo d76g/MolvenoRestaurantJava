@@ -42,6 +42,8 @@ function init(){
         $("#addFormDiv").toggleClass("hidden");
          $('#saveUserForm')[0].reset();
          $('#userId').val(0);
+         $('#password').attr('type','password');
+         $('label[for="password"]').css('display', 'block');
     });
 
     // Event listener for the edit button
@@ -199,8 +201,8 @@ function saveUser(){
         error: function(error) {
             Swal.fire({
                 icon: 'error',
-                title: 'User Save Error',
-                text: error.responseJSON.message,
+                title: userMessages['Opps'],
+                text: userMessages[error.responseJSON.message],
                 toast: true,
                 position: 'top-end',
                 timer: 5000,

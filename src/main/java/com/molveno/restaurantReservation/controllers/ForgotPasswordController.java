@@ -48,9 +48,9 @@ public class ForgotPasswordController {
     public String savePasswordRequest(@RequestParam("email")String email, Model model){
         User user = userRepo.findByEmail(email);
         System.out.println(user);
-        if (user == null){
-           model.addAttribute("error","This Email is not registered");
-            return "password-request";
+        if (user == null) {
+            model.addAttribute("error", "This Email is not registered");
+             return "password-request";
         }
 
         ForgetPasswordToken  forgotPasswordToken = new ForgetPasswordToken();
@@ -67,12 +67,11 @@ public class ForgotPasswordController {
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error","Error while sending email");
             return "password-request";
-
         }
-
         return "redirect:/password-request?success";
 
     }
+
 
     @GetMapping("/reset-password")
     public String resetPassword(@Param(value = "token") String token, Model model, HttpSession session) {
@@ -94,11 +93,8 @@ public class ForgotPasswordController {
       userService.save(user);
       forgotPasswordRepository.save(forgetPasswordToken);
 
-      model.addAttribute("message", "You have successfuly reset your password");
+      model.addAttribute("success", "You have successfuly reset your password");
 
         return "reset-password";
-        
     }
-
-
 }

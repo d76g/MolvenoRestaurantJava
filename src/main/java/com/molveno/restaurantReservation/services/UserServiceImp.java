@@ -40,7 +40,11 @@ public class UserServiceImp implements UserService {
         User existingUser = userRepo.findByUsername(userDto.getUserName());
         if (existingUser != null && (userDto.getUserId() == 0 || existingUser.getUser_id() != userDto.getUserId())) {
             // User already exists, throw error
-            throw new UserValidationException("Username already exists", "username");
+            throw new UserValidationException("username-already-exists", "username");
+        }
+        User existingEmail = userRepo.findByEmail(userDto.getEmail());
+        if (existingEmail  !=null && (userDto.getUserId() == 0 || existingEmail.getUser_id() != userDto.getUserId())){
+            throw new UserValidationException("Email-already-exists", "email");
         }
 
         user.setUsername(userDto.getUserName());
@@ -101,6 +105,11 @@ public class UserServiceImp implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+
+    @Override
+    public boolean resetPassword(String password) {
+        return false;
     }
 
 

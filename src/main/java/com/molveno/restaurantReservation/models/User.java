@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "Users",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
     @Id
     @GeneratedValue
     private long user_id;
+
     @Column(nullable = false)
     private String username;
 
