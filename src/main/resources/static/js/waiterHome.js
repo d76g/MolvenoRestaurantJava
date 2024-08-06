@@ -65,8 +65,8 @@ function changeReservationStatus(id, status){
 }
 function displayReservations(data, messages) {
     // set total number of reservation
-    const attendedReservations = data.filter(reservation => reservation.reservationStatus === "ATTENDED");
-        // count the number of reservatiosn with status ATTENDED
+    const attendedReservations = data.filter(reservation => reservation.reservationStatus !== "CONFIRMED");
+        // count the number of reservation with status ATTENDED
         if (attendedReservations.length === 1) {
             $("#totalReservation").text(attendedReservations.length +' ' + messages['Reservation']);
         } else {
@@ -79,7 +79,7 @@ function displayReservations(data, messages) {
         reservationDiv.append($("<p class='text-gray-500 '>"+noReservationText+"</p>"));
         return;
     }
-    for (const reservation of data) {
+    for (const reservation of attendedReservations) {
         const card = createCard(reservation, messages);
         reservationDiv.append(card);
     }
@@ -127,7 +127,7 @@ function createPopUp(reservation) {
 function createCard(reservation, messages) {
     const tableNumbers = reservation.tables.map(table => table.tableNumber).join(", ");
     let card;
-    if(reservation.reservationStatus === "ATTENDED"){
+    if (reservation.reservationStatus === "CONFIRMED") {
         card = $(`
         <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
             <div class="p-2 flex flex-col gap-2">
@@ -145,6 +145,32 @@ function createCard(reservation, messages) {
                 <div class="w-full flex flex-col gap-y-2">
                     <div class="px-2">
                         <button date-id="${reservation.id}" data-table-numbers="${tableNumbers}" class="takeOrder bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">${messages['Take-order']}</button>
+                    </div>
+                    <div class="px-2">
+                        <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">${messages['View-Details']}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+    } else {
+        card = $(`
+        <div class="h-72 w-56 bg-gray-100 shadow-sm rounded-lg font-sans">
+            <div class="p-2 flex flex-col gap-2">
+                <div class="py-3 font-bold bg-red-300 flex justify-center items-center rounded-md text-black">
+                    <p>${messages['Table-NO']}. ${tableNumbers}</p>
+                </div>
+                <div>
+                    <p class="font-bold"><i class='bx bxs-user px-2 text-blue-500'></i>${reservation.customerFirstName} ${reservation.customerLastName}</p>
+                    <p><i class='bx bxs-group px-2 text-green-500'></i><span class="font-bold">${reservation.numberOfGuests}</span> ${waiterMessages['Guests']}</p>
+                </div>
+                <div>
+                    <p><i class='bx bxs-calendar px-2 text-green-500'></i>${reservation.reservationDate}</p>
+                    <p><i class='bx bxs-time px-2 text-green-500'></i>${reservation.reservationTime}</p>
+                </div>
+                <div class="w-full flex flex-col gap-y-2">
+                    <div class="px-2">
+                        <button date-id="${reservation.id}" data-table-numbers="${tableNumbers}" class="takeOrder bg-blue-300 text-black rounded-md p-2 w-full hover:bg-blue-400">${messages['make-another-order']}</button>
                     </div>
                     <div class="px-2">
                         <button id="showAllDetails" date-id="${reservation.id}" class="bg-green-300 text-black rounded-md p-2 w-full hover:bg-green-400">${messages['View-Details']}</button>
