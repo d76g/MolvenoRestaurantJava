@@ -35,7 +35,7 @@ public class ReservationServiceImp implements ReservationService{
     // list all reservations
     @Override
     public List<ReservationResponseDTO> listReservations() {
-        return reservationRepo.findAllOrderByReservationDateDesc().stream()
+        return reservationRepo.findAllOrderByStatusAndDateDesc().stream()
                 .map(ReservationMapper::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -79,7 +79,7 @@ public class ReservationServiceImp implements ReservationService{
             throw new RuntimeException("empty-date-time");
         }
         // check if the reservation time is in the past
-        if(LocalTime.parse(reservation.getReservationTime()).isBefore(LocalTime.now())) {
+        if(LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).isBefore(LocalDateTime.now())) {
             throw new RuntimeException("invalid-reservation-time");
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -120,7 +120,7 @@ public class ReservationServiceImp implements ReservationService{
         // Fetch the existing reservation from the database
         Reservation existingReservation = reservationRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
-        if(LocalTime.parse(reservation.getReservationTime()).isBefore(LocalTime.now())) {
+        if(LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).isBefore(LocalDateTime.now())) {
             throw new RuntimeException("invalid-reservation-time");
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -220,20 +220,20 @@ public class ReservationServiceImp implements ReservationService{
             }
         }
 
-        // If the number of guests is greater than 8, only use tables with capacity of 2 and 4
+        // If the number of guests is greater than 8, try to use tables with capacity of 2 and 4
         if (numberOfGuests > 8) {
-            List<Table> filteredTables = new ArrayList<>();
+            List<Table> preferredTables = new ArrayList<>();
             for (Table table : availableTables) {
                 if (table.getTableCapacity() == 2 || table.getTableCapacity() == 4) {
-                    filteredTables.add(table);
+                    preferredTables.add(table);
                 }
             }
 
-            // Sort filtered tables by capacity in descending order
-            filteredTables.sort(Comparator.comparingInt(Table::getTableCapacity).reversed());
+            // Sort preferred tables by capacity in descending order
+            preferredTables.sort(Comparator.comparingInt(Table::getTableCapacity).reversed());
 
             // Use a combination of tables with capacities 2 and 4 to fit the number of guests
-            for (Table table : filteredTables) {
+            for (Table table : preferredTables) {
                 if (totalCapacity >= numberOfGuests) {
                     break;
                 }
@@ -241,12 +241,27 @@ public class ReservationServiceImp implements ReservationService{
                 totalCapacity += table.getTableCapacity();
             }
 
-            // If the total capacity is not sufficient, clear the assigned tables to indicate failure
+            // If the total capacity from preferred tables is not sufficient
             if (totalCapacity < numberOfGuests) {
                 assignedTables.clear();
+                totalCapacity = 0;
+
+                // Try using any combination of tables
+                for (Table table : availableTables) {
+                    if (totalCapacity >= numberOfGuests) {
+                        break;
+                    }
+                    assignedTables.add(table);
+                    totalCapacity += table.getTableCapacity();
+                }
+
+                // If it's still not enough, clear the assigned tables to indicate failure
+                if (totalCapacity < numberOfGuests) {
+                    assignedTables.clear();
+                }
             }
         } else {
-            // If no exact match, try to find the best fit with any combination of tables
+            // For guests less than or equal to 8, use any available table combination
             for (Table table : availableTables) {
                 if (totalCapacity >= numberOfGuests) {
                     break;
@@ -278,6 +293,7 @@ public class ReservationServiceImp implements ReservationService{
 
         return assignedTables;
     }
+
 
 
     // make payment for a reservation

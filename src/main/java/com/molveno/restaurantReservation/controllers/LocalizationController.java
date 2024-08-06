@@ -105,6 +105,13 @@ public class LocalizationController {
         properties.put("invalid-check-in-time", messageSource.getMessage("invalid-check-in-time", null, locale));
         properties.put("invalid-reservation-time", messageSource.getMessage("invalid-reservation-time", null, locale));
         properties.put("make-another-order", messageSource.getMessage("make-another-order", null, locale));
+        properties.put("table-capacity-exceeded-max-seats-number", messageSource.getMessage("table-capacity-exceeded-max-seats-number", null, locale));
+        properties.put("table-already-exists", messageSource.getMessage("table-already-exists", null, locale));
+        properties.put("table-number-should-be-greater-than-zero", messageSource.getMessage("table-number-should-be-greater-than-zero", null, locale));
+        properties.put("table-capacity-should-be-greater-than-zero", messageSource.getMessage("table-capacity-should-be-greater-than-zero", null, locale));
+        properties.put("Order-is-already-placed", messageSource.getMessage("Order-is-already-placed", null, locale));
+        properties.put("Order-is-already-cancelled", messageSource.getMessage("Order-is-already-cancelled", null, locale));
+        properties.put("Order-Cancelled", messageSource.getMessage("Order-Cancelled", null, locale));
         return properties;
 
     }

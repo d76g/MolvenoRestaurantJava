@@ -19,7 +19,7 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     @Query("SELECT SUM(r.numberOfGuests) FROM Reservation r WHERE r.reservationStatus = 'PAID'")
     int countTotalGuests();
 
-    @Query("SELECT r FROM Reservation r ORDER BY r.reservationDate DESC")
-    List<Reservation> findAllOrderByReservationDateDesc();
+    @Query("SELECT r FROM Reservation r ORDER BY (CASE WHEN r.reservationStatus = 'CONFIRMED' THEN 1 ELSE 0 END) DESC, r.reservationDate DESC")
+    List<Reservation> findAllOrderByStatusAndDateDesc();
 
 }

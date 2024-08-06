@@ -65,7 +65,9 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
             order = orderRepo.findById(orderDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Order not found"));
             // Check if order is already placed
             if (Objects.equals(order.getStatus(), "PLACED") || Objects.equals(order.getStatus(), "PAID")) {
-                throw new IllegalArgumentException("Order is already placed");
+                throw new IllegalArgumentException("Order-is-already-placed");
+            } else if(Objects.equals(order.getStatus(), "CANCELLED")) {
+                throw new IllegalArgumentException("Order-is-already-cancelled");
             }
         } else {
             // Create a new order
@@ -105,9 +107,12 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     public CustomerOrder placeOrder(OrderDTO orderDto){
         CustomerOrder order = findById(orderDto.getId());
         if (Objects.equals(order.getStatus(), "PLACED" )) {
-            throw new IllegalArgumentException("Order is already placed");
-        } else if (Objects.equals(order.getStatus(), "PAID")) {
-            throw new IllegalArgumentException("Order is already paid");
+            throw new IllegalArgumentException("Order-is-already-placed");
+        } else if (Objects.equals(order.getStatus(), "CANCELLED")) {
+            throw new IllegalArgumentException("Order-is-already-cancelled");
+        }
+        else if (Objects.equals(order.getStatus(), "PAID")) {
+            throw new IllegalArgumentException("Order-is-already-paid");
         }
         validateStockAvailability(order);
         deductStockAndSaveOrder(order);
@@ -146,6 +151,38 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
             menuRepo.save(menuItem);
         }
     }
+    // cancel placed order and restore stock
+    @Override
+    public CustomerOrder cancelOrder(long id){
+        CustomerOrder order = orderRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        if (Objects.equals(order.getStatus(), "CANCELLED")) {
+            throw new IllegalArgumentException("Order-is-already-cancelled");
+        } else if (Objects.equals(order.getStatus(), "PAID")) {
+            throw new IllegalArgumentException("Order-is-already-paid");
+        }
+        restoreStockAndSaveOrder(order);
+        return order;
+    }
+
+    private void restoreStockAndSaveOrder(CustomerOrder order) {
+        order.setStatus("CANCELLED");
+        orderRepo.save(order);
+
+        for (OrderItem orderItem : order.getOrderItem()) {
+            Menu menuItem = orderItem.getMenu();
+
+            for (MenuItemStock menuItemStock : menuItem.getMenuItemStocks()) {
+                KitchenStock kitchenStock = menuItemStock.getKitchenStock();
+                double amountToRestore = menuItemStock.getAmount() * orderItem.getQuantity();
+                kitchenStock.setStock(kitchenStock.getStock() + amountToRestore);
+                kitchenStock.setStockValue(kitchenStock.getStock() * kitchenStock.getPricePerUnit());
+                kitchenStockRepo.save(kitchenStock);
+            }
+
+            menuRepo.save(menuItem);
+        }
+    }
+
     // change order status
     @Override
     public CustomerOrder changeOrderStatus(long id, String status){
@@ -156,7 +193,7 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     // get all orders by reservation id
     @Override
     public Iterable<CustomerOrder> findByReservationId(long reservationId) {
-        return orderRepo.findAllByReservationId(reservationId);
+        return orderRepo.findAllByReservationIdAndStatusNotCancelled(reservationId);
     }
 
     @Override

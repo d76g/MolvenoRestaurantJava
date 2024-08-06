@@ -62,7 +62,6 @@ TODO 2: Implement JavaScript to handle the form submission and update
             <div class="w-full h-10 mt-2">
               <!-- TODO:: MAKE THESE BUTTON BASED ON ROLES -->
                 <button sec:authorize="hasAnyAuthority('Front desk', 'Waiter')" id="orderButton" class="w-full h-full bg-primary-500 text-white bg rounded-md bg-blue-600" th:text="#{Order}">Order</button>
-                <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton" class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600"  th:text="#{Confirm}">Confirm</button>
             </div>
         </div>
           <div sec:authorize="hasAnyAuthority('Chef')" class="w-full lg:w-auto h-auto bg-gray-100 my-6 p-3 overflow-y-scroll rounded-md drop-shadow-sm">
@@ -82,10 +81,12 @@ TODO 2: Implement JavaScript to handle the form submission and update
               </div>
             </div>
             <!--Order Button-->
-            <div class="w-full h-10 mt-2">
+            <div class="w-full h-full mt-2 flex flex-col gap-y-2"  sec:authorize="hasAnyAuthority('Chef')">
               <!-- TODO:: MAKE THESE BUTTON BASED ON ROLES -->
-              <button sec:authorize="hasAnyAuthority('Chef')" id="confirmOrderButton"
-                      class="w-full h-full bg-green-500 text-white bg rounded-md bg-blue-600"  th:text="#{Confirm}">Confirm</button>
+              <button id="confirmOrderButton"
+                      class="w-full h-full bg-green-500 text-white bg rounded-md py-2"  th:text="#{Confirm}">Confirm</button>
+              <button id="cancelOrderButton"
+                      class="w-full h-full bg-red-600 text-white bg rounded-md py-2"  th:text="#{Cancel-Order}">Cancel</button>
             </div>
           </div>
           <div>

@@ -50,6 +50,12 @@ public class OrderController {
         CustomerOrder placedOrder = customerOrderService.placeOrder(order);
         return ResponseEntity.ok(customerOrderService.mapToResponseDTO(placedOrder));
     }
+    // cancel order
+    @PostMapping(value = "/order/cancel/{id}", produces = "application/json")
+    public ResponseEntity<OrderResponseDTO> cancelOrder(@PathVariable long id) {
+        CustomerOrder cancelledOrder = customerOrderService.cancelOrder(id);
+        return ResponseEntity.ok(customerOrderService.mapToResponseDTO(cancelledOrder));
+    }
     // update order status
     @PostMapping(value = "/order/{id}/status/{orderStatus}", produces = "application/json")
     public ResponseEntity<OrderResponseDTO> updateOrderStatus(@PathVariable long id, @PathVariable String orderStatus) {

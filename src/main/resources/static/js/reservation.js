@@ -437,6 +437,7 @@ function getAllReservations(){
                     // change the default language of the data table
                     url: dataTableLanguageUrl,
                 },
+                order: [],
                 // destroy the table before creating a new one
                 "bDestroy": true,
                 // define the columns (use the data key to map the data to the columns) and the data to be displayed
