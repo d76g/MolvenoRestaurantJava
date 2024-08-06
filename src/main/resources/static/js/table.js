@@ -37,9 +37,12 @@ function init(){
     // Event listener for the close button
     $(".closeButtonAdd").click(function() {
         $("#addFormDiv").toggleClass("hidden");
+        $('#addTableForm')[0].reset();
+
     });
     $(".closeButton").click(function() {
         $("#updateFormDiv").toggleClass("hidden");
+        $('#updateTableForm')[0].reset();
     });
     // Event listener for the close button
     $(document).on('click', '.editButton', function(){
@@ -128,7 +131,11 @@ function addTable(){
             getAllTable();
         },
         error: function(error) {
-            alert(error.responseJSON.message)
+            Swal.fire({
+                icon: 'error',
+                title: tableMessages['Opps'],
+                text: tableMessages[error.responseJSON.message]
+            })
         }
     });
 
@@ -156,7 +163,11 @@ function updateTable(){
             getAllTable();
         },
         error: function(error) {
-            alert(error.responseJSON.message)
+            Swal.fire({
+                icon: 'error',
+                title: tableMessages['Opps'],
+                text: tableMessages[error.responseJSON.message]
+            })
         }
     });
 
