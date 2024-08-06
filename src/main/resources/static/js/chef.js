@@ -1,10 +1,17 @@
+let api = '/api/analysis/'
+
+let chefLocalizationMessages;
 function init(){
-    console.log("Chef.js loaded")
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    chefLocalizationMessages = JSON.parse(messages);
     getItemsBelowLimit();
+    getOrders();
+    getMenu();
+    getFamousMenu();
 }
 const stockItems = [];
 function getItemsBelowLimit(){
-    console.log("getItemsBelowLimit called")
     $.ajax({
         url: "/api/stock/checkLimit",
         type: "GET",
@@ -14,24 +21,48 @@ function getItemsBelowLimit(){
             data.forEach(item => {
                 stockItems.push(item.description);
             });
-            console.log(stockItems);
-            showAlerts().then(r =>
-                console.log("Alerts shown"));
+            showAlerts().then(r => console.log("Alerts shown"));
+
             async function showAlerts() {
                 for (const item of stockItems) {
                     await Swal.fire({
                         position: 'top-end',
                         icon: 'warning',
-                        title: 'Stock Alert',
-                        text: item + " is below the limit",
-                        confirmButtonText: 'OK',
+                        title: chefLocalizationMessages['Stock-Alert'],
+                        text: item + ' ' +chefLocalizationMessages['is-low-on-stock'],
+                        confirmButtonText: chefLocalizationMessages['ok'],
                         toast: true,
                         timer: 4000
                     });
                 }
             }
-
-
+        }
+    })
+}
+function getOrders(){
+    $.ajax({
+        url: api + 'orders',
+        type: 'GET',
+        success: function(data){
+            $('#orders').text(data)
+        }
+    })
+}
+function getMenu(){
+    $.ajax({
+        url: api + 'menu',
+        type: 'GET',
+        success: function(data){
+            $('#menu').text(data)
+        }
+    })
+}
+function getFamousMenu(){
+    $.ajax({
+        url: api + 'menu/famous',
+        type: 'GET',
+        success: function(data){
+            $('#famousMenu').text(data)
         }
     })
 }

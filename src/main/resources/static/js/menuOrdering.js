@@ -217,8 +217,8 @@ $("#orderButton").on("click", function(){
             error: function(error){
                 Swal.fire({
                     icon: 'error',
-                    title: menuOrderingLocalizationMessages['Order Failed'],
-                    text: error.responseJSON.message,
+                    title: menuOrderingLocalizationMessages['Opps'],
+                    text: menuOrderingLocalizationMessages[error.responseJSON.message],
                     timer: 3000
                 })
             }

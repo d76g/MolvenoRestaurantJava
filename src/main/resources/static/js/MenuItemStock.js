@@ -2,11 +2,15 @@ const url = '/api/stock';
 const url2 = '/api/menu-item-stock/menu/'
 let menu_id;
 let menuName;
+let menuItemMessages;
 function init(){
     function getQueryParameter(param){
     var urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
     }
+    const lang =  Cookies.get("language") || "en";
+    const messages = localStorage.getItem(`messages_${lang}`);
+    menuItemMessages = JSON.parse(messages);
     menu_id = getQueryParameter('menuId');
     // call the get all table method
     getAllStock();
@@ -18,15 +22,21 @@ function init(){
     // Event listener for the close button
         $(".closeButtonAdd").click(function() {
             $("#addIngredientFormDiv").toggleClass("hidden");
+            $('#saveIngredientForm')[0].reset();
+            $('#menuItemStock_id').val(0);
         });
     $(document).on('click', '.deleteButton', function (){
             const menuItemStockId = $(this).data('id');
-            console.log(menuItemStockId);
-            if (confirm("Are you sure you want to delete this ingredient?")){
-                deleteIngredient(menuItemStockId);
-            } else {
-                return false;
-            }
+            Swal.fire({
+                title:menuItemMessages['Are-you-sure-delete'],
+                showCancelButton: true,
+                confirmButtonText: menuItemMessages['Yes-delete-it'],
+                cancelButtonText: menuItemMessages['Cancel']
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteIngredient(menuItemStockId);
+                }
+            });
         });
 
     // Event listener for the add button
@@ -86,6 +96,11 @@ function addIngredient()
                  $("#addFormDiv").toggleClass("hidden");
                  $('#saveIngredientForm')[0].reset();
                  getAllMenuItemStock();
+                 Swal.fire({
+                        title: menuItemMessages['stock-saved-successfully'],
+                        icon: 'success',
+                        confirmButtonText: menuItemMessages['ok']
+                 })
              },
              error: function(error) {
                  console.error("There was an error adding ingredients to the menuItem:", error);
@@ -135,7 +150,11 @@ $.ajax({
                 columns: [
                     // number of columns depends on the data of your model and the name of the id field in the form
 
-                    { data: 'kitchenStock.description' },
+                    { data: null,
+                        render: function(data, type, row) {
+                            return data.kitchenStock.description + ' / ' + data.kitchenStock.unit;
+                        }
+                    },
                     { data: 'amount' },
 
                     // action column for delete and update

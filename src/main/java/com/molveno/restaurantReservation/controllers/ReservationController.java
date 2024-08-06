@@ -1,7 +1,6 @@
 package com.molveno.restaurantReservation.controllers;
 
 
-import com.molveno.restaurantReservation.models.CustomerOrder;
 import com.molveno.restaurantReservation.models.DTO.Mappers.ReservationMapper;
 import com.molveno.restaurantReservation.models.DTO.Response.ReservationResponseDTO;
 import com.molveno.restaurantReservation.models.Reservation;
@@ -65,8 +64,8 @@ public class ReservationController {
     }
     // make payment
     @PostMapping(value = "/reservation/{id}/payment", produces = "application/json")
-    public ResponseEntity<CustomerOrder> makePayment(@PathVariable long id) {
-        CustomerOrder order = reservationService.makePayment(id);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<String> makePayment(@PathVariable long id) {
+        reservationService.makePayment(id);
+        return ResponseEntity.ok("Payment made");
     }
 }

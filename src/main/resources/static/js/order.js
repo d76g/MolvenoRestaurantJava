@@ -1,5 +1,8 @@
 const url = '/api/order';
 let orderLocalizationMessages;
+let orderId;
+
+
 
 function init() {
     console.log("init order");
@@ -10,7 +13,7 @@ function init() {
     // view order items
     $('#orderList').on('click', '.viewOrderItems', function () {
         $('#menuList').toggleClass("hidden");
-        const orderId = $(this).attr('data-id');
+        orderId = $(this).attr('data-id');
         Order.id = orderId;
         currentReservationId = $(this).attr('data-reservation-id');
         $('#table-number').text($(this).attr('data-table'));
@@ -40,9 +43,35 @@ function init() {
     $('#confirmOrderButton').on('click', function() {
         placeOrder();
     });
+    // cancel order
+    $('#cancelOrderButton').on('click', function() {
+       cancelOrder(orderId);
+    });
 
 }
+function cancelOrder(orderId) {
+$.ajax({
+    url: url + '/cancel/' + orderId,
+    type: 'POST',
+    success: function(data) {
+        getOrderList();
+        Swal.fire({
+            icon: 'success',
+            title: orderLocalizationMessages['Order-Cancelled'],
+            showConfirmButton: false,
+            timer: 1500
+        });
+    },
+    error: function(error) {
+        Swal.fire({
+            icon: 'error',
+            title: orderLocalizationMessages['Opps'],
+            text: orderLocalizationMessages[error.responseJSON.message],
 
+        });
+    }
+})
+}
 function getOrderItem(orderId) {
     $.ajax({
         url: url + '/' + orderId,
@@ -75,10 +104,11 @@ function placeOrder() {
             });
         },
         error: function(error) {
+            console.log(error);
             Swal.fire({
                 icon: 'error',
                 title: orderLocalizationMessages['Opps'],
-                text: orderLocalizationMessages['Something-went-wrong'],
+                text: orderLocalizationMessages[error.responseJSON.message],
             });
         }
     });
@@ -179,6 +209,7 @@ function deleteOrder(orderId) {
             Swal.fire({
                 icon: 'success',
                 title: orderLocalizationMessages['Order-Deleted'],
+                message: orderLocalizationMessages['Order-Deleted'],
                 showConfirmButton: false,
                 timer: 1500
             });
