@@ -98,6 +98,9 @@ public class LocalizationController {
         properties.put("Password-message", messageSource.getMessage("Password-message", null, locale));
         properties.put("stock-saved-successfully", messageSource.getMessage("stock-saved-successfully", null, locale));
         properties.put("stock-category-save-successfully", messageSource.getMessage("stock-category-save-successfully", null, locale));
+        properties.put("username-already-exists", messageSource.getMessage("username-already-exists", null, locale));
+        properties.put("Email-already-exists", messageSource.getMessage("Email-already-exists", null, locale));
+
         properties.put("stock-not-enough", messageSource.getMessage("stock-not-enough", null, locale));
         properties.put("Stock-Alert", messageSource.getMessage("Stock-Alert", null, locale));
         properties.put("is-low-on-stock", messageSource.getMessage("is-low-on-stock", null, locale));

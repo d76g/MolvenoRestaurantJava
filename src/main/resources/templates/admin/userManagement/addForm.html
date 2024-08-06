@@ -21,24 +21,24 @@
             <input type="hidden" id="userId" value="0">
             <div>
                 <label th:text="#{user-name}" for="username" class="block text-sm font-medium text-gray-700">User Name</label>
-                <input type="username" id="username" name="username" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input required type="username" id="username" name="username" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
             </div>
             <div>
                 <label th:text="#{first-name}" for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input type="firstname" id="firstname" name="firstname" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input required type="firstname" id="firstname" name="firstname" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label th:text="#{last-name}" for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
-                <input type="lastname" id="lastname" name="lastname" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input  required type="lastname" id="lastname" name="lastname" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label th:text="#{Email}" for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input required type="email" id="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label th:text="#{Password}" for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" id="password" name="password"  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input required type="password" id="password" name="password"  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label th:text="#{Select-an-option}" for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>

@@ -113,7 +113,7 @@ public class ForgotPasswordService {
     }
 
     public String checkValidity(ForgetPasswordToken forgetPasswordToken, Model model) {
-
+    // if token not found in the database
         if (forgetPasswordToken == null) {
             model.addAttribute("error", "Invalid Token");
             return "error-page";

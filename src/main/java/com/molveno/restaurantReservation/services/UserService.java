@@ -22,4 +22,6 @@ public interface UserService {
     void deleteUser(long id);
 
     User findByUsername(String username);
+
+    boolean resetPassword(String password);
 }
