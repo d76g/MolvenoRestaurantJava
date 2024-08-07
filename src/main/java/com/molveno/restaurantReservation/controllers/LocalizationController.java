@@ -101,6 +101,20 @@ public class LocalizationController {
         properties.put("username-already-exists", messageSource.getMessage("username-already-exists", null, locale));
         properties.put("Email-already-exists", messageSource.getMessage("Email-already-exists", null, locale));
 
+        properties.put("stock-not-enough", messageSource.getMessage("stock-not-enough", null, locale));
+        properties.put("Stock-Alert", messageSource.getMessage("Stock-Alert", null, locale));
+        properties.put("is-low-on-stock", messageSource.getMessage("is-low-on-stock", null, locale));
+        properties.put("Order-Deleted", messageSource.getMessage("Order-Deleted", null, locale));
+        properties.put("invalid-check-in-time", messageSource.getMessage("invalid-check-in-time", null, locale));
+        properties.put("invalid-reservation-time", messageSource.getMessage("invalid-reservation-time", null, locale));
+        properties.put("make-another-order", messageSource.getMessage("make-another-order", null, locale));
+        properties.put("table-capacity-exceeded-max-seats-number", messageSource.getMessage("table-capacity-exceeded-max-seats-number", null, locale));
+        properties.put("table-already-exists", messageSource.getMessage("table-already-exists", null, locale));
+        properties.put("table-number-should-be-greater-than-zero", messageSource.getMessage("table-number-should-be-greater-than-zero", null, locale));
+        properties.put("table-capacity-should-be-greater-than-zero", messageSource.getMessage("table-capacity-should-be-greater-than-zero", null, locale));
+        properties.put("Order-is-already-placed", messageSource.getMessage("Order-is-already-placed", null, locale));
+        properties.put("Order-is-already-cancelled", messageSource.getMessage("Order-is-already-cancelled", null, locale));
+        properties.put("Order-Cancelled", messageSource.getMessage("Order-Cancelled", null, locale));
         return properties;
 
     }

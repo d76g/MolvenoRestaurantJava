@@ -100,6 +100,7 @@ public class MenuItemStockServiceImpl implements MenuItemStockService {
         dto.setDescription(kitchenStock.getDescription());
         dto.setStock(kitchenStock.getStock());
         dto.setAmount(kitchenStock.getAmount());
+        dto.setUnit(kitchenStock.getUnit());
         return dto;
     }
 

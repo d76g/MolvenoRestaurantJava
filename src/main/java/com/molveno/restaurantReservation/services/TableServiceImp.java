@@ -57,28 +57,28 @@ public class TableServiceImp implements TableService {
     // THIS METHODS ARE NOT USED IN THE CONTROLLER AND USED FOR VALIDATION PURPOSES
     private void validateTable(Table table) throws TableValidationException {
         if (table.getTableCapacity() > MAX_SEATS) {
-            throw new TableValidationException("Table capacity exceeds maximum seats " + MAX_SEATS + " seats.", "tableCapacity");
+            throw new TableValidationException("table-capacity-exceeded-max-seats-number" , "tableCapacity");
         }
         // check if table already exists
         if (tableRepo.existsByTableNumber(table.getTableNumber())) {
-            throw new TableValidationException("Table already exists", "tableNumber");
+            throw new TableValidationException("table-already-exists", "tableNumber");
         }
         // table number should be greater than 0
         if (table.getTableNumber() <= 0) {
-            throw new TableValidationException("Table number should be greater than 0 ", "tableNumber");
+            throw new TableValidationException("table-number-should-be-greater-than-zero ", "tableNumber");
         }
         // table capacity should be greater than 0
         if (table.getTableCapacity() <= 0) {
-            throw new TableValidationException("Table capacity should be greater than 0", "tableCapacity");
+            throw new TableValidationException("table-capacity-should-be-greater-than-zero", "tableCapacity");
         }
     }
     private void validateTableCapacity(int capacity) throws TableValidationException {
         if (capacity > MAX_SEATS) {
-            throw new TableValidationException("Table capacity exceeds maximum seats " + MAX_SEATS + " seats.", "tableCapacity");
+            throw new TableValidationException("table-capacity-exceeded-max-seats-number" , "tableCapacity");
         }
         // table capacity should be greater than 0
         if (capacity <= 0) {
-            throw new TableValidationException("Table capacity should be greater than 0 ", "tableCapacity");
+            throw new TableValidationException("table-number-should-be-greater-than-zero ", "tableCapacity");
         }
     }
     // update table
