@@ -167,7 +167,11 @@ public class CustomerOrderServiceImp implements CustomerOrderService {
     private void restoreStockAndSaveOrder(CustomerOrder order) {
         order.setStatus("CANCELLED");
         orderRepo.save(order);
-
+        // change reservation status to ATTENDED IF THERE IS NO ORDER
+        if (order.getReservation().getOrders().size() == 1) {
+            order.getReservation().setReservationStatus("ATTENDED");
+            reservationRepo.save(order.getReservation());
+        }
         for (OrderItem orderItem : order.getOrderItem()) {
             Menu menuItem = orderItem.getMenu();
 

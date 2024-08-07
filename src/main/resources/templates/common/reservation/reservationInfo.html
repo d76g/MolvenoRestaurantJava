@@ -37,23 +37,23 @@
             <!-- Show GIF from static folder -->
             <img th:src="@{/images/confirmAnimation.gif}" alt="Reservation Confirmed" class="w-24 h-24 rounded-md">
         </div>
-        <div class="text-2xl sm:text-3xl w-full flex justify-center items-center my-4 font-bold bg-green-200 h-16 sm:h-24 rounded-md">
+        <div class="text-2xl sm:text-3xl w-full flex justify-center items-center md:my-4 font-bold bg-green-200 h-16 sm:h-24 rounded-md">
             <h1 class="text-gray-700" th:text="#{reservation-confirmed}">Reservation Confirmed</h1>
         </div>
         <div>
             <hr>
-            <div class="text-gray-500 my-3 flex flex-col items-center">
+            <div class="text-gray-500 md:my-3 flex flex-col items-center">
                 <p th:text="#{thank-you}">Thank you for making a reservation with us. We look forward to seeing you soon.</p>
                 <p class="font-bold pt-3" th:text="#{keep-a-copy}">Keep a copy of the following details by taking a screenshot for you when you attend.</p>
             </div>
-            <div class="text-xl sm:text-2xl font-bold my-2 text-center">
+            <div class="text-xl sm:text-2xl font-bold md:my-2 text-center">
                 <p class="text-gray-600">
                     <span id="tables"></span>
                 </p>
             </div>
             <hr>
             <p class="py-3 uppercase font-bold text-gray-600 text-center" th:text="#{Reservation-details}">Reservation Details</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-3 bg-gray-50 rounded-md my-2 font-sans text-md">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:py-3 bg-gray-50 rounded-md md:my-2 font-sans text-md">
                 <div class="flex items-center">
                     <i class='bx bxs-user p-2 text-blue-500'></i>
                     <span id="customerFirstName"></span> <span id="customerLastName"></span>
@@ -84,7 +84,7 @@
         <div class="w-full text-center">
             <p class="text-gray-400" th:text="#{your-reservation-is-booked-for-3-hours}">* Your reservation is booked for a total of 3 hours.</p>
         </div>
-        <div class="my-4">
+        <div class="md:my-4">
             <button id="closeButtonPopup" th:text="#{Close}"
                     class="bg-green-400 p-2 text-white rounded-md w-full font-sans uppercase font-bold text-sm hover:bg-green-500 transition duration-300 hover:-translate-y-1 ease-in-out cursor-pointer">
                 <i class='bx bx-arrow-back'></i> Close
