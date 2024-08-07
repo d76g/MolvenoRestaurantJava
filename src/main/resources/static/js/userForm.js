@@ -188,6 +188,8 @@ function saveUser(){
         data: JSON.stringify(user),
         success: function(data) {
             $("#addFormDiv").toggleClass("hidden");
+            $('#password').attr('type','password');
+            $('label[for="password"]').css('display', 'block');
             $('#saveUserForm')[0].reset();
             getAllUser();
             Swal.fire({
