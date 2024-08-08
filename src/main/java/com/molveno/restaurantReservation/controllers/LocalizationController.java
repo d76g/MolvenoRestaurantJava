@@ -73,6 +73,7 @@ public class LocalizationController {
         properties.put("PENDING", messageSource.getMessage("PENDING", null, locale));
         properties.put("CONFIRMED", messageSource.getMessage("CONFIRMED", null, locale));
         properties.put("ATTENDED", messageSource.getMessage("ATTENDED", null, locale));
+        properties.put("ORDERED", messageSource.getMessage("ORDERED", null, locale));
         properties.put("Order-sent-to-hotel-room", messageSource.getMessage("Order-sent-to-hotel-room", null, locale));
         properties.put("Payment-processed", messageSource.getMessage("Payment-processed", null, locale));
         properties.put("Reservation-Deleted", messageSource.getMessage("Reservation-Deleted", null, locale));
