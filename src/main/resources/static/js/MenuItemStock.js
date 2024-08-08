@@ -74,7 +74,6 @@ return urlParams.get(param);
 function addIngredient()
 {
     const menuItemStock_id = $('#menuItemStock_id').val();
-
     const stock_id = $('#stockList').val();
     const amount = $('#amount').val();
 
@@ -95,6 +94,7 @@ function addIngredient()
              success: function(data) {
                  $("#addFormDiv").toggleClass("hidden");
                  $('#saveIngredientForm')[0].reset();
+                  $('#menuItemStock_id').val('0');
                  getAllMenuItemStock();
                  Swal.fire({
                         title: menuItemMessages['stock-saved-successfully'],
