@@ -62,7 +62,7 @@ function menuCard(menu){
     <a href="#menu">
                     <div class="bg-secondColor w-72 h-56 rounded-md group hover:scale-105 transition ease-in-out">
                         <div class="w-full h-full">
-                            <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(${menu.image})">
+                            <div class="relative w-full h-full bg-cover bg-center rounded-md group" style="background-image: url(${menu.imageUrl})">
                                 <div class="absolute z-40 text-white text-lg flex items-end justify-center w-full h-full font-mono ">
                                     <p class="bg-secondColor px-1 rounded-sm group-hover:hidden mb-3 transition ease-in-out">${menu.item_name}</p>
                                     <div class="justify-center items-center w-full h-full  transition ease-in-out duration-700 hidden group-hover:flex">

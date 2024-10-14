@@ -138,7 +138,7 @@ function getAllMenu() {
                     { data: 'item_name' },
                     { data: 'description' },
                     { data: 'price' },
-                    { data: 'image' },
+                    { data: 'imageUrl' },
                     { data: 'menuCategoryName' },
                     { data: 'subCategoryName' },
                     { data: 'mealTimeName' },
@@ -152,7 +152,7 @@ function getAllMenu() {
                                    data-name="${row.item_name}"
                                    data-description="${row.description}"
                                    data-price="${row.price}"
-                                   data-image="${row.image}"
+                                   data-image="${row.imageUrl}"
                                    data-menu-category="${row.menuCategoryId}"
                                    data-sub-category="${row.subCategoryId}"
                                    data-meal-time="${row.mealTimeId}">

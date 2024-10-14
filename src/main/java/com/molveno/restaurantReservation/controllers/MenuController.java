@@ -19,7 +19,8 @@ import java.io.IOException;
 public class MenuController {
     @Autowired
     private MenuServiceImpl menuService;
-
+    @Autowired
+    private AzureBlobUploadService azureBlobUploadService;
     // get all menu
     @GetMapping("/menu/all")
     public ResponseEntity<Iterable<MenuDTO>> getAllMenu() {
@@ -28,8 +29,7 @@ public class MenuController {
         return ResponseEntity.ok(allMenu);
     }
 
-    @Autowired
-    private AzureBlobUploadService azureBlobUploadService;
+
 
     @PostMapping(value = "/menu/add", consumes = "multipart/form-data", produces = "application/json")
     public ResponseEntity<MenuDTO> addMenuItem(

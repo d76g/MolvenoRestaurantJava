@@ -94,6 +94,7 @@ public class MenuServiceImpl implements MenuService{
         menu.setDescription(menuDto.getDescription());
         menu.setPrice(menuDto.getPrice());
         menu.setImage(menuDto.getImage());
+        menu.setImageUrl(menuDto.getImageUrl());
 
         if (menuDto.getMenuCategoryId() > 0) {
             menu.setMenuCategory(menuCategoryRepo.findById(menuDto.getMenuCategoryId()).orElse(null));
@@ -115,6 +116,7 @@ public class MenuServiceImpl implements MenuService{
         menuDto.setDescription(menu.getDescription());
         menuDto.setPrice(menu.getPrice());
         menuDto.setImage(menu.getImage());
+        menuDto.setImageUrl(menu.getImageUrl());
 
         if (menu.getMenuCategory() != null) {
             menuDto.setMenuCategoryId(menu.getMenuCategory().getMenuCategory_id());
