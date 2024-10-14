@@ -173,39 +173,42 @@ function getAllMenu() {
     });
 }
 // add menuItem method
-function addMenuItem(){
+function addMenuItem() {
     const menuItem_id = $('#menuItemId').val();
     const itemName = $('#menuItemName').val();
     const description = $('#description').val();
     const price = $('#price').val();
-    const image = $('#image').val();
+    const imageFile = $('#image')[0].files[0]; // Get the file object
     const menuCategoryId = $('#menuCategory').val();
-    const menuCategoryName =  $('#menuCategory option:selected').text();
+    const menuCategoryName = $('#menuCategory option:selected').text();
     const subCategoryId = $('#subCategory').val();
-    const subCategoryName =  $('#subCategory option:selected').text();
+    const subCategoryName = $('#subCategory option:selected').text();
     const mealTimeId = $('#mealTime').val();
-    const mealTimeName =  $('#mealTime option:selected').text();
+    const mealTimeName = $('#mealTime option:selected').text();
 
-    console.log(menuItem_id);
-    // create a menuItem object
-    const menuItem = {
-       menuItem_id : menuItem_id,
-       item_name : itemName,
-       description : description,
-       price : price,
-       image : image,
-       menuCategoryId:menuCategoryId,
-       subCategoryId:subCategoryId,
-       mealTimeId:mealTimeId,
-       menuCategoryName:menuCategoryName,
-       subCategoryName:subCategoryName,
-       mealTimeName:mealTimeName
-    };
+    // Create a FormData object to hold the form data
+    const formData = new FormData();
+    formData.append('menuDto', JSON.stringify({
+        menuItem_id: menuItem_id,
+        item_name: itemName,
+        description: description,
+        price: price,
+        menuCategoryId: menuCategoryId,
+        subCategoryId: subCategoryId,
+        mealTimeId: mealTimeId,
+        menuCategoryName: menuCategoryName,
+        subCategoryName: subCategoryName,
+        mealTimeName: mealTimeName
+    }));
+    formData.append('image', imageFile); // Add the image file to the FormData
+
+    // Perform the AJAX request
     $.ajax({
         url: url + 'add',
         type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(menuItem),
+        data: formData,
+        processData: false, // Prevent jQuery from processing the data
+        contentType: false, // Set to false to let the browser determine the content type
         success: function(data) {
             $("#addFormDiv").toggleClass("hidden");
             getAllMenu();
@@ -222,7 +225,6 @@ function addMenuItem(){
             console.error("There was an error adding the menuItem:", error);
         }
     });
-
 }
 
 

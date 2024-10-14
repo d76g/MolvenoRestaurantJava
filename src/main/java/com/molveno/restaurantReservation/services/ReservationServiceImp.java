@@ -120,8 +120,20 @@ public class ReservationServiceImp implements ReservationService{
         // Fetch the existing reservation from the database
         Reservation existingReservation = reservationRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
-        if(LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("invalid-reservation-time");
+        // Compare the reservation times
+        if (!Objects.equals(reservation.getReservationTime(), existingReservation.getReservationTime()) ||
+                !Objects.equals(reservation.getReservationDate(), existingReservation.getReservationDate())) {
+
+            // Parse the new reservation date and time
+            LocalDateTime newReservationDateTime = LocalDateTime.parse(
+                    reservation.getReservationDate() + " " + reservation.getReservationTime(),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            );
+
+            // Check if the new reservation time is in the past
+            if (newReservationDateTime.isBefore(LocalDateTime.now())) {
+                throw new RuntimeException("invalid-reservation-time");
+            }
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationStart = LocalDateTime.parse(reservation.getReservationDate() + " " + reservation.getReservationTime(), formatter);

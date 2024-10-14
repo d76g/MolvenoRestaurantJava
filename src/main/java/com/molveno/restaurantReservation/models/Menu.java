@@ -13,7 +13,9 @@ public class Menu {
     private String item_name;
     private String description ;
     private double price ;
-    private String image ;
+    private String imageUrl;
+    @Lob // This annotation specifies that the image is a large object
+    private byte[] image;
 
     @ManyToOne
     @JoinColumn(name="menuCategory_id")
@@ -35,6 +37,14 @@ public class Menu {
 
 
     public Menu() {
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public MenuCategory getMenuCategory() {
@@ -101,11 +111,10 @@ public class Menu {
         this.price = price;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
-
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

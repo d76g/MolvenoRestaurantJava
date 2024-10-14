@@ -5,7 +5,8 @@ public class MenuDTO {
     private String item_name;
     private String description ;
     private double price ;
-    private String image ;
+    private byte[] image ;
+    private String imageUrl;
     private long menuCategoryId;
     private String menuCategoryName ;
     private long subCategoryId;
@@ -45,11 +46,11 @@ public class MenuDTO {
         this.price = price;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
@@ -99,5 +100,13 @@ public class MenuDTO {
 
     public void setMealTimeName(String mealTimeName) {
         this.mealTimeName = mealTimeName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

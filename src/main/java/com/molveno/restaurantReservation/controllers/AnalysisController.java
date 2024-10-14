@@ -47,11 +47,11 @@ public class AnalysisController {
         return ResponseEntity.ok(reservationRepo.countTotalGuests());
     }
     // get the total number of tables
-    @GetMapping("/analysis/tables")
-    public ResponseEntity<Integer> getTables() {
-        int count = tableRepo.findAll().size();
-        return ResponseEntity.ok(count);
-    }
+//    @GetMapping("/analysis/tables")
+//    public ResponseEntity<Integer> getTables() {
+//        int count = tableRepo.findAll().size();
+//        return ResponseEntity.ok(count);
+//    }
     // get the total number of orders
     @GetMapping("/analysis/orders")
     public ResponseEntity<Integer> getOrders() {
